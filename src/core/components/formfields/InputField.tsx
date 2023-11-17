@@ -47,7 +47,7 @@ function InputField(props: {
   return (
     <div className={`${extra}`}>
       {showLabel && (
-        <label htmlFor={id} className={`text-brand-support text-sm`}>
+        <label htmlFor={id} className={`text-brand-support text-[14px]`}>
           {label}
         </label>
       )}
@@ -64,14 +64,14 @@ function InputField(props: {
         value={value}
         list={list}
         aria-autocomplete="none"
-        className={`border-line mt-2 flex h-12 w-full items-center justify-center rounded-md border border-[1px] bg-white/0 p-3 text-sm outline-none ${
+        className={`mt-2 flex h-12 w-full items-center justify-center rounded-[5px] border border-[1px] border-line bg-white/0 p-3 text-sm outline-none ${
           disabled === true
-            ? "!border-none !bg-gray-100 dark:!bg-white/5 dark:placeholder:!text-[rgba(255,255,255,0.15)]"
+            ? "!border-none !bg-gray-100"
             : state === "error"
-              ? "border-red-500 text-red-500 placeholder:text-red-500 dark:!border-red-400 dark:!text-red-400 dark:placeholder:!text-red-400"
+              ? "border-red-500 text-red-500 placeholder:text-red-500 dark:!border-red-400 dark:!text-red-400"
               : state === "success"
-                ? "border-green-500 text-green-500 placeholder:text-green-500 dark:!border-green-400 dark:!text-green-400 dark:placeholder:!text-green-400"
-                : "border-gray-200 dark:!border-white/10 dark:text-white"
+                ? "border-green-500 text-green-500 placeholder:text-green-500"
+                : "border-gray-200"
         }`}
       />
       {enableDataList && dataList?.length > 0 && (
