@@ -11,9 +11,9 @@ const NavbarAuth = () => {
           zIndex: 1000,
         }}
       >
-        <nav className="mx-auto my-1 flex w-11/12 items-center justify-between py-[16px] md:w-4/5">
+        <nav className="mx-auto my-1 flex w-11/12 items-center justify-between py-[20px] md:w-4/5">
           <Link to="/home" className="w-[60px]">
-            <img src={logoFullImg} alt="Prism" className="" />
+            <img src={logoFullImg} alt="Prism" className="scale-105" />
           </Link>
         </nav>
       </div>

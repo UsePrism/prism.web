@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Signup = () => {
   return (
-    <div className="mx-auto mb-8 w-11/12 md:w-4/5">
+    <div className="mx-auto mb-8 w-11/12 md:w-4/5 mt-[40px]">
       <section className="flex items-center justify-center">
         <div>
           <h3 className="text-black-main text-[24px] font-semibold">
@@ -14,7 +14,7 @@ const Signup = () => {
           </p>
 
           <form className="my-[28px]">
-            <div className="mb-3 flex gap-5">
+            <div className="mb-[16px] flex gap-[16px]">
               <div className="w-1/2">
                 <InputField
                   extra=""
@@ -39,7 +39,7 @@ const Signup = () => {
               </div>
             </div>
             <InputField
-              extra="mb-3"
+              extra="mb-[16px]"
               label="Email Address"
               name="email"
               id="email"
@@ -49,7 +49,7 @@ const Signup = () => {
               onChange={() => {}}
             />
             <InputField
-              extra="mb-3"
+              extra="mb-[16px]"
               label="Phone Number"
               name="phoneNumber"
               id="phoneNumber"
@@ -59,7 +59,7 @@ const Signup = () => {
               onChange={() => {}}
             />
             <InputField
-              extra="mb-3"
+              extra="mb-[16px]"
               label="Password"
               name="password"
               id="password"
@@ -74,9 +74,9 @@ const Signup = () => {
           </form>
 
           <div>
-            <p className="text-center font-medium">
+            <p className="text-center font-[500]">
               <span className="mr-2">Already have an account?</span>
-              <Link to="/auth/login" className="text-brand">
+              <Link to="/auth/login" className="text-brand font-normal">
                 Sign In
               </Link>
             </p>
