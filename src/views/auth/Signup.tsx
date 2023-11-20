@@ -2,18 +2,19 @@ import InputField from "core/components/formfields/InputField";
 import { Link } from "react-router-dom";
 
 const Signup = () => {
+  // TODO: Add hermet seo
   return (
-    <div className="mx-auto mb-8 w-11/12 md:w-4/5 mt-[40px]">
+    <div className="mx-auto mb-8 mt-[40px] w-11/12 md:w-4/5">
       <section className="flex items-center justify-center">
         <div>
-          <h3 className="text-black-main text-[24px] font-semibold">
+          <h3 className="text-[24px] font-semibold text-black-main">
             Create Account
           </h3>
-          <p className="text-black-support text-[16px]">
+          <p className="text-[16px] text-black-support">
             Enter your details to create an account.
           </p>
 
-          <form className="my-[28px]">
+          <form className="my-[16px]">
             <div className="mb-[16px] flex gap-[16px]">
               <div className="w-1/2">
                 <InputField
@@ -68,21 +69,21 @@ const Signup = () => {
               value=""
               onChange={() => {}}
             />
-            <button className="text-brand-white bg-brand mt-3 w-full rounded-[8px] py-[14px]">
+            <button className="mt-3 w-full rounded-[8px] bg-brand py-[14px] text-brand-white">
               Create Account
             </button>
           </form>
 
           <div>
-            <p className="text-center font-[500]">
+            <p className="text-center">
               <span className="mr-2">Already have an account?</span>
-              <Link to="/auth/login" className="text-brand font-normal">
+              <Link to="/auth/login" className="text-brand">
                 Sign In
               </Link>
             </p>
           </div>
 
-          <p className="mt-[28px] text-center">
+          <p className="mt-[16px] text-[14px] text-center">
             By clicking on &quot;Create Account&quot; &#44; you have agreed{" "}
             <br />
             to our{" "}

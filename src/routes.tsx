@@ -1,4 +1,5 @@
 import Dashboard from "views/admin/Dashboard";
+import ForgotPassword from "views/auth/ForgotPassword";
 import Login from "views/auth/Login";
 import Signup from "views/auth/Signup";
 import VerifyAccount from "views/auth/VerifyAccount";
@@ -25,6 +26,13 @@ const routes = [
     path: "login",
     icon: "",
     component: <Login />,
+  },
+  {
+    name: "Forgot Password",
+    layout: "/auth",
+    path: "forgot-password",
+    icon: "",
+    component: <ForgotPassword />,
   },
   {
     name: "Home",
