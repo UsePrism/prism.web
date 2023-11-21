@@ -20,7 +20,7 @@ export default function PublicLayout() {
     <div className="relative">
       <NavbarPublic />
       <div
-        className="pt-[60px]"
+        className="pt-[80px]"
         style={{
           zIndex: 50,
           minHeight: "90vh",
