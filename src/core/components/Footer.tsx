@@ -1,4 +1,4 @@
-import { logoFullWhite } from "core/consts/images";
+import { facebook, linkedin, logoFullWhite, twitter } from "core/consts/images";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -43,8 +43,8 @@ const Footer = () => {
 
   return (
     <>
-      <footer className="bg-black-main text-[#F7F9FB]">
-        <div className="mx-auto flex w-11/12 items-center justify-between pb-[45px] pt-[75px] md:w-4/5">
+      <footer className="bg-[#001219] text-[#F7F9FB]">
+        <div className="mx-auto flex w-11/12 items-center justify-between py-[75px] md:w-4/5">
           <div className="flex flex-col justify-between gap-[60px] md:flex-row md:gap-[40px] lg:gap-[60px]">
             <div className="w-full md:w-1/4">
               <img
@@ -66,7 +66,7 @@ const Footer = () => {
               <div className="grid grid-flow-col grid-rows-4 gap-4">
                 {footerLinks?.map((link: any, index: number) => (
                   <Link
-                    className="text-[14px] text-line"
+                    className="text-[14px] text-line hover:text-brand-white"
                     key={index}
                     to={link?.url}
                   >
@@ -90,10 +90,20 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="mx-auto flex w-11/12 items-center justify-between bg-[#001219] py-[40px] text-black-support md:w-4/5">
-          <p>&copy; {new Date().getFullYear()} Prism. All rights reserved.</p>
-          <div>
-            <a href="http://twitter.com"></a>
+        <div className="bg-[#000d11]">
+          <div className="mx-auto flex w-11/12 flex-col items-center justify-between gap-3 py-[40px] text-black-support md:w-4/5 md:flex-row">
+            <p>&copy; {new Date().getFullYear()} Prism. All rights reserved.</p>
+            <div className="flex items-center justify-end gap-5">
+              <a href="http://twitter.com">
+                <img src={twitter} alt="twitter" />
+              </a>
+              <a href="http://linkedin.com">
+                <img src={linkedin} alt="linkedin" />
+              </a>
+              <a href="http://facebook.com">
+                <img src={facebook} alt="facebook" />
+              </a>
+            </div>
           </div>
         </div>
       </footer>

@@ -8,7 +8,7 @@ const NavbarPublic = () => {
       <div
         className="fixed left-0 right-0 top-0"
         style={{
-          background: "#001219",
+          background: "#000000",
           zIndex: 1000,
         }}
       >
