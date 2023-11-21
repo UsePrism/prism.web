@@ -85,7 +85,10 @@ const Footer = () => {
                 <a href="tel:+2340000000000" className="block">
                   +234 000 0000 111
                 </a>
-                <p>Call lines are open 08:00 to 17:00 WAT, Mondays - Fridays</p>
+                <p>
+                  Call lines are open 08:00 to 17:00 WAT, <br /> Mondays -
+                  Fridays
+                </p>
               </div>
             </div>
           </div>
