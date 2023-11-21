@@ -1,5 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import routes from "../routes";
+import NavbarPublic from "core/components/navbars/NavbarPublic";
+import Footer from "core/components/Footer";
 
 export default function PublicLayout() {
   const getRoutes = (routes: RoutesType[]): any => {
@@ -16,10 +18,20 @@ export default function PublicLayout() {
 
   return (
     <div className="relative">
-      <Routes>
-        {getRoutes(routes)}
-        <Route path="/" element={<Navigate to="/home" replace />} />
-      </Routes>
+      <NavbarPublic />
+      <div
+        className="pt-[60px]"
+        style={{
+          zIndex: 50,
+          minHeight: "90vh",
+        }}
+      >
+        <Routes>
+          {getRoutes(routes)}
+          <Route path="/" element={<Navigate to="/home" replace />} />
+        </Routes>
+      </div>
+      <Footer />
     </div>
   );
 }

@@ -8,7 +8,7 @@ const ForgotPassword = () => {
   const [otp, setOtp] = useState("-----");
 
   return (
-    <div className="!md:w-4/5 mx-auto mb-8 mt-[40px] !w-11/12">
+    <div className="mx-auto mb-8 mt-[40px] w-11/12 md:w-4/5">
       <section className="flex items-center justify-center">
         <div>
           <h3 className="text-[24px] font-semibold text-black-main">
@@ -29,7 +29,7 @@ const ForgotPassword = () => {
               value=""
               onChange={() => {}}
             />
-            <div>
+            <div className="mt-[16px]">
               <div className="flex justify-between">
                 <label
                   htmlFor="otp"
@@ -52,7 +52,7 @@ const ForgotPassword = () => {
                 inputStyle={otpInput}
               />
             </div>
-            <button className="mt-3 w-full rounded-[8px] bg-brand py-[14px] text-brand-white">
+            <button className="mt-[16px] w-full rounded-[8px] bg-brand py-[14px] text-brand-white">
               Change Password
             </button>
           </form>

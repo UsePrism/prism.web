@@ -14,7 +14,7 @@ const Signup = () => {
             Enter your details to create an account.
           </p>
 
-          <form className="my-[16px]">
+          <form className="my-[32px]">
             <div className="mb-[16px] flex gap-[16px]">
               <div className="w-1/2">
                 <InputField
@@ -83,7 +83,7 @@ const Signup = () => {
             </p>
           </div>
 
-          <p className="mt-[16px] text-[14px] text-center">
+          <p className="mt-[16px] text-center text-[14px]">
             By clicking on &quot;Create Account&quot; &#44; you have agreed{" "}
             <br />
             to our{" "}
