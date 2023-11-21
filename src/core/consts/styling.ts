@@ -4,4 +4,4 @@ export const otpInput =
 export const otpBox = "my-3 flex gap-[8px] justify-center";
 
 export const btn =
-  "flex items-center justify-center gap-2 px-[26px] py-[8px] text-[14px] rounded-[5px] transition duration-300 ease-in-out";
+  "flex items-center justify-center gap-2 px-[26px] py-[6px] text-[14px] rounded-[5px] transition duration-300 ease-in-out";

@@ -7,7 +7,7 @@
 
 ### Overview
 
-[Prism](https://prism.netlify.app/)
+[Prism](https://useprism.netlify.app/)
 
 Report fraudulent business
 
