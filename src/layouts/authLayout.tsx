@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import routes from "../routes";
-import NavbarAuth from "core/components/NavbarAuth";
+import NavbarAuth from "core/components/navbars/NavbarAuth";
 
 export default function AuthLayout() {
   const getRoutes = (routes: RoutesType[]): any => {
