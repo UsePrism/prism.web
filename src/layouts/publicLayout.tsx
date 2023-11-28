@@ -23,7 +23,7 @@ export default function PublicLayout() {
         className="pt-[80px]"
         style={{
           zIndex: 50,
-          minHeight: "90vh",
+          minHeight: "80vh",
         }}
       >
         <Routes>
