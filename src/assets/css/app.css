@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .bg-brandImg {
+    background: url("assets/img/bg-brand.svg") no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .bg-yellowImg {
+    background: url("assets/img/bg-brand.svg") no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+}
+
 ::-webkit-scrollbar {
   height: 100%;
   width: 0.75rem;
