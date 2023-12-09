@@ -9,7 +9,7 @@ export default function Public() {
     <div className="relative bg-black">
       <NavbarPublic />
       <div
-        className="pt-[80px]"
+        className="pt-[90px]"
         style={{
           zIndex: 50,
           minHeight: "80vh",

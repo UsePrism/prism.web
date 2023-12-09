@@ -34,7 +34,12 @@ const VerifyAccount = () => {
           </form>
           <div className="flex justify-center gap-2">
             <span>You can resend in</span>
-            <img src={clock} alt="clock" loading="lazy" />
+            <img
+              src={clock}
+              alt="clock"
+              className="h-[25px] w-[25px]"
+              loading="lazy"
+            />
             <span>00:00</span>
           </div>
           <div className="mt-[16px] text-center">

@@ -1,3 +1,4 @@
+import Categories from "./views/Categories";
 import Home from "./views/Home";
 
 const routes = [
@@ -7,6 +8,13 @@ const routes = [
     path: "home",
     icon: "",
     component: <Home />,
+  },
+  {
+    name: "Home",
+    layout: "/",
+    path: "categories",
+    icon: "",
+    component: <Categories />,
   },
 ];
 export default routes;
