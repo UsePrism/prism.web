@@ -4,30 +4,6 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   const footerLinks = [
     {
-      name: "Home",
-      url: "/home",
-    },
-    {
-      name: "Career",
-      url: "/career",
-    },
-    {
-      name: "Blog",
-      url: "/blog",
-    },
-    {
-      name: "Contact",
-      url: "/contact",
-    },
-    {
-      name: "About Us",
-      url: "/about",
-    },
-    {
-      name: "How It Works",
-      url: "/faqs",
-    },
-    {
       name: "Terms",
       url: "/terms",
     },
@@ -43,14 +19,14 @@ const Footer = () => {
 
   return (
     <>
-      <footer className="bg-[#001219] text-[#F7F9FB]">
-        <div className="mx-auto flex w-11/12 items-center justify-between py-[75px] md:w-4/5">
-          <div className="flex flex-col justify-between gap-[60px] md:flex-row md:gap-[40px] lg:gap-[60px]">
-            <div className="w-full md:w-1/4">
+      <footer className="bg-[#111111] text-white">
+        <div className="mx-auto w-11/12 items-center pt-[75px] md:w-4/5">
+          <div className="mb-[34px] flex flex-col justify-center gap-[60px] md:flex-row md:gap-[40px] lg:gap-[60px]">
+            <div className="w-full text-center md:w-2/4">
               <img
                 src={logoFullWhite}
                 alt="prism"
-                className="mb-[32px] w-[100px]"
+                className="mx-auto mb-[32px] w-[100px]"
               />
               <p className="text-[14px] text-line">
                 Prims allow users to submit detailed reports, including the name
@@ -61,12 +37,42 @@ const Footer = () => {
                 protection groups.
               </p>
             </div>
-            <div className="w-full md:w-2/4">
-              <h3 className="mb-[32px] text-[18px]">Explore</h3>
-              <div className="grid grid-flow-col grid-rows-4 gap-4">
+          </div>
+          <div className="mb-[48px] flex items-center justify-center gap-5">
+            <a href="http://twitter.com">
+              <img
+                src={twitter}
+                className="h-[25x] w-[25px]"
+                loading="lazy"
+                alt="twitter"
+              />
+            </a>
+            <a href="http://linkedin.com">
+              <img
+                src={linkedin}
+                className="h-[25x] w-[25px]"
+                loading="lazy"
+                alt="linkedin"
+              />
+            </a>
+            <a href="http://facebook.com">
+              <img
+                src={facebook}
+                className="h-[25x] w-[25px]"
+                loading="lazy"
+                alt="facebook"
+              />
+            </a>
+          </div>
+          <div className="border-t border-t-shade">
+            <div className="mx-auto flex flex-col items-center justify-between gap-3 py-[20px] text-[14px] text-[#7B869F] md:flex-row">
+              <p>
+                &copy; {new Date().getFullYear()} Prism. All rights reserved.
+              </p>
+              <div className="flex gap-3">
                 {footerLinks?.map((link: any, index: number) => (
                   <Link
-                    className="text-[14px] text-line hover:text-brand-white"
+                    className="text-[14px] hover:text-brand-white"
                     key={index}
                     to={link?.url}
                   >
@@ -74,38 +80,6 @@ const Footer = () => {
                   </Link>
                 ))}
               </div>
-            </div>
-
-            <div className="w-full md:w-1/4">
-              <h3 className="mb-[32px] text-[18px]">Contact</h3>
-              <div className="flex flex-col gap-4 text-line">
-                <a href="mailto:suppport@useprism.co" className="block">
-                  support@useprism.co
-                </a>
-                <a href="tel:+2340000000000" className="block">
-                  +234 000 0000 111
-                </a>
-                <p>
-                  Call lines are open 08:00 to 17:00 WAT, <br /> Mondays -
-                  Fridays
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="bg-[#000d11]">
-          <div className="mx-auto flex w-11/12 flex-col items-center justify-between gap-3 py-[40px] text-black-support md:w-4/5 md:flex-row">
-            <p>&copy; {new Date().getFullYear()} Prism. All rights reserved.</p>
-            <div className="flex items-center justify-end gap-5">
-              <a href="http://twitter.com">
-                <img src={twitter} alt="twitter" />
-              </a>
-              <a href="http://linkedin.com">
-                <img src={linkedin} alt="linkedin" />
-              </a>
-              <a href="http://facebook.com">
-                <img src={facebook} alt="facebook" />
-              </a>
             </div>
           </div>
         </div>

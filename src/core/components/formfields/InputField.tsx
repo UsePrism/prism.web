@@ -47,7 +47,7 @@ function InputField(props: {
   return (
     <div className={`${extra}`}>
       {showLabel && (
-        <label htmlFor={id} className={`text-brand-support text-[14px]`}>
+        <label htmlFor={id} className={`text-[14px] text-line`}>
           {label}
         </label>
       )}
@@ -64,14 +64,14 @@ function InputField(props: {
         value={value}
         list={list}
         aria-autocomplete="none"
-        className={`mt-2 flex h-12 w-full items-center justify-center rounded-[5px] border border-[1px] border-line bg-white/0 p-3 text-sm outline-none ${
+        className={`bg-shade mt-2 flex h-12 w-full items-center justify-center rounded-[5px] border border-[.5px] border-line py-3 px-4 text-sm text-white outline-none ${
           disabled === true
             ? "!border-none !bg-gray-100"
             : state === "error"
               ? "border-red-500 text-red-500 placeholder:text-red-500 dark:!border-red-400 dark:!text-red-400"
               : state === "success"
                 ? "border-green-500 text-green-500 placeholder:text-green-500"
-                : "border-gray-200"
+                : "border-line"
         }`}
       />
       {enableDataList && dataList?.length > 0 && (
@@ -83,7 +83,7 @@ function InputField(props: {
           ))}
         </datalist>
       )}
-      <span className="text-xs text-gray-500">{instruction}</span>
+      <span className="text-xs text-line">{instruction}</span>
       <span className="text-red-500 ">{error}</span>
     </div>
   );

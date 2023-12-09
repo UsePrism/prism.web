@@ -14,7 +14,12 @@ const NavbarPublic = () => {
       >
         <nav className="mx-auto my-1 flex w-11/12 items-center justify-between py-[20px] md:w-4/5">
           <Link to="/home" className="w-[60px]">
-            <img src={logoFullWhite} alt="Prism" className="scale-105" />
+            <img
+              src={logoFullWhite}
+              alt="Prism"
+              loading="lazy"
+              className="scale-125"
+            />
           </Link>
           <div className="flex items-center justify-between gap-3">
             <Link

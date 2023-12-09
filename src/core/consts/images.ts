@@ -1,20 +1,15 @@
-import logoFull from "assets/img/logo-full.png";
-import logoFullWhiteImg from "assets/img/logo-white.svg";
-import clockSvg from "assets/img/clock.svg";
-import lightAccentImg from "assets/img/light-accent.svg";
-import twitterImg from "assets/img/twitter.svg";
-import linkedinImg from "assets/img/linkedin.svg";
-import facebookImg from "assets/img/facebook.svg";
-import starHalfSvg from 'assets/img/star-half.svg';
-import starFullSvg from 'assets/img/star-fill.svg';
-
-export const logoFullImg = logoFull;
-export const clock = clockSvg;
-export const logoFullWhite = logoFullWhiteImg;
-export const lightAccent = lightAccentImg;
-export const twitter = twitterImg;
-export const linkedin = linkedinImg;
-export const facebook = facebookImg;
-
-export const starHalf = starHalfSvg
-export const starFull = starFullSvg
+export const logofull = require("assets/img/logo-full.png");
+export const clock = require("assets/img/clock.png");
+export const logoFullWhite = require("assets/img/logo-white.png");
+export const lightAccent = require("assets/img/light-accent.png");
+export const twitter = require("assets/img/twitter.png");
+export const linkedin = require("assets/img/linkedin.png");
+export const facebook = require("assets/img/facebook.png");
+export const starHalf = require("assets/img/starhalf.png");
+export const starFull = require("assets/img/starfull.png");
+export const starEmpty = require("assets/img/starempty.png");
+export const nigeria = require("assets/img/nigeria.png");
+export const caretdown = require("assets/img/caretdown.png");
+export const emptycards = require("assets/img/emptycards.png");
+export const userfeedbacks = require("assets/img/userfeedbacks.png");
+export const chats = require("assets/img/chats.png");
