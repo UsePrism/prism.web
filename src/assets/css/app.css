@@ -1,17 +1,31 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer components {
   .bg-brandImg {
-    background: url("assets/img/bg-brand.svg") no-repeat;
+    background: url("assets/img/bg-brand.png") no-repeat;
     background-size: cover;
     background-position: center;
   }
 
   .bg-yellowImg {
-    background: url("assets/img/bg-brand.svg") no-repeat;
+    background: url("assets/img/bg-brand.png") no-repeat;
     background-size: cover;
+    background-position: center;
+  }
+
+  .bg-accent {
+    background: url("assets/img/light-accent.png") no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+  }
+
+  .bg-sideaccent {
+    background: url("assets/img/side-accent.png") no-repeat;
+    background-size: 100% 100%;
     background-position: center;
   }
 }
@@ -36,4 +50,10 @@ body::-webkit-scrollbar {
 }
 ::-webkit-scrollbar-button {
   display: none;
+}
+
+body {
+  background-color: #000000;
+  font-family: "Inter", sans-serif !important;
+  color: #a5adc0;
 }
