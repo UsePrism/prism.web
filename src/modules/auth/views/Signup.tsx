@@ -50,10 +50,10 @@ const Signup = () => {
             />
             <div className="mb-[16px]">
               <label className={`text-[14px] text-line`}>Phone Number</label>
-              <div className="flex items-center gap-2">
-                <div className="flex w-1/4 cursor-not-allowed items-center gap-1 md:gap-2">
+              <div className="flex items-center gap-[16px]">
+                <div className="mt-2 flex w-1/4 cursor-not-allowed items-center gap-1 py-3 md:gap-2">
                   <img src={nigeria} alt="" loading="lazy" />
-                  <span className="text-[12px]">+234</span>
+                  <span className="text-[16px]">+234</span>
                   <img src={caretdown} alt="" loading="lazy" />
                 </div>
                 <InputField

@@ -60,7 +60,7 @@ const Home = () => {
       <section className="bg-accent h-[85vh] bg-black">
         <div className="mx-auto flex h-full w-11/12 items-center overflow-hidden md:w-4/5">
           <div className="mx-auto flex h-full w-full flex-col  items-center justify-center text-white md:w-4/5 lg:w-3/5">
-            <div className="text-center text-[18px] font-[600] sm:text-[32px] md:text-[48px]">
+            <div className="text-center text-[24px] font-[600] sm:text-[32px] md:text-[46px]">
               <p className="leading-tight">
                 <span className="text-brand">Discover</span> honest feedback
               </p>
@@ -77,7 +77,7 @@ const Home = () => {
                 extra="w-full md:w-9/12"
                 label=""
                 showLabel={false}
-                placeholder="what business are you looking for?"
+                placeholder="What business are you looking for?"
                 name="search"
                 id="search"
                 type="text"
@@ -190,7 +190,7 @@ const Home = () => {
 
         <section className="mx-auto w-11/12 overflow-hidden py-[60px] md:w-4/5">
           <div className="flex flex-col items-center justify-between gap-5 md:flex-row-reverse">
-            <div className="w-full md:w-1/2">
+            <div className="flex w-full justify-center md:w-1/2">
               <img
                 src={chats}
                 alt=""
@@ -221,7 +221,7 @@ const Home = () => {
 
         <section className="mx-auto w-11/12 overflow-hidden py-[60px] md:w-4/5">
           <div className="flex flex-col items-center justify-between gap-5 md:flex-row-reverse">
-            <div className="w-full md:w-1/2">
+            <div className="mt-[-30px] flex w-full justify-center md:w-1/2">
               <img
                 src={userfeedbacks}
                 alt=""
@@ -230,7 +230,10 @@ const Home = () => {
               />
             </div>
             <div className="w-full md:w-1/2">
-              <h3 className="mb-[28px] text-center text-[24px] font-[600] text-white md:text-start">
+              <span className=" w-[80px] rounded-full bg-green px-2 py-1 text-[12px] text-white">
+                Coming soon
+              </span>
+              <h3 className="mb-[28px] mt-5 text-center text-[24px] font-[600] text-white md:text-start">
                 Beat the suspicion with <br /> feedback from customers
               </h3>
               <p className="mb-[28px] text-center md:text-start">

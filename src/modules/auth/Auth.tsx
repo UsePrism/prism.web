@@ -8,7 +8,7 @@ export default function Auth() {
     <div className="relative">
       <NavbarAuth />
       <div
-        className="pt-[60px]"
+        className="pt-[65px]"
         style={{
           zIndex: 50,
           minHeight: "80vh",
