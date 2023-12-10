@@ -1,3 +1,4 @@
+import Businesses from "./views/Businesses";
 import Categories from "./views/Categories";
 import Home from "./views/Home";
 
@@ -15,6 +16,13 @@ const routes = [
     path: "categories",
     icon: "",
     component: <Categories />,
+  },
+  {
+    name: "Home",
+    layout: "/",
+    path: "businesses/:businessId",
+    icon: "",
+    component: <Businesses />,
   },
 ];
 export default routes;

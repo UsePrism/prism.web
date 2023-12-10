@@ -1,4 +1,10 @@
-import { facebook, linkedin, logoFullWhite, twitter } from "core/consts/images";
+import {
+  facebook,
+  instagram,
+  linkedin,
+  logoFullWhite,
+  twitter,
+} from "core/consts/images";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -26,6 +32,7 @@ const Footer = () => {
               <img
                 src={logoFullWhite}
                 alt="prism"
+                loading="lazy"
                 className="mx-auto mb-[32px] w-[100px]"
               />
               <p className="text-[14px] text-line">
@@ -38,7 +45,7 @@ const Footer = () => {
               </p>
             </div>
           </div>
-          <div className="mb-[48px] flex items-center justify-center gap-5">
+          <div className="mb-[34px] flex items-center justify-center gap-5">
             <a href="http://twitter.com">
               <img
                 src={twitter}
@@ -63,8 +70,19 @@ const Footer = () => {
                 alt="facebook"
               />
             </a>
+            <a href="http://instagram.com">
+              <img
+                src={instagram}
+                className="h-[25x] w-[25px]"
+                loading="lazy"
+                alt="instagram"
+              />
+            </a>
           </div>
-          <div className="border-t border-t-shade">
+          <div className="text-center mb-[48px]">
+            <a href="mailto:support@useprism.co">support@useprism.co</a>
+          </div>
+          <div className="border-t border-t-[#344054]">
             <div className="mx-auto flex flex-col items-center justify-between gap-3 py-[20px] text-[14px] text-[#7B869F] md:flex-row">
               <p>
                 &copy; {new Date().getFullYear()} Prism. All rights reserved.
