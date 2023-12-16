@@ -12,17 +12,17 @@ import inventory from "assets/img/inventory.png";
 import shops from "assets/img/shops.png";
 import underConstruction from "assets/img/construction.png";
 
-export const renderStars = (ratings: number) => {
+export const renderStars = (ratings: number, styling?: string ) => {
   var fullRating = Math.trunc(ratings);
 
   const stars = [];
 
   for (let i = 0; i < fullRating; i++) {
-    stars.push(<img loading="lazy" src={starFull} alt="" />);
+    stars.push(<img loading="lazy" src={starFull} alt="" className={styling} />);
   }
 
   if (ratings % 1 !== 0) {
-    stars.push(<img loading="lazy" src={starHalf} alt="" />);
+    stars.push(<img loading="lazy" src={starHalf} alt="" className={styling} />);
   }
 
   return stars;

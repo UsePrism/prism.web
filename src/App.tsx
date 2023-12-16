@@ -1,7 +1,7 @@
+import { ScrollToTop } from "core/helpers/scrollToTop";
 import Admin from "modules/admin/Admin";
 import Auth from "modules/auth/Auth";
 import Public from "modules/public/Public";
-import React from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -12,6 +12,7 @@ import {
 const App = () => {
   return (
     <Router>
+      <ScrollToTop />
       <Routes>
         <Route path="/auth/*" element={<Auth />} />
         <Route path="/admin/*" element={<Admin />} />

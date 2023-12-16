@@ -20,7 +20,7 @@ const routes = [
   {
     name: "Home",
     layout: "/",
-    path: "businesses/:businessId",
+    path: "categories/:businessId",
     icon: "",
     component: <Businesses />,
   },
