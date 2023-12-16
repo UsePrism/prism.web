@@ -15,4 +15,11 @@ export const emptycards = require("assets/img/emptycards.png");
 export const userfeedbacks = require("assets/img/userfeedbacks.png");
 export const chats = require("assets/img/chats.png");
 export const caretright = require("assets/img/caretright.png");
+export const locationimg = require("assets/img/location.png");
+export const world = require("assets/img/world.png");
+export const comment = require("assets/img/chat.png");
+export const thumbup = require("assets/img/thumbup.png");
+export const share = require("assets/img/share.png");
 export const businesslogo = require("assets/img/business.png");
+export const userImg = require("assets/img/user.png");
+
