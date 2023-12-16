@@ -50,7 +50,7 @@ export const Review = ({ review }: { review: any }) => {
             </p>
           </div>
         </div>
-        <div className="mt-[24px] flex w-full items-center gap-5 rounded-[5px] border border-[.5px] border-black-support px-4 py-3">
+        <div className="mt-[24px] flex w-full items-start gap-5 rounded-[5px] border border-[.5px] border-black-support px-4 py-3">
           <img src={userImg} alt="" />
           <TextField
             textareaStyle="bg-black !px-0 !w-full !border-0"

@@ -1,12 +1,12 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import NavbarAuth from "core/components/navbars/NavbarAuth";
 import { getRoutes } from "core/helpers/getRoutes";
 import routes from "./routes";
+import NavbarPublic from "core/components/navbars/NavbarPublic";
 
 export default function Auth() {
   return (
     <div className="relative">
-      <NavbarAuth />
+      <NavbarPublic showLinks={false} />
       <div
         className="pt-[65px]"
         style={{

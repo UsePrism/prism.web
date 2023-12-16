@@ -65,7 +65,7 @@ const Home = () => {
 
   return (
     <>
-      <div className="m-[0px]">
+      <div className="m-[0px] pt-[-90px]">
         <section className="bg-accent h-[85vh] bg-black">
           <div className="mx-auto flex h-full w-11/12 items-center overflow-hidden md:w-4/5">
             <div className="mx-auto flex h-full w-full flex-col  items-center justify-center text-white md:w-4/5 lg:w-3/5">
