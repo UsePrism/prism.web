@@ -9,7 +9,7 @@ import {
 import { borderline, btn } from "core/consts/styling";
 import { renderStars } from "core/helpers/renderStars";
 import { useParams, Link } from "react-router-dom";
-import { Review } from "../components/Review";
+import { Review } from "../partials/Review";
 import { reviews } from "core/consts/mocks";
 
 const Businesses = () => {
@@ -91,14 +91,19 @@ const Businesses = () => {
                 BurgerKing.com
               </a>
             </div>
-            <button className={`${btn} bg-brand py-[8px] text-white`}>
-              Write a Review
-            </button>
+            <div className="flex items-center w-full">
+              <Link
+                to="/review"
+                className={`${btn} bg-brand py-[8px] text-white`}
+              >
+                Write a Review
+              </Link>
+            </div>
           </div>
         </div>
       </section>
       <section className="w-full lg:w-3/4">
-        <p className="text-[600] text-[24px] text-white">23 Reviews</p>
+        <p className="text-[24px] text-[600] text-white">23 Reviews</p>
         <div>
           {reviews?.length > 0 &&
             reviews?.map((review: any, index: number) => (

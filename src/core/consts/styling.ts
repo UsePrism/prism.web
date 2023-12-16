@@ -9,4 +9,8 @@ export const btn =
 export const borderline =
   "rounded-[5px] border border-[.5px] border-[#344054] p-5";
 
-export const reviewact = "w-full md:w-[20%] flex items-center gap-1 text-white text-[14px]";
+export const reviewact =
+  "w-full md:w-[20%] flex items-center gap-1 text-white text-[14px]";
+
+export const horizon =
+  "flex snap-mandatory flex-nowrap gap-5 overflow-x-auto md:grid md:grid-cols-3 lg:grid lg:grid-cols-4";

@@ -1,56 +1,53 @@
 // Custom components
 import React from "react";
 
-function InputField(props: {
-  id: string;
-  label: string;
-  extra: string;
+function InputField({
+  id = "",
+  label = "",
+  placeholder = "",
+  state = "",
+  disabled = false,
+  type = "text",
+  name = "",
+  isRequired = false,
+  onChange = () => {},
+  onFocus = () => {},
+  onBlur = () => {},
+  value,
+  error = "",
+  dataList = [],
+  dataListId = "",
+  instruction = "",
+  boxStyle = "",
+  inputStyle = "",
+}: {
+  id?: string;
+  label?: string;
   placeholder?: string;
-  variant?: string;
   state?: string;
   disabled?: boolean;
   type?: string;
   name?: string;
+  isRequired?: boolean;
   onChange?: any;
   onFocus?: any;
   onBlur?: any;
-  value?: string | number;
+  value?: string;
   error?: string;
   dataList?: any;
-  enableDataList?: boolean;
-  list?: string;
-  showLabel?: boolean;
+  dataListId?: string;
   instruction?: string;
+  boxStyle?: string;
+  inputStyle?: string;
 }) {
-  const {
-    name,
-    onChange,
-    onFocus,
-    onBlur,
-    label,
-    id,
-    extra,
-    type,
-    placeholder,
-    variant,
-    state,
-    disabled,
-    value,
-    error,
-    dataList = [],
-    enableDataList = false,
-    list,
-    showLabel = true,
-    instruction,
-  } = props;
-
   return (
-    <div className={`${extra}`}>
-      {showLabel && (
+    <div className={`${boxStyle}`}>
+      {label && label?.length > 0 && (
         <label htmlFor={id} className={`text-[14px] text-line`}>
-          {label}
+          {label} {isRequired && <span className="text-red-500">*</span>}
         </label>
       )}
+
       <input
         disabled={disabled}
         type={type}
@@ -62,9 +59,11 @@ function InputField(props: {
         onBlur={onBlur}
         placeholder={placeholder}
         value={value}
-        list={list}
+        list={dataListId}
         aria-autocomplete="none"
-        className={`bg-shade mt-2 flex h-12 w-full items-center justify-center rounded-[5px] border border-[.5px] border-line py-3 px-4 text-sm text-white outline-none ${
+        className={`${
+          label && label?.length > 0 ? "!mt-2" : ""
+        } flex h-12 w-full items-center justify-center rounded-[5px] border border-[.5px] border-line bg-shade px-4 py-3 text-sm text-white outline-none ${
           disabled === true
             ? "!border-none !bg-gray-100"
             : state === "error"
@@ -72,10 +71,11 @@ function InputField(props: {
               : state === "success"
                 ? "border-green-500 text-green-500 placeholder:text-green-500"
                 : "border-line"
-        }`}
+        } ${inputStyle}`}
       />
-      {enableDataList && dataList?.length > 0 && (
-        <datalist id={list}>
+
+      {dataList?.length > 0 && (
+        <datalist id={dataListId}>
           {dataList.map((data: any) => (
             <option key={data?.value} value={data?.value}>
               {data?.name}
@@ -83,6 +83,7 @@ function InputField(props: {
           ))}
         </datalist>
       )}
+
       <span className="text-xs text-line">{instruction}</span>
       <span className="text-red-500 ">{error}</span>
     </div>

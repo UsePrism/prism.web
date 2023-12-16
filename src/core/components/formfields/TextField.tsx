@@ -14,6 +14,7 @@ function TextField({
   error = "",
   enableAction = false,
   placeholder = "",
+  isRequired = false,
 }: {
   boxStyle?: string;
   textareaStyle?: string;
@@ -27,6 +28,7 @@ function TextField({
   error?: string;
   enableAction?: boolean;
   placeholder?: string;
+  isRequired?: boolean;
 }) {
   const textAreaRef = useRef(ref);
 
@@ -36,11 +38,13 @@ function TextField({
     <div className={`relative ${boxStyle}`}>
       {label && label?.length > 0 && (
         <label htmlFor={name} className="text-[14px] text-line">
-          {label}
+          {label} {isRequired && <span className="text-red-500">*</span>}
         </label>
       )}{" "}
       <textarea
-        className={`text-white rounded-[5px] border border-[.5px] border-line px-5 py-3 text-sm outline-none ${textareaStyle}`}
+        className={`${
+          label && label?.length > 0 ? "!mt-2" : ""
+        } rounded-[5px] border border-[.5px] border-line px-5 py-3 text-sm text-white outline-none ${textareaStyle}`}
         placeholder={placeholder}
         name={name}
         value={value}
