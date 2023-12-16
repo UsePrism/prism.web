@@ -22,4 +22,7 @@ export const thumbup = require("assets/img/thumbup.png");
 export const share = require("assets/img/share.png");
 export const businesslogo = require("assets/img/business.png");
 export const userImg = require("assets/img/user.png");
-
+export const upload = require("assets/img/upload.png");
+export const close = require("assets/img/close.png");
+export const hamburger = require("assets/img/hamburger.png");
+export const searchIcon = require("assets/img/search.png");

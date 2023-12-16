@@ -20,7 +20,6 @@ const ForgotPassword = () => {
           </p>
           <form className="my-[32px]">
             <InputField
-              extra="mb-[16px]"
               label="Email Address"
               name="email"
               id="email"

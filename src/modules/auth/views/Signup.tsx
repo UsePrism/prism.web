@@ -17,7 +17,6 @@ const Signup = () => {
             <div className="mb-[16px] flex gap-[16px]">
               <div className="w-1/2">
                 <InputField
-                  extra=""
                   label="First Name"
                   name="firstname"
                   id="firstName"
@@ -28,7 +27,6 @@ const Signup = () => {
               </div>
               <div className="w-1/2">
                 <InputField
-                  extra=""
                   label="Last Name"
                   name="lastname"
                   id="lastName"
@@ -39,7 +37,7 @@ const Signup = () => {
               </div>
             </div>
             <InputField
-              extra="mb-[16px]"
+              boxStyle="mb-[16px]"
               label="Email Address"
               name="email"
               id="email"
@@ -50,18 +48,16 @@ const Signup = () => {
             />
             <div className="mb-[16px]">
               <label className={`text-[14px] text-line`}>Phone Number</label>
-              <div className="flex items-center gap-[16px]">
-                <div className="mt-2 flex w-1/4 cursor-not-allowed items-center gap-1 py-3 md:gap-2">
+              <div className="mt-2 flex items-center gap-[16px]">
+                <div className="flex w-1/4 cursor-not-allowed items-center gap-1 py-3 md:gap-2">
                   <img src={nigeria} alt="" loading="lazy" />
                   <span className="text-[16px]">+234</span>
                   <img src={caretdown} alt="" loading="lazy" />
                 </div>
                 <InputField
-                  extra="w-3/4"
-                  label="Phone Number"
+                  boxStyle="w-3/4"
                   name="phoneNumber"
                   id="phoneNumber"
-                  showLabel={false}
                   type="text"
                   placeholder="09000000000"
                   value=""
@@ -70,7 +66,7 @@ const Signup = () => {
               </div>
             </div>
             <InputField
-              extra="mb-[16px]"
+              boxStyle="mb-[16px]"
               label="Password"
               name="password"
               id="password"

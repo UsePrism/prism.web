@@ -15,7 +15,6 @@ const Login = () => {
             <div className="mb-[16px] flex gap-[16px]">
               <div className="w-full">
                 <InputField
-                  extra=""
                   label="Email Address"
                   name="email"
                   id="email"
@@ -28,7 +27,7 @@ const Login = () => {
             </div>
             <div className="mb-[10px] w-full">
               <InputField
-                extra="mb-[2px] w-full"
+                boxStyle="mb-[2px] w-full"
                 label="Password"
                 name="password"
                 id="password"

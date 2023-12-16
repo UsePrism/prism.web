@@ -1,4 +1,4 @@
-import { logoFullWhite } from "core/consts/images";
+import { hamburger, logoFullWhite } from "core/consts/images";
 import { btn } from "core/consts/styling";
 import { Link } from "react-router-dom";
 import InputField from "../formfields/InputField";
@@ -10,7 +10,7 @@ const NavbarPublic = () => {
         className="fixed left-0 right-0 top-0"
         style={{
           background: "#000000",
-          zIndex: 1000,
+          zIndex: 600,
         }}
       >
         <nav className="mx-auto my-1 flex w-11/12 items-center justify-between py-[20px] md:w-4/5">
@@ -24,9 +24,7 @@ const NavbarPublic = () => {
               />
             </Link>
             <InputField
-              extra="w-2/3 hidden lg:flex -mt-2"
-              label=""
-              showLabel={false}
+              boxStyle="w-2/3 hidden lg:flex -mt-2"
               placeholder="Search for a business"
               name="search"
               id="search"
@@ -50,16 +48,19 @@ const NavbarPublic = () => {
             </Link>
             <Link
               to="/auth/login"
-              className={`${btn} border-1 border border-white text-white`}
+              className={`${btn} border-1 hidden border border-white text-white sm:flex`}
             >
               Login
             </Link>
             <Link
               to="/auth/signup"
-              className={`${btn} border-1 border border-brand bg-brand text-white`}
+              className={`${btn} border-1 hidden border border-brand bg-brand text-white sm:flex`}
             >
               Sign Up
             </Link>
+            <button className={`${btn} block !bg-none !px-1 sm:hidden`}>
+              <img src={hamburger} alt="" loading="lazy" />
+            </button>
           </div>
         </nav>
       </div>

@@ -17,7 +17,7 @@ const Categories = () => {
     <div className="m-[0px] mx-auto mb-[34px] h-full w-11/12 overflow-hidden pt-[20px] md:w-4/5">
       <section className="mb-[28px]">
         <header className="flex items-center">
-          <Link to="">Home</Link>
+          <Link to="/">Home</Link>
           <img src={caretright} alt="" loading="lazy" />
           <span
             className={`font-[500] ${search?.length > 1 ? "" : "text-white"}`}
@@ -52,7 +52,7 @@ const Categories = () => {
           </div>
         </div>
         <div className={`${borderline} w-full lg:w-3/4`}>
-          <h5 className="mb-[28px] font-[500] text-white">Automotive</h5>
+          <h5 className="mb-[28px] font-[600] text-white">Automotive</h5>
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
             {reviewedBusinesses.length > 0 &&
               reviewedBusinesses.map((business: any, index: number) => (
@@ -66,7 +66,7 @@ const Categories = () => {
                     )
                   }
                 >
-                  <div className="h-[120px] border border-[.5px] border-shade bg-shade"></div>
+                  <div className="h-[140px] border border-[.5px] border-shade bg-shade"></div>
                   <div className="w-full rounded-b-[5px] border-x border-x-[.5px] border-b border-b-[.5px] border-x-[#344054] border-b-[#344054] px-5 pb-8 text-center">
                     <img
                       src={businesslogo}

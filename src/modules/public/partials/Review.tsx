@@ -27,21 +27,30 @@ export const Review = ({ review }: { review: any }) => {
       </h5>
       <p className="mb-[24px]">{review?.comment}</p>
       <div className="border-t-[.5px] border-t-[#344054] pt-5">
-        <div className="flex flex-col items-center gap-2 md:flex-row">
+        <div className="flex items-center gap-2">
           <div className={reviewact}>
             <img src={comment} alt="" />
-            <p>{review?.subcomments?.length} Comments</p>
+            <p>
+              {review?.subcomments?.length}
+              <span className="hidden md:inline-block ml-1">Comments</span>
+            </p>
           </div>
           <div className={reviewact}>
             <img src={thumbup} alt="" />
-            <p>{review?.no_of_likes} Likes</p>
+            <p>
+              {review?.no_of_likes}
+              <span className="hidden md:inline-block ml-1">Likes</span>
+            </p>
           </div>
           <div className={reviewact}>
             <img src={share} alt="" />
-            <p>{review?.no_of_shares} Shares</p>
+            <p>
+              {review?.no_of_shares}
+              <span className="hidden md:inline-block ml-1">Shares</span>
+            </p>
           </div>
         </div>
-        <div className="flex items-center gap-5 border border-[.5px] border-black-support rounded-[5px] px-4 py-3 mt-[24px] w-full">
+        <div className="mt-[24px] flex w-full items-center gap-5 rounded-[5px] border border-[.5px] border-black-support px-4 py-3">
           <img src={userImg} alt="" />
           <TextField
             textareaStyle="bg-black !px-0 !w-full !border-0"
@@ -54,7 +63,7 @@ export const Review = ({ review }: { review: any }) => {
             onChange={(e: any) => {
               setnewReview(e?.target?.value);
             }}
-            rows={2}
+            rows={1}
           />
         </div>
       </div>
