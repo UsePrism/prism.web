@@ -1,7 +1,8 @@
 /* eslint-disable no-template-curly-in-string */
+import Pagination from "core/components/Pagination";
 import { businesslogo, caretright } from "core/consts/images";
 import { reviewedBusinesses } from "core/consts/mocks";
-import { borderline } from "core/consts/styling";
+import { borderline, fetchBtn } from "core/consts/styling";
 import { getCatgories, renderStars } from "core/helpers/renderStars";
 import { Link } from "react-router-dom";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -89,6 +90,14 @@ const Categories = () => {
                   </div>
                 </div>
               ))}
+          </div>
+          <div className="mt-[25px] flex items-center justify-center gap-5">
+            <Pagination
+              pageNumber={1}
+              pageSize={20}
+              totalCount={10}
+              onFetch={() => {}}
+            />
           </div>
         </div>
       </section>

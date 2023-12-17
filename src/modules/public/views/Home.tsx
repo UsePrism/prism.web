@@ -11,7 +11,7 @@ import {
   searchIcon,
   userfeedbacks,
 } from "core/consts/images";
-import Modal from "core/components/Modal";
+import useSystemStore from "core/services/stores/useSystemStore";
 
 const Home = () => {
   const [reviews, setReviews] = useState([
@@ -60,8 +60,9 @@ const Home = () => {
   ]);
 
   const categories = getCatgories();
-
-  const [showForm, setShowForm] = useState(false);
+  const toggleWaitListModal = useSystemStore(
+    (store) => store.toggleWaitListModal,
+  );
 
   return (
     <>
@@ -136,7 +137,7 @@ const Home = () => {
             </h3>
             <button
               className={`${btn} border-1 border border-brand bg-brand !text-[18px] text-white`}
-              onClick={() => setShowForm(true)}
+              onClick={() => toggleWaitListModal(true)}
             >
               Join Our Waitlist
             </button>
@@ -210,7 +211,8 @@ const Home = () => {
               </div>
               <div className="w-full md:w-1/2">
                 <h3 className="mb-[28px] text-center text-[24px] font-[600] text-white md:text-start">
-                  Great? Poor? or a bit <br /> meh? Let us know
+                  Great? Poor? or a bit <br />{" "}
+                  <span className="italic">meh</span>? Let us know
                 </h3>
                 <p className="mb-[28px] text-center md:text-start">
                   Your reviews help other people to shop safely and confidently,
@@ -256,7 +258,7 @@ const Home = () => {
                 <div className="flex w-full justify-center md:justify-start">
                   <button
                     className={`${btn} border-1 border border-brand bg-brand !py-3 !text-[18px] text-white`}
-                    onClick={() => setShowForm(true)}
+                    onClick={() => toggleWaitListModal(true)}
                   >
                     For Businesses
                   </button>
@@ -266,65 +268,6 @@ const Home = () => {
           </section>
         </div>
       </div>
-
-      {showForm && (
-        <Modal
-          header="Join Waitlist"
-          instruction="kindly enter your correct details"
-          onClose={() => setShowForm(false)}
-        >
-          <form>
-            <div className="mb-[16px] flex gap-[16px]">
-              <div className="w-1/2">
-                <InputField
-                  label="First Name"
-                  name="firstname"
-                  id="firstName"
-                  type="text"
-                  value=""
-                  onChange={() => {}}
-                />
-              </div>
-              <div className="w-1/2">
-                <InputField
-                  label="Last Name"
-                  name="lastname"
-                  id="lastName"
-                  type="text"
-                  value=""
-                  onChange={() => {}}
-                />
-              </div>
-            </div>
-
-            <InputField
-              boxStyle="mb-[16px]"
-              label="Business Name"
-              name="businessname"
-              id="businessname"
-              type="text"
-              placeholder="Business name"
-              value=""
-              onChange={() => {}}
-            />
-
-            <InputField
-              boxStyle="mb-[16px]"
-              label="Email Address"
-              name="email"
-              id="email"
-              type="email"
-              placeholder="Email Address"
-              value=""
-              onChange={() => {}}
-            />
-
-            <button className="mt-3 w-full rounded-[8px] bg-brand py-[14px] text-brand-white">
-              Submit
-            </button>
-          </form>
-        </Modal>
-      )}
     </>
   );
 };

@@ -11,12 +11,15 @@ import { renderStars } from "core/helpers/renderStars";
 import { useParams, Link } from "react-router-dom";
 import { Review } from "../partials/Review";
 import { reviews } from "core/consts/mocks";
+import useSystemStore from "core/services/stores/useSystemStore";
 
 const Businesses = () => {
   const { businessId } = useParams();
   const category = "Food and Dining";
 
-  console.log(businessId);
+  const toggleWaitListModal = useSystemStore(
+    (store) => store.toggleWaitListModal,
+  );
 
   return (
     <div className="m-[0px] mx-auto mb-[34px] h-full w-11/12 overflow-hidden pt-[20px] md:w-4/5">
@@ -66,9 +69,12 @@ const Businesses = () => {
             <h5 className="mb-[6px] hidden text-[24px] font-[500] text-white lg:block">
               Burger King
             </h5>
-            <Link to="/auth/signup" className="text-[14px] text-brand">
+            <button
+              onClick={() => toggleWaitListModal(true)}
+              className="text-[14px] text-brand"
+            >
               Own this business? Claim
-            </Link>
+            </button>
             <div className="my-[24px] flex w-full items-center justify-start gap-2">
               <div className="flex rounded-[5px] bg-[#344054] p-[8px]">
                 {renderStars(4.2, "w-[18px] h-[18px]")}
@@ -91,7 +97,7 @@ const Businesses = () => {
                 BurgerKing.com
               </a>
             </div>
-            <div className="flex items-center w-full">
+            <div className="flex w-full items-center">
               <Link
                 to="/review"
                 className={`${btn} bg-brand py-[8px] text-white`}

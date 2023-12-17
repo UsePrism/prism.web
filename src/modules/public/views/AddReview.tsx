@@ -6,6 +6,43 @@ import { AdditionalInformationForm } from "../partials/AdditionalInformationForm
 
 const AddReview = () => {
   const [steps, setSteps] = useState(1);
+  const [ratings, setRatings] = useState(0);
+
+  const [newReview, setNewReview] = useState<NewReview>({
+    businessName: "",
+    businessCategoryId: 0,
+    businessSocialMediaProfile: "",
+    businessFacebookProfileName: "",
+    businessPhoneNumber: "",
+    businessWebsite: "",
+    businessAddress: "",
+    businessEmailAddress: "",
+    businessBankName: "",
+    businessBankAccountNumber: "",
+    channelPurchasedFrom: 1,
+    productName: "",
+    rating: 0,
+    reviewTitle: "",
+    reviewBody: "",
+    assetId: "",
+  });
+
+  const onFormChange = (event: any) => {
+    const { name, value } = event?.target;
+    setNewReview((state) => ({
+      ...state,
+      [name]: value,
+    }));
+  };
+
+  const onRateChange = (rating: number) => {
+    setNewReview((state) => ({
+      ...state,
+      rating,
+    }));
+  };
+
+  console.log(newReview);
 
   return (
     <div className="mx-auto mb-8 mt-[40px] w-11/12 md:w-4/5">
@@ -42,9 +79,22 @@ const AddReview = () => {
           })()}
 
           <form className="my-[32px]">
-            {steps === 1 && <BusinessReviewForm onSubmit={() => setSteps(2)} />}
+            {steps === 1 && (
+              <BusinessReviewForm
+                formData={newReview}
+                onChange={onFormChange}
+                onSubmit={() => setSteps(2)}
+                onRateChange={onRateChange}
+              />
+            )}
             {steps === 2 && (
-              <AdditionalInformationForm onBack={() => setSteps(1)} />
+              <AdditionalInformationForm
+                formData={newReview}
+                onBack={() => setSteps(1)}
+                onChange={onFormChange}
+                onSubmit={() => setSteps(2)}
+                onFileUpload={() => {}}
+              />
             )}
           </form>
         </div>
