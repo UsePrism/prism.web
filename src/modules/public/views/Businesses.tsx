@@ -103,7 +103,7 @@ const Businesses = () => {
         </div>
       </section>
       <section className="w-full lg:w-3/4">
-        <p className="text-[24px] text-[600] text-white">23 Reviews</p>
+        <p className="text-[24px] font-[600] text-white">23 Reviews</p>
         <div>
           {reviews?.length > 0 &&
             reviews?.map((review: any, index: number) => (

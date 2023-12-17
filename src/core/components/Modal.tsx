@@ -1,4 +1,4 @@
-import { close } from "core/consts/images";
+import { closeImg } from "core/consts/images";
 import React from "react";
 
 export default function Modal({
@@ -30,11 +30,11 @@ export default function Modal({
         >
           <div className="border-b-1 mb-[25px] flex items-start justify-between border-b border-b-black-support pb-5">
             <div>
-              <p className="mb-2 text-[18px] text-[600] text-white">{header}</p>
+              <p className="mb-2 text-[18px] font-[600] text-white">{header}</p>
               <p className="text-[14px]">{instruction}</p>
             </div>
             <button type="button" className="" onClick={onClose}>
-              <img src={close} alt="" />
+              <img src={closeImg} alt="" />
             </button>
           </div>
           <div>{children}</div>

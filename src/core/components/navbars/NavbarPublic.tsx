@@ -2,8 +2,12 @@ import { hamburger, logoFullWhite } from "core/consts/images";
 import { btn } from "core/consts/styling";
 import { Link } from "react-router-dom";
 import InputField from "../formfields/InputField";
+import Sidenav from "./Sidenav";
+import { useState } from "react";
 
 const NavbarPublic = ({ showLinks = true }: { showLinks?: boolean }) => {
+  const [showSidenav, setSidenav] = useState(false);
+
   return (
     <>
       <div
@@ -27,7 +31,7 @@ const NavbarPublic = ({ showLinks = true }: { showLinks?: boolean }) => {
             </Link>
             {showLinks && (
               <InputField
-                boxStyle="w-2/3 hidden lg:flex -mt-2"
+                boxStyle="w-2/3 hidden lg:flex"
                 placeholder="Search for a business"
                 name="search"
                 id="search"
@@ -63,13 +67,18 @@ const NavbarPublic = ({ showLinks = true }: { showLinks?: boolean }) => {
               >
                 Sign Up
               </Link>
-              <button className={`${btn} block !bg-none !px-1 sm:hidden`}>
+              <button
+                className={`${btn} block !bg-none !px-1 sm:hidden`}
+                onClick={() => setSidenav(!showSidenav)}
+              >
                 <img src={hamburger} alt="" loading="lazy" />
               </button>
             </div>
           )}
         </nav>
       </div>
+
+      <Sidenav isOpen={showSidenav} close={() => setSidenav(false)} />
     </>
   );
 };
