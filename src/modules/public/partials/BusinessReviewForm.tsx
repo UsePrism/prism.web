@@ -1,14 +1,21 @@
 import InputField from "core/components/formfields/InputField";
 import SelectField from "core/components/formfields/SelectField";
 import TextField from "core/components/formfields/TextField";
+import { starEmpty, starFull } from "core/consts/images";
 import { SALES_CHANNELS } from "core/consts/systemconst";
 import { getCatgories } from "core/helpers/renderStars";
 import { ScrollToTop } from "core/helpers/scrollToTop";
 
 export const BusinessReviewForm = ({
+  formData,
   onSubmit = () => {},
+  onChange = () => {},
+  onRateChange = () => {},
 }: {
   onSubmit: any;
+  formData: NewReview;
+  onChange: any;
+  onRateChange: any;
 }) => {
   const categories = getCatgories();
 
@@ -18,21 +25,19 @@ export const BusinessReviewForm = ({
 
       <InputField
         boxStyle="mb-[25px]"
-        label="Business name"
-        name="businessname"
+        label="Business Name"
+        name="businessName"
         type="text"
-        placeholder="Business name"
-        value=""
+        placeholder="Business Name"
+        value={formData?.businessName}
         isRequired
-        onChange={() => {}}
+        onChange={(e: any) => onChange(e)}
       />
 
       <SelectField
         boxStyle="mb-[25px]"
         label="Category"
-        name="category"
-        defaultName="Select Business Category"
-        defaultValue=""
+        name="businessCategoryId"
         options={[
           ...categories?.map((category: any) => {
             return {
@@ -41,9 +46,9 @@ export const BusinessReviewForm = ({
             };
           }),
         ]}
-        value=""
+        value={formData?.businessCategoryId}
         isRequired
-        onChange={() => {}}
+        onChange={(e: any) => onChange(e)}
       />
 
       <InputField
@@ -52,17 +57,15 @@ export const BusinessReviewForm = ({
         name="productName"
         type="text"
         placeholder="Product/Service purchased"
-        value=""
+        value={formData?.productName}
         isRequired
-        onChange={() => {}}
+        onChange={(e: any) => onChange(e)}
       />
 
       <SelectField
         boxStyle="mb-[25px]"
         label="Where did you buy it?"
-        name="channel"
-        defaultName="Select"
-        defaultValue=""
+        name="channelPurchasedFrom"
         options={[
           ...SALES_CHANNELS?.map((channel: any) => {
             return {
@@ -71,9 +74,9 @@ export const BusinessReviewForm = ({
             };
           }),
         ]}
-        value=""
+        value={formData?.channelPurchasedFrom}
         isRequired
-        onChange={() => {}}
+        onChange={(e: any) => onChange(e)}
       />
 
       <div className="mb-[25px]">
@@ -81,17 +84,28 @@ export const BusinessReviewForm = ({
           Tap the star to rate your experience{" "}
           <span className="text-red-500">*</span>
         </label>
+        <div className="mt-2 flex items-center justify-center gap-10">
+          {[1, 2, 3, 4, 5].map((rate: number, index: number) => (
+            <img
+              src={formData.rating >= rate ? starFull : starEmpty}
+              alt={`${rate}`}
+              className="h-[20px] w-[20px]"
+              key={index + rate}
+              onClick={() => onRateChange(rate)}
+            />
+          ))}
+        </div>
       </div>
 
       <InputField
         boxStyle="mb-[25px]"
         label="Review Title"
-        name="title"
+        name="reviewTitle"
         type="text"
         placeholder="e.g Fantastic business"
-        value=""
+        value={formData?.reviewTitle}
         isRequired
-        onChange={() => {}}
+        onChange={(e: any) => onChange(e)}
       />
 
       <TextField
@@ -100,9 +114,9 @@ export const BusinessReviewForm = ({
         textareaStyle="w-full bg-shade"
         placeholder="Comments here..."
         isRequired
-        name="comments"
-        value=""
-        rows={3}
+        name="reviewBody"
+        value={formData?.reviewBody}
+        rows={1}
       />
 
       <button

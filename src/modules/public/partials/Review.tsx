@@ -32,21 +32,21 @@ export const Review = ({ review }: { review: any }) => {
             <img src={comment} alt="" />
             <p>
               {review?.subcomments?.length}
-              <span className="hidden md:inline-block ml-1">Comments</span>
+              <span className="ml-1 hidden md:inline-block">Comments</span>
             </p>
           </div>
           <div className={reviewact}>
             <img src={thumbup} alt="" />
             <p>
               {review?.no_of_likes}
-              <span className="hidden md:inline-block ml-1">Likes</span>
+              <span className="ml-1 hidden md:inline-block">Likes</span>
             </p>
           </div>
           <div className={reviewact}>
             <img src={share} alt="" />
             <p>
               {review?.no_of_shares}
-              <span className="hidden md:inline-block ml-1">Shares</span>
+              <span className="ml-1 hidden md:inline-block">Shares</span>
             </p>
           </div>
         </div>

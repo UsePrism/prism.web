@@ -5,8 +5,16 @@ import { ScrollToTop } from "core/helpers/scrollToTop";
 
 export const AdditionalInformationForm = ({
   onBack = () => {},
+  formData,
+  onSubmit = () => {},
+  onChange = () => {},
+  onFileUpload = () => {},
 }: {
   onBack: any;
+  onSubmit: any;
+  formData: NewReview;
+  onChange: any;
+  onFileUpload?: any;
 }) => {
   return (
     <>
@@ -23,7 +31,7 @@ export const AdditionalInformationForm = ({
             <div className="flex flex-col items-center gap-2">
               <img src={upload} alt="" />
               <p>
-                <span className="text-[600] text-brand">Click to Upload</span>{" "}
+                <span className="font-[600] text-brand">Click to Upload</span>{" "}
                 or drag and drop
               </p>
               <p className="mt-[-10px] text-[12px]">
@@ -43,30 +51,30 @@ export const AdditionalInformationForm = ({
       <SelectField
         boxStyle="mb-[25px]"
         label="Bank"
-        name="bank"
+        name="businessBankName"
         options={[]}
-        value=""
-        onChange={() => {}}
+        value={formData?.businessBankName}
+        onChange={(e: any) => onChange(e)}
       />
 
       <InputField
         boxStyle="mb-[25px]"
         label="Account number"
-        name="accountnumber"
+        name="businessBankAccountNumber"
         type="text"
         placeholder="e.g 0123456789"
-        value=""
-        onChange={() => {}}
+        value={formData?.businessBankAccountNumber}
+        onChange={(e: any) => onChange(e)}
       />
 
       <InputField
         boxStyle="mb-[25px]"
         label="Email Address"
-        name="businessemailaddress"
+        name="businessEmailAddress"
         type="email"
         placeholder="e.g businessemail@gmail.com"
-        value=""
-        onChange={() => {}}
+        value={formData?.businessEmailAddress}
+        onChange={(e: any) => onChange(e)}
       />
 
       <div className="flex items-center justify-between gap-3">

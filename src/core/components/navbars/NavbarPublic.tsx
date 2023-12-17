@@ -4,9 +4,13 @@ import { Link } from "react-router-dom";
 import InputField from "../formfields/InputField";
 import Sidenav from "./Sidenav";
 import { useState } from "react";
+import useSystemStore from "core/services/stores/useSystemStore";
 
 const NavbarPublic = ({ showLinks = true }: { showLinks?: boolean }) => {
   const [showSidenav, setSidenav] = useState(false);
+  const toggleWaitListModal = useSystemStore(
+    (store) => store.toggleWaitListModal,
+  );
 
   return (
     <>
@@ -49,12 +53,12 @@ const NavbarPublic = ({ showLinks = true }: { showLinks?: boolean }) => {
               >
                 Write a Review
               </Link>
-              <Link
-                to="/auth"
+              <button
                 className={`${btn} hidden px-[10px] text-line hover:text-white lg:flex`}
+                onClick={() => toggleWaitListModal(true)}
               >
                 Add Business
-              </Link>
+              </button>
               <Link
                 to="/auth/login"
                 className={`${btn} border-1 hidden border border-white text-white sm:flex`}
