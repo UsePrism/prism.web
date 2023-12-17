@@ -16,7 +16,7 @@ export const horizon =
   "flex snap-mandatory flex-nowrap gap-5 overflow-x-auto md:grid md:grid-cols-3 lg:grid lg:grid-cols-4";
 
 export const sidenavLink =
-  "text-[28px] font-black text-gray-500 transition duration-300 ease-in-out uppercase hover:scale-105 hover:text-naturegreen";
+  "text-[28px] font-[600] transition duration-300 ease-in-out uppercase hover:scale-105 hover:text-white";
 
 export const activeSidenavLink =
-  "text-[28px] font-black text-naturegreen transition duration-300 ease-in-out uppercase hover:scale-105 hover:text-naturegreen";
+  "text-[28px] font-[600] transition duration-300 ease-in-out uppercase hover:scale-105 hover:text-naturegreen";

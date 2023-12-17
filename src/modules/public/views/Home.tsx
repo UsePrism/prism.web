@@ -81,7 +81,7 @@ const Home = () => {
                   businesses
                 </p>
               </div>
-              <form className="my-[48px] flex flex w-full items-center gap-3 md:w-4/5">
+              <form className="mt-[48px] flex flex w-full items-center gap-3 md:w-4/5">
                 <InputField
                   boxStyle="w-9/12 md:w-9/12"
                   placeholder="What business are you looking for?"
@@ -107,7 +107,7 @@ const Home = () => {
           </div>
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
             {reviews &&
-              reviews?.length > 0 &&
+              reviews?.splice(0, 3)?.length > 0 &&
               reviews.map((review: any, index: number) => (
                 <div key={index} className="rounded-[5px] bg-shade p-5">
                   <img src={user} alt="user" loading="lazy" />
@@ -240,9 +240,11 @@ const Home = () => {
                 />
               </div>
               <div className="w-full md:w-1/2">
-                <span className=" w-[80px] rounded-full bg-green px-2 py-1 text-[12px] text-white">
-                  Coming soon
-                </span>
+                <div className="mt-[28px] md:mt-[0px]">
+                  <span className="w-[80px] rounded-full bg-green px-2 py-1 text-[12px] text-white">
+                    Coming soon
+                  </span>
+                </div>
                 <h3 className="mb-[28px] mt-5 text-center text-[24px] font-[600] text-white md:text-start">
                   Beat the suspicion with <br /> feedback from customers
                 </h3>

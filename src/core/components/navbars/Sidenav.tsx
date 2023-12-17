@@ -1,3 +1,4 @@
+import { closeImg } from "core/consts/images";
 import { activeSidenavLink, sidenavLink } from "core/consts/styling";
 import React from "react";
 import { NavLink } from "react-router-dom";
@@ -11,7 +12,7 @@ const Sidenav = ({
 }) => {
   return (
     <div
-      className={`bg-dark fixed h-full w-full transition-all duration-500 ease-in-out ${
+      className={`fixed h-full w-full bg-black transition-all duration-500 ease-in-out ${
         isOpen ? "-left-0" : "-left-[100vw]"
       }`}
       style={{
@@ -21,7 +22,7 @@ const Sidenav = ({
       <nav className="relative mx-auto flex h-[80vh] w-11/12 items-center justify-between md:w-4/5">
         <div className="flex h-full w-full flex-col items-center justify-center">
           <NavLink
-            to="/public/home"
+            to="/"
             onClick={() => close()}
             className={({ isActive }) =>
               isActive ? activeSidenavLink : sidenavLink
@@ -30,38 +31,38 @@ const Sidenav = ({
             Home
           </NavLink>
           <NavLink
-            to="/public/services"
+            to="/auth/signup"
             onClick={() => close()}
             className={({ isActive }) =>
               isActive ? activeSidenavLink : sidenavLink
             }
           >
-            Services
+            Register
           </NavLink>
           <NavLink
-            to="/public/company"
+            to="/auth/login"
             onClick={() => close()}
             className={({ isActive }) =>
               isActive ? activeSidenavLink : sidenavLink
             }
           >
-            Company
+            Login
           </NavLink>
           <NavLink
-            to="/public/contact"
+            to="/terms"
             onClick={() => close()}
             className={({ isActive }) =>
               isActive ? activeSidenavLink : sidenavLink
             }
           >
-            Contact
+            Terms
           </NavLink>
         </div>
         <div
           className="absolute right-[30px] top-[30px]"
           onClick={() => close()}
         >
-          <img src={close} alt="close" className="h-[32px] w-[32px]" />
+          <img src={closeImg} alt="close" className="h-[32px] w-[32px]" />
         </div>
       </nav>
       <div>
