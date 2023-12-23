@@ -67,9 +67,9 @@ const Home = () => {
   return (
     <>
       <div className="m-[0px] -pt-[90px]">
-        <section className="bg-accent h-[85vh] bg-black">
-          <div className="mx-auto flex h-full w-11/12 items-center overflow-hidden md:w-4/5">
-            <div className="border mx-auto flex h-full w-full flex-col  items-center justify-center text-white md:w-4/5 lg:w-3/5">
+        <section className="bg-accent h-[80vh] bg-black">
+          <div className="mx-auto flex h-full justify-center w-11/12 items-center overflow-hidden md:w-4/5">
+            <div className="mx-auto flex h-full w-full flex-col  items-center justify-center text-white md:w-4/5 lg:w-3/5">
               <div className="text-center text-[24px] font-[600] sm:text-[32px] md:text-[46px]">
                 <p className="leading-tight">
                   <span className="text-brand">Discover</span> honest feedback
@@ -82,7 +82,7 @@ const Home = () => {
                   businesses
                 </p>
               </div>
-              <form className="mt-[48px] flex flex w-full items-center gap-3 md:w-4/5">
+              <form className="py-[48px] flex flex w-full items-center gap-3 md:w-4/5">
                 <InputField
                   boxStyle="w-9/12 md:w-9/12"
                   placeholder="What business are you looking for?"
