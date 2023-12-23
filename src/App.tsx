@@ -1,7 +1,9 @@
+import Loader from "core/components/Loader";
 import Modal from "core/components/Modal";
 import InputField from "core/components/formfields/InputField";
 import { ScrollToTop } from "core/helpers/scrollToTop";
 import useSystemStore from "core/services/stores/useSystemStore";
+import useUserStore from "core/services/stores/useUserStore";
 import Admin from "modules/admin/Admin";
 import Auth from "modules/auth/Auth";
 import Public from "modules/public/Public";
@@ -18,8 +20,11 @@ const App = () => {
     (store) => store.toggleWaitListModal,
   );
 
+  const isUserStoreLoading = useUserStore((store) => store.isLoading);
+
   return (
     <>
+      {isUserStoreLoading && <Loader />}
       <Router>
         <ScrollToTop />
         <Routes>

@@ -40,10 +40,13 @@ function InputField({
   boxStyle?: string;
   inputStyle?: string;
 }) {
+  const uniqueId =
+    id != null && id.length > 0 ? id : Math.random().toString(36).substring(2);
+
   return (
     <div className={`${boxStyle}`}>
       {label && label?.length > 0 && (
-        <label htmlFor={id} className={`text-[14px] text-line`}>
+        <label htmlFor={uniqueId} className={`text-[14px] text-line`}>
           {label} {isRequired && <span className="text-red-500">*</span>}
         </label>
       )}
@@ -51,7 +54,7 @@ function InputField({
       <input
         disabled={disabled}
         type={type}
-        id={id}
+        id={uniqueId}
         autoComplete="on"
         name={name}
         onChange={onChange}

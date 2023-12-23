@@ -87,6 +87,7 @@ export const apicall = async ({
         });*/
         return error?.response?.data;
       } else {
+        console.log(error);
         return error?.response?.data;
       }
     });
