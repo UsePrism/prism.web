@@ -15,6 +15,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
+    "react-notifications-component": "^4.0.1",
     "react-otp-input": "^3.1.0",
     "react-router-dom": "^6.18.0",
     "react-scripts": "5.0.1",
@@ -56,5 +57,6 @@
     "prettier": "^3.1.0",
     "prettier-plugin-tailwindcss": "^0.5.7",
     "tailwindcss": "^3.3.5"
-  }
+  },
+  "proxy": "http://development.eba-adzirkrm.eu-west-2.elasticbeanstalk.com"
 }

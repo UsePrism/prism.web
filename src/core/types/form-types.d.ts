@@ -19,4 +19,18 @@ declare global {
     reviewBody: string;
     assetId?: string;
   }
+
+  interface NewUser {
+    firstName: string;
+    lastName: string;
+    emailAddress: string;
+    password: string;
+  }
+
+  interface ResetPasswordDetail {
+    newPassword: string;
+    confirmNewPassword: string;
+    userId: string;
+    token: string;
+  }
 }

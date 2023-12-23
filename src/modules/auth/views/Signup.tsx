@@ -1,9 +1,44 @@
-import InputField from "core/components/formfields/InputField";
-import { caretdown, nigeria } from "core/consts/images";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import InputField from "core/components/formfields/InputField";
+import useUserStore from "core/services/stores/useUserStore";
 
 const Signup = () => {
+  const signupAction = useUserStore((store) => store.signup);
+
   // TODO: Add hermet seo
+  const [newUser, setNewUser] = useState<NewUser>({
+    firstName: "",
+    lastName: "",
+    emailAddress: "",
+    password: "",
+  });
+
+  const onFormChange = (event: any) => {
+    const { name, value } = event?.target;
+    setNewUser((state) => ({
+      ...state,
+      [name]: value,
+    }));
+  };
+
+  const signup = async (e: any) => {
+    e.preventDefault();
+
+    var status = signupAction({ ...newUser });
+
+    if (status) {
+      setNewUser({
+        firstName: "",
+        lastName: "",
+        emailAddress: "",
+        password: "",
+      });
+    } else {
+      console.log("failed");
+    }
+  };
+
   return (
     <div className="mx-auto mb-8 mt-[40px] w-11/12 md:w-4/5">
       <section className="flex items-center justify-center">
@@ -13,39 +48,37 @@ const Signup = () => {
             Enter your details to create an account.
           </p>
 
-          <form className="my-[32px]">
+          <form className="my-[32px]" onSubmit={signup}>
             <div className="mb-[16px] flex gap-[16px]">
               <div className="w-1/2">
                 <InputField
                   label="First Name"
-                  name="firstname"
-                  id="firstName"
+                  name="firstName"
                   type="text"
-                  value=""
-                  onChange={() => {}}
+                  value={newUser?.firstName}
+                  onChange={onFormChange}
                 />
               </div>
               <div className="w-1/2">
                 <InputField
                   label="Last Name"
-                  name="lastname"
-                  id="lastName"
+                  name="lastName"
                   type="text"
-                  value=""
-                  onChange={() => {}}
+                  value={newUser?.lastName}
+                  onChange={onFormChange}
                 />
               </div>
             </div>
             <InputField
               boxStyle="mb-[16px]"
               label="Email Address"
-              name="email"
-              id="email"
+              name="emailAddress"
               type="email"
               placeholder="Email Address"
-              value=""
-              onChange={() => {}}
+              value={newUser?.emailAddress}
+              onChange={onFormChange}
             />
+            {/*
             <div className="mb-[16px]">
               <label className={`text-[14px] text-line`}>Phone Number</label>
               <div className="mt-2 flex items-center gap-[16px]">
@@ -65,15 +98,15 @@ const Signup = () => {
                 />
               </div>
             </div>
+            */}
             <InputField
               boxStyle="mb-[16px]"
               label="Password"
               name="password"
-              id="password"
               type="password"
               placeholder="*******"
-              value=""
-              onChange={() => {}}
+              value={newUser?.password}
+              onChange={onFormChange}
             />
             <button className="mt-3 w-full rounded-[8px] bg-brand py-[14px] text-brand-white">
               Create Account
