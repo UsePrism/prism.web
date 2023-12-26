@@ -14,7 +14,7 @@ function InputField({
   onFocus = () => {},
   onBlur = () => {},
   value,
-  error = "",
+  errors = [],
   dataList = [],
   dataListId = "",
   instruction = "",
@@ -33,7 +33,7 @@ function InputField({
   onFocus?: any;
   onBlur?: any;
   value?: string;
-  error?: string;
+  errors?: string[];
   dataList?: any;
   dataListId?: string;
   instruction?: string;
@@ -88,7 +88,12 @@ function InputField({
       )}
 
       <span className="text-xs text-line">{instruction}</span>
-      <span className="text-red-500 ">{error}</span>
+      {errors?.length > 0 &&
+        errors?.slice(0, 1)?.map((error: any, index: number) => (
+          <span key={index} className="mt-1 block text-[12px] text-red-500">
+            {error?.errorMessage}
+          </span>
+        ))}
     </div>
   );
 }

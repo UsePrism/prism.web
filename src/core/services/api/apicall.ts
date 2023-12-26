@@ -1,4 +1,5 @@
 import axios from "axios";
+import notification from "core/helpers/notification";
 
 axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL;
 
@@ -41,7 +42,7 @@ export const apicall = async ({
     let paramsArray = Object.keys(pQuery).map(
       (key: any) =>
         pQuery[key] &&
-        `${encodeURIComponent(key)}=${encodeURIComponent(pQuery[key])}`
+        `${encodeURIComponent(key)}=${encodeURIComponent(pQuery[key])}`,
     );
 
     paramsArray = paramsArray.filter((item) => item);
@@ -70,25 +71,22 @@ export const apicall = async ({
   }
 
   return axios(options)
-    .then((response) => response?.data)
+    .then((response) => response)
     .catch((error) => {
       if (error?.message === "Network Error") {
         return {
-          success: false,
-          statusCode: 500,
           message: "Please check you have an intenet connection",
           data: {},
         };
-      } else if (error?.response?.status === 401) {
-        /*notification({
-          title: "",
-          type: "warning",
-          message: "Please logout and sign in again",
-        });*/
-        return error?.response?.data;
       } else {
-        console.log(error);
-        return error?.response?.data;
+        if (error?.response?.status === 401) {
+          notification({
+            title: "",
+            type: "warning",
+            message: "Please logout and sign in again",
+          });
+        }
+        return error?.response;
       }
     });
 };

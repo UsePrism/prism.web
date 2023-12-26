@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import InputField from "core/components/formfields/InputField";
 import useUserStore from "core/services/stores/useUserStore";
+import notification from "core/helpers/notification";
 
 const Signup = () => {
   const signupAction = useUserStore((store) => store.signup);
@@ -14,6 +15,56 @@ const Signup = () => {
     password: "",
   });
 
+  const [newUserError, setNewUserError] = useState<any>({});
+
+  const clearError = (name?: string) => {
+    if (name == null || name?.length < 1) {
+      setNewUserError({});
+    } else {
+      setNewUserError((state: any) => ({
+        ...state,
+        [name]: "",
+      }));
+    }
+  };
+
+  const validateNewUser = (data: NewUser) => {
+    var isValid = true;
+    if (data?.firstName?.length < 1) {
+      setNewUserError((state: any) => ({
+        ...state,
+        FirstName: [{ errorMessage: "First name is required" }],
+      }));
+      isValid = false;
+    }
+
+    if (data?.lastName?.length < 1) {
+      setNewUserError((state: any) => ({
+        ...state,
+        LastName: [{ errorMessage: "Last name is required" }],
+      }));
+      isValid = false;
+    }
+
+    if (data?.password?.length < 1) {
+      setNewUserError((state: any) => ({
+        ...state,
+        Password: [{ errorMessage: "Password is required" }],
+      }));
+      isValid = false;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data?.emailAddress)) {
+      setNewUserError((state: any) => ({
+        ...state,
+        EmailAddress: [{ errorMessage: "A valid Email address is required" }],
+      }));
+      isValid = false;
+    }
+
+    return isValid;
+  };
+
   const onFormChange = (event: any) => {
     const { name, value } = event?.target;
     setNewUser((state) => ({
@@ -25,24 +76,27 @@ const Signup = () => {
   const signup = async (e: any) => {
     e.preventDefault();
 
-    var status = signupAction({ ...newUser });
+    var isValid = validateNewUser(newUser);
+    if (isValid) {
+      var res = await signupAction({ ...newUser });
 
-    if (status) {
-      setNewUser({
-        firstName: "",
-        lastName: "",
-        emailAddress: "",
-        password: "",
-      });
+      if (res?.status) {
+      } else {
+        setNewUserError({ ...res?.errors });
+      }
     } else {
-      console.log("failed");
+      notification({
+        title: "",
+        message: "Please pass all required information",
+        type: "danger",
+      });
     }
   };
 
   return (
     <div className="mx-auto mb-8 mt-[40px] w-11/12 md:w-4/5">
       <section className="flex items-center justify-center">
-        <div>
+        <div className="w-full md:w-2/3 lg:w-1/3">
           <h3 className="text-whote text-[24px] font-[600]">Create Account</h3>
           <p className="text-[16px]">
             Enter your details to create an account.
@@ -52,31 +106,39 @@ const Signup = () => {
             <div className="mb-[16px] flex gap-[16px]">
               <div className="w-1/2">
                 <InputField
+                  isRequired
                   label="First Name"
                   name="firstName"
                   type="text"
                   value={newUser?.firstName}
                   onChange={onFormChange}
+                  errors={newUserError?.["FirstName"]}
+                  onFocus={() => clearError("FirstName")}
                 />
               </div>
               <div className="w-1/2">
                 <InputField
+                  isRequired
                   label="Last Name"
                   name="lastName"
                   type="text"
                   value={newUser?.lastName}
                   onChange={onFormChange}
+                  errors={newUserError?.["LastName"]}
+                  onFocus={() => clearError("LastName")}
                 />
               </div>
             </div>
             <InputField
               boxStyle="mb-[16px]"
+              isRequired
               label="Email Address"
               name="emailAddress"
-              type="email"
               placeholder="Email Address"
               value={newUser?.emailAddress}
               onChange={onFormChange}
+              errors={newUserError?.["EmailAddress"]}
+              onFocus={() => clearError("EmailAddress")}
             />
             {/*
             <div className="mb-[16px]">
@@ -101,12 +163,15 @@ const Signup = () => {
             */}
             <InputField
               boxStyle="mb-[16px]"
+              isRequired
               label="Password"
               name="password"
               type="password"
               placeholder="*******"
               value={newUser?.password}
               onChange={onFormChange}
+              errors={newUserError?.["Password"]}
+              onFocus={() => clearError("Password")}
             />
             <button className="mt-3 w-full rounded-[8px] bg-brand py-[14px] text-brand-white">
               Create Account
