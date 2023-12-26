@@ -1,7 +1,7 @@
 import { apicall } from "./apicall";
 
-export const login = (email: string, password: string) =>
-  apicall({
+export const login = (email: string, password: string) => {
+  return apicall({
     endpoint: "/auth/login",
     method: "POST",
     body: {
@@ -9,9 +9,10 @@ export const login = (email: string, password: string) =>
       password,
     },
   });
+};
 
 export const signUp = (newUser: NewUser) => {
-  apicall({
+  return apicall({
     endpoint: "/onboarding/sign-up",
     method: "POST",
     body: { ...newUser },
@@ -19,7 +20,7 @@ export const signUp = (newUser: NewUser) => {
 };
 
 export const verifyEmail = (email: string, otp: string) => {
-  apicall({
+  return apicall({
     endpoint: "/onboarding/email-verification",
     method: "POST",
     body: {
@@ -30,7 +31,7 @@ export const verifyEmail = (email: string, otp: string) => {
 };
 
 export const sendOtp = (email: string) => {
-  apicall({
+  return apicall({
     endpoint: "/onboarding/resend-otp",
     method: "POST",
     body: {
@@ -44,7 +45,7 @@ export const changePassword = (
   currentPassword: string,
   newPassword: string,
 ) => {
-  apicall({
+  return apicall({
     endpoint: "/password/change",
     method: "POST",
     body: {
@@ -55,7 +56,7 @@ export const changePassword = (
 };
 
 export const resetPasswordRequest = (email: string) => {
-  apicall({
+  return apicall({
     endpoint: "/onboarding/reset-request",
     method: "POST",
     body: {
@@ -65,7 +66,7 @@ export const resetPasswordRequest = (email: string) => {
 };
 
 export const resetPassword = (resetDetail: ResetPasswordDetail) => {
-  apicall({
+  return apicall({
     endpoint: "/password/reset",
     method: "POST",
     pQuery: { userId: resetDetail?.userId, token: resetDetail?.token },

@@ -7,6 +7,7 @@ import useUserStore from "core/services/stores/useUserStore";
 import Admin from "modules/admin/Admin";
 import Auth from "modules/auth/Auth";
 import Public from "modules/public/Public";
+import { ReactNotifications } from "react-notifications-component";
 import {
   BrowserRouter as Router,
   Route,
@@ -27,6 +28,7 @@ const App = () => {
       {isUserStoreLoading && <Loader />}
       <Router>
         <ScrollToTop />
+        <ReactNotifications />
         <Routes>
           <Route path="/auth/*" element={<Auth />} />
           <Route path="/admin/*" element={<Admin />} />
