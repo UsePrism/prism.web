@@ -12,6 +12,8 @@ declare global {
 
   interface GeneralResponse {
     status: boolean;
+    statusCode: number,
+    message: string;
     data: any;
     errors: {} | any;
   }

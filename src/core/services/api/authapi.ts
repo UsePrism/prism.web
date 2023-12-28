@@ -21,7 +21,7 @@ export const signUp = (newUser: NewUser) => {
 
 export const verifyEmail = (email: string, otp: string) => {
   return apicall({
-    endpoint: "/onboarding/email-verification",
+    endpoint: "/onboarding/email-validation",
     method: "POST",
     body: {
       email,
@@ -57,7 +57,7 @@ export const changePassword = (
 
 export const resetPasswordRequest = (email: string) => {
   return apicall({
-    endpoint: "/onboarding/reset-request",
+    endpoint: "/password/reset-request",
     method: "POST",
     body: {
       email,

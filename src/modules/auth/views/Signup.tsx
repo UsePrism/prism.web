@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import InputField from "core/components/formfields/InputField";
 import useUserStore from "core/services/stores/useUserStore";
 import notification from "core/helpers/notification";
 
 const Signup = () => {
+  const navigate = useNavigate();
+
   const signupAction = useUserStore((store) => store.signup);
 
   // TODO: Add hermet seo
@@ -46,10 +48,20 @@ const Signup = () => {
       isValid = false;
     }
 
-    if (data?.password?.length < 1) {
+    if (
+      data?.password?.length < 8 ||
+      !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
+        data?.password,
+      )
+    ) {
       setNewUserError((state: any) => ({
         ...state,
-        Password: [{ errorMessage: "Password is required" }],
+        Password: [
+          {
+            errorMessage:
+              "The length of 'Password' must be at least 8 characters. Which must include an uppercase alphabet, special character and numbers",
+          },
+        ],
       }));
       isValid = false;
     }
@@ -76,13 +88,33 @@ const Signup = () => {
   const signup = async (e: any) => {
     e.preventDefault();
 
-    var isValid = validateNewUser(newUser);
-    if (isValid) {
+    if (validateNewUser(newUser)) {
       var res = await signupAction({ ...newUser });
 
+      const userEmail = newUser?.emailAddress;
+
       if (res?.status) {
+        setNewUser({
+          firstName: "",
+          lastName: "",
+          emailAddress: "",
+          password: "",
+        });
+        navigate(`/auth/verify-account?email=${encodeURIComponent(userEmail)}`);
       } else {
         setNewUserError({ ...res?.errors });
+
+        if (res?.message?.includes("verify your email")) {
+          setNewUser({
+            firstName: "",
+            lastName: "",
+            emailAddress: "",
+            password: "",
+          });
+          navigate(
+            `/auth/verify-account?email=${encodeURIComponent(userEmail)}`,
+          );
+        }
       }
     } else {
       notification({
