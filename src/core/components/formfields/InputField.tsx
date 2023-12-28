@@ -90,7 +90,10 @@ function InputField({
       <span className="text-xs text-line">{instruction}</span>
       {errors?.length > 0 &&
         errors?.slice(0, 1)?.map((error: any, index: number) => (
-          <span key={index} className="mt-1 block text-[12px] text-red-500">
+          <span
+            key={index}
+            className="duration-2000 mt-1 block  text-[12px] text-red-500 transition-all ease-in-out"
+          >
             {error?.errorMessage}
           </span>
         ))}
