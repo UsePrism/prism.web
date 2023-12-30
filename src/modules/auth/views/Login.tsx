@@ -135,12 +135,6 @@ const Login = () => {
                 Sign Up
               </Link>
             </p>
-            <p className="text-center">
-              <span className="mr-2">Don't remember your password?</span>
-              <Link to="/auth/forgot-password" className="text-brand">
-                Forgot Password
-              </Link>
-            </p>
           </div>
         </div>
       </section>
