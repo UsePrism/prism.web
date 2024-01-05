@@ -8,8 +8,9 @@ function SelectField({
   options = [],
   disabled = false,
   onChange = () => {},
+  onBlur = () => {},
   label = "Select",
-  error = "",
+  errors = [],
   defaultName = "",
   defaultValue = "",
   isRequired = false,
@@ -21,8 +22,9 @@ function SelectField({
   options?: any;
   disabled?: boolean;
   onChange?: any;
+  onBlur?: any;
   label?: string;
-  error?: any;
+  errors?: string[];
   defaultName?: string;
   defaultValue?: string;
   isRequired?: boolean;
@@ -39,6 +41,7 @@ function SelectField({
         className={`mt-2 flex h-12 w-full items-center justify-center rounded-[5px] border border-[.5px] border-line bg-shade px-4 py-3 text-sm text-white outline-none ${selectStyle}`}
         name={name}
         onChange={onChange}
+        onBlur={onBlur}
         disabled={disabled}
       >
         <option key={defaultValue} value={defaultValue}>
@@ -52,7 +55,15 @@ function SelectField({
             </option>
           ))}
       </select>
-      {error.length > 1 ? <span>{error}</span> : null}
+      {errors?.length > 0 &&
+        errors?.slice(0, 1)?.map((error: any, index: number) => (
+          <span
+            key={index}
+            className="duration-2000 mt-1 block  text-[12px] text-red-500 transition-all ease-in-out"
+          >
+            {error?.errorMessage}
+          </span>
+        ))}
     </div>
   );
 }

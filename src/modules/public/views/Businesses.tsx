@@ -1,120 +1,117 @@
 /* eslint-disable no-template-curly-in-string */
-import {
-  businesslogo,
-  caretright,
-  locationimg,
-  starFull,
-  world,
-} from "core/consts/images";
-import { borderline, btn } from "core/consts/styling";
+import Pagination from "core/components/Pagination";
+import { businesslogo, caretright } from "core/consts/images";
+import { reviewedBusinesses } from "core/consts/mocks";
+import { borderline } from "core/consts/styling";
 import { renderStars } from "core/helpers/renderStars";
-import { useParams, Link } from "react-router-dom";
-import { Review } from "../partials/Review";
-import { reviews } from "core/consts/mocks";
-import useSystemStore from "core/services/stores/useSystemStore";
+import useBusinessStore from "core/services/stores/useBusinessStore";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const Businesses = () => {
-  const { businessId } = useParams();
-  const category = "Food and Dining";
+  const categories = useBusinessStore((store) => store.categories);
+  const getCategoriesAction = useBusinessStore((store) => store.getCategories);
 
-  const toggleWaitListModal = useSystemStore(
-    (store) => store.toggleWaitListModal,
-  );
+  const [searchParams, setSearchParams]: any = useSearchParams();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (categories?.length < 1) {
+      getCategoriesAction();
+    }
+  }, []);
 
   return (
     <div className="m-[0px] mx-auto mb-[34px] h-full w-11/12 overflow-hidden pt-[20px] md:w-4/5">
       <section className="mb-[28px]">
         <header className="flex items-center">
-          <span>Home</span>
+          <Link to="/">Home</Link>
           <img src={caretright} alt="" loading="lazy" />
-          <Link to="/categories">Categories</Link>
-          <img src={caretright} alt="" loading="lazy" />
-          <Link to={`/categories?name=${encodeURIComponent(category)}`}>
-            Food & Dining
-          </Link>
-          <img src={caretright} alt="" loading="lazy" />
-          <span className="text-white">Burger King</span>
+          <span
+            className={`font-[500] ${
+              searchParams.get("searchTerm")?.length > 1 ? "" : "text-white"
+            }`}
+          >
+            Businesses
+          </span>
+          {searchParams.get("searchTerm")?.length > 1 && (
+            <>
+              <img src={caretright} alt="" loading="lazy" />
+              <span className="text-white">
+                {searchParams.get("searchTerm")}
+              </span>
+            </>
+          )}
         </header>
       </section>
       <section className="mb-[28px] flex flex-col gap-5 lg:flex-row">
-        <div className={`w-full lg:w-3/4`}>
-          <div className={`${borderline} !px-0 !py-0`}>
-            <div className="h-[160px] border-b-[.5px] border-b-[#344054] bg-shade"></div>
-            <div className="px-5 pb-8 pt-5">
-              <img
-                src={businesslogo}
-                alt=""
-                className="mt-[-75px] inline-block rounded-full"
-              />
-              <p className="mb-1 mt-5 text-white">Burger King</p>
-              <p className="mb-1 text-[14px] text-line">Food and Dining</p>
-              <div className="my-[12px] flex items-center gap-[5px]">
-                <img src={locationimg} alt="" />
-                <p className="mr-[20px] text-[14px]">Ikeja, Lagos.</p>
-                <p className="text-[14px]">
-                  Rating <span>5.0</span>
-                </p>
-                <img src={starFull} alt="" className="h-[14px] w-[14px]" />
-              </div>
-              <p className="text-white">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta
-                rerum blanditiis temporibus, maxime accusamus quaerat error
-                facere nam ab rem?
-              </p>
-            </div>
-          </div>
-        </div>
         <div className="w-full lg:w-1/4">
-          <div className={`${borderline} bg-shade !pb-8`}>
-            <h5 className="mb-[6px] hidden text-[24px] font-[500] text-white lg:block">
-              Burger King
-            </h5>
-            <button
-              onClick={() => toggleWaitListModal(true)}
-              className="text-[14px] text-brand"
-            >
-              Own this business? Claim
-            </button>
-            <div className="my-[24px] flex w-full items-center justify-start gap-2">
-              <div className="flex rounded-[5px] bg-[#344054] p-[8px]">
-                {renderStars(4.2, "w-[18px] h-[18px]")}
-              </div>
-              <p className="text-[14px]">
-                <span className="font-bold">4.5</span>
-                <span>(35 Reviews)</span>
-              </p>
-            </div>
-            <div className="mb-[12px] flex items-center gap-[5px]">
-              <img src={locationimg} alt="" />
-              <p className="text-[14px]">76b Queens Street Ikeja, Lagos.</p>
-            </div>
-            <div className="mb-[16px] flex items-center gap-[5px]">
-              <img src={world} alt="" />
-              <a
-                href={`www.google.com`}
-                className="text-[14px] text-brand underline"
-              >
-                BurgerKing.com
-              </a>
-            </div>
-            <div className="flex w-full items-center">
-              <Link
-                to="/review"
-                className={`${btn} bg-brand py-[8px] text-white`}
-              >
-                Write a Review
-              </Link>
+          <div className={`${borderline} w-full`}>
+            <h5 className="mb-[28px] font-[600] text-white">Categories</h5>
+            <div className="flex snap-mandatory flex-nowrap gap-5 overflow-x-auto lg:block">
+              {categories.slice(0, 3).map((category: any, index: number) => (
+                <div
+                  key={index}
+                  className="mb-5 flex w-auto flex-none snap-center snap-always items-center gap-3 rounded-[5px] p-3 hover:bg-shade hover:text-white"
+                >
+                  <img src={category?.icon} alt="" loading="lazy" />
+                  <p className="text-wrap text-[14px] font-[500]">
+                    {category?.name}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
-      </section>
-      <section className="w-full lg:w-3/4">
-        <p className="text-[24px] font-[600] text-white">23 Reviews</p>
-        <div>
-          {reviews?.length > 0 &&
-            reviews?.map((review: any, index: number) => (
-              <Review review={review} key={index} />
-            ))}
+        <div className={`${borderline} w-full lg:w-3/4`}>
+          <h5 className="mb-[28px] font-[600] text-white">Automotive</h5>
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
+            {reviewedBusinesses.length > 0 &&
+              reviewedBusinesses.map((business: any, index: number) => (
+                <div
+                  className={`cursor-pointer overflow-hidden rounded-[5px] p-[0px]`}
+                  onClick={() =>
+                    navigate(
+                      `/categories/${encodeURIComponent(
+                        business?.business_name,
+                      )}`,
+                    )
+                  }
+                >
+                  <div className="h-[140px] border border-[.5px] border-shade bg-shade"></div>
+                  <div className="w-full rounded-b-[5px] border-x border-x-[.5px] border-b border-b-[.5px] border-x-[#344054] border-b-[#344054] px-5 pb-8 text-center">
+                    <img
+                      src={businesslogo}
+                      alt=""
+                      className="mt-[-20%] inline-block rounded-full"
+                    />
+                    <p className="mb-1 mt-5 text-white">
+                      {business?.business_name}
+                    </p>
+                    <p className="mb-5 text-line">{business?.category}</p>
+                    <div className="mb-1 flex w-full items-center justify-center gap-2">
+                      <div className="flex">
+                        {renderStars(business?.rating)}
+                      </div>
+                      <span>{business?.rating}</span>
+                    </div>
+                    <p className="text-[14px] text-black-support">
+                      {business?.number_of_reviews} Reviews
+                    </p>
+                  </div>
+                </div>
+              ))}
+          </div>
+          <div className="mt-[25px] flex items-center justify-center gap-5">
+            <Pagination
+              pageNumber={1}
+              pageSize={20}
+              totalCount={10}
+              onFetch={() => {}}
+            />
+          </div>
         </div>
       </section>
     </div>

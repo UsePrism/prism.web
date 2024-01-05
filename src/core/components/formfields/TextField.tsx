@@ -8,10 +8,11 @@ function TextField({
   name = "",
   disabled = false,
   onChange = () => {},
+  onBlur = () => {},
   label = "",
   ref = null,
   rows = 3,
-  error = "",
+  errors = [],
   enableAction = false,
   placeholder = "",
   isRequired = false,
@@ -22,13 +23,14 @@ function TextField({
   name: string;
   disabled?: boolean;
   onChange?: any;
+  onBlur?: any;
   label?: string;
   ref?: any;
   rows?: number;
-  error?: string;
   enableAction?: boolean;
   placeholder?: string;
   isRequired?: boolean;
+  errors?: string[];
 }) {
   const textAreaRef = useRef(ref);
 
@@ -51,8 +53,18 @@ function TextField({
         ref={textAreaRef}
         rows={rows}
         onChange={onChange}
+        onBlur={onBlur}
         disabled={disabled}
       />
+      {errors?.length > 0 &&
+        errors?.slice(0, 1)?.map((error: any, index: number) => (
+          <span
+            key={index}
+            className="duration-2000 mt-1 block  text-[12px] text-red-500 transition-all ease-in-out"
+          >
+            {error?.errorMessage}
+          </span>
+        ))}
     </div>
   );
 }

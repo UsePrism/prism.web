@@ -1,35 +1,62 @@
 import InputField from "core/components/formfields/InputField";
-import SelectField from "core/components/formfields/SelectField";
 import { upload } from "core/consts/images";
+import { BANKS } from "core/consts/systemconst";
 import { ScrollToTop } from "core/helpers/scrollToTop";
+import useBusinessStore from "core/services/stores/useBusinessStore";
+import { useState } from "react";
 
 export const AdditionalInformationForm = ({
   onBack = () => {},
   formData,
-  onSubmit = () => {},
+  errors = {},
   onChange = () => {},
   onFileUpload = () => {},
+  setErrors = () => {},
 }: {
   onBack: any;
-  onSubmit: any;
+  errors?: any;
   formData: NewReview;
   onChange: any;
-  onFileUpload?: any;
+  onFileUpload: any;
+  setErrors: any;
 }) => {
+  const [fileUrl, setFileUrl] = useState("");
+  const uploadImageAction = useBusinessStore((store) => store.uploadImage);
+  const setLoadingAction = useBusinessStore((store) => store.setLoading);
+
+  const onFileChange = async (e: any) => {
+    setLoadingAction(true);
+    if (e.target.files) {
+      var uploadedFile: any = e.target?.files[0];
+      setFileUrl(URL.createObjectURL(uploadedFile));
+      var res = await uploadImageAction(uploadedFile);
+
+      onFileUpload(res);
+
+      if (res?.length < 1) {
+        setFileUrl("");
+      }
+    }
+  };
+
   return (
     <>
       <ScrollToTop />
       <div className="mb-[25px]">
         <label htmlFor="" className={`text-[14px] text-line`}>
-          Upload your experience
+          Upload your evidence
         </label>
         <div className="mt-2">
           <label
             className="flex w-full items-center justify-center rounded-[5px] border border-[.5px] border-dashed border-line bg-shade px-[50px] py-5 text-[14px] outline-none"
-            htmlFor="businesslogo"
+            htmlFor="additionalDocument"
           >
             <div className="flex flex-col items-center gap-2">
-              <img src={upload} alt="" />
+              {fileUrl?.length > 1 ? (
+                <img src={fileUrl} className="h-[100px] w-[100px]" alt="" />
+              ) : (
+                <img src={upload} alt="" />
+              )}
               <p>
                 <span className="font-[600] text-brand">Click to Upload</span>{" "}
                 or drag and drop
@@ -41,18 +68,28 @@ export const AdditionalInformationForm = ({
           </label>
           <input
             type="file"
-            name="businesslogo"
-            id="businesslogo"
+            name="additionalDocument"
+            id="additionalDocument"
             className="hidden"
+            onChange={onFileChange}
           />
         </div>
       </div>
 
-      <SelectField
+      <InputField
         boxStyle="mb-[25px]"
         label="Bank"
         name="businessBankName"
-        options={[]}
+        dataListId="businessBankName"
+        dataList={[
+          ...BANKS?.map((channel: any) => {
+            return {
+              name: channel?.name,
+              value: channel?.value,
+            };
+          }),
+        ]}
+        isRequired
         value={formData?.businessBankName}
         onChange={(e: any) => onChange(e)}
       />
@@ -61,20 +98,35 @@ export const AdditionalInformationForm = ({
         boxStyle="mb-[25px]"
         label="Account number"
         name="businessBankAccountNumber"
+        isNumberOnly
         type="text"
+        disabled={formData?.businessBankName?.length < 1}
         placeholder="e.g 0123456789"
         value={formData?.businessBankAccountNumber}
         onChange={(e: any) => onChange(e)}
+        errors={errors?.BusinessBankAccountNumber}
+        onBlur={() =>
+          setErrors((state: any) => ({
+            ...state,
+            BusinessBankAccountNumber: "",
+          }))
+        }
       />
 
       <InputField
         boxStyle="mb-[25px]"
         label="Email Address"
         name="businessEmailAddress"
-        type="email"
         placeholder="e.g businessemail@gmail.com"
         value={formData?.businessEmailAddress}
         onChange={(e: any) => onChange(e)}
+        errors={errors?.BusinessEmailAddress}
+        onBlur={() =>
+          setErrors((state: any) => ({
+            ...state,
+            BusinessEmailAddress: "",
+          }))
+        }
       />
 
       <div className="flex items-center justify-between gap-3">

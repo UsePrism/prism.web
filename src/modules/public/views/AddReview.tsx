@@ -1,16 +1,18 @@
-import InputField from "core/components/formfields/InputField";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { BusinessReviewForm } from "../partials/BusinessReviewForm";
 import { AdditionalInformationForm } from "../partials/AdditionalInformationForm";
+import notification from "core/helpers/notification";
+import { isNumeric } from "core/helpers/generalHelpers";
+import useBusinessStore from "core/services/stores/useBusinessStore";
 
 const AddReview = () => {
   const [steps, setSteps] = useState(1);
-  const [ratings, setRatings] = useState(0);
+  const [errors, setErrors] = useState<any>([]);
+  const addReviewAction = useBusinessStore((store) => store.addReview);
 
   const [newReview, setNewReview] = useState<NewReview>({
     businessName: "",
-    businessCategoryId: 0,
+    businessCategoryId: "0",
     businessSocialMediaProfile: "",
     businessFacebookProfileName: "",
     businessPhoneNumber: "",
@@ -19,7 +21,7 @@ const AddReview = () => {
     businessEmailAddress: "",
     businessBankName: "",
     businessBankAccountNumber: "",
-    channelPurchasedFrom: 1,
+    channelPurchasedFrom: "0",
     productName: "",
     rating: 0,
     reviewTitle: "",
@@ -29,9 +31,66 @@ const AddReview = () => {
 
   const onFormChange = (event: any) => {
     const { name, value } = event?.target;
+
+    switch (name) {
+      case "channelPurchasedFrom":
+        setNewReview((state) => ({
+          ...state,
+          [name]: value,
+          businessWebsite: "",
+          businessPhoneNumber: "",
+          businessFacebookProfileName: "",
+          businessAddress: "",
+          businessSocialMediaProfile: "",
+        }));
+        break;
+      case "businessBankName":
+        if (value?.length > 0) {
+          setNewReview((state) => ({
+            ...state,
+            [name]: value,
+          }));
+        } else {
+          setNewReview((state) => ({
+            ...state,
+            [name]: value,
+            businessBankAccountNumber: "",
+          }));
+          setErrors((state: any) => ({
+            ...state,
+            BusinessEmailAddress: [{ errorMessage: "" }],
+          }));
+        }
+        break;
+      default:
+        setNewReview((state) => ({
+          ...state,
+          [name]: value,
+        }));
+        break;
+    }
+    if (name !== "channelPurchasedFrom") {
+      setNewReview((state) => ({
+        ...state,
+        [name]: value,
+      }));
+    } else {
+      setNewReview((state) => ({
+        ...state,
+        [name]: value,
+        businessWebsite: "",
+        businessPhoneNumber: "",
+        businessFacebookProfileName: "",
+        businessAddress: "",
+        businessSocialMediaProfile: "",
+      }));
+    }
+  };
+
+  const onFileUpload = (value: string) => {
     setNewReview((state) => ({
       ...state,
-      [name]: value,
+      assetId: value,
     }));
   };
 
@@ -42,12 +101,81 @@ const AddReview = () => {
     }));
   };
 
-  console.log(newReview);
+  const validateAdditionalInfo = (review: NewReview) => {
+    var isValid = true;
+
+    if (
+      review?.businessEmailAddress?.length > 0 &&
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(review?.businessEmailAddress)
+    ) {
+      setErrors((state: any) => ({
+        ...state,
+        BusinessEmailAddress: [
+          { errorMessage: "A valid Email address is required" },
+        ],
+      }));
+      isValid = false;
+    }
+
+    if (
+      review?.businessBankName?.length > 1 &&
+      (!isNumeric(review?.businessBankAccountNumber) ||
+        review?.businessBankAccountNumber?.length !== 10)
+    ) {
+      setErrors((state: any) => ({
+        ...state,
+        BusinessBankAccountNumber: [
+          { errorMessage: "A valid account number of digits is required." },
+        ],
+      }));
+      isValid = false;
+    }
+
+    return isValid;
+  };
+
+  const addReview = async (e: any) => {
+    e.preventDefault();
+
+    if (validateAdditionalInfo(newReview)) {
+      var res = await addReviewAction(newReview);
+
+      if (res?.status) {
+        setNewReview({
+          businessName: "",
+          businessCategoryId: "0",
+          businessSocialMediaProfile: "",
+          businessFacebookProfileName: "",
+          businessPhoneNumber: "",
+          businessWebsite: "",
+          businessAddress: "",
+          businessEmailAddress: "",
+          businessBankName: "",
+          businessBankAccountNumber: "",
+          channelPurchasedFrom: "0",
+          productName: "",
+          rating: 0,
+          reviewTitle: "",
+          reviewBody: "",
+          assetId: "",
+        });
+        setSteps(1);
+      } else {
+        setErrors({ ...res?.errors });
+      }
+    } else {
+      notification({
+        title: "",
+        message: "Please pass all required information",
+        type: "danger",
+      });
+    }
+  };
 
   return (
     <div className="mx-auto mb-8 mt-[40px] w-11/12 md:w-4/5">
       <section className="flex items-center justify-center">
-        <div className="w-full sm:w-auto">
+        <div className="w-full md:w-2/3 lg:w-1/3">
           <p className="text-[14px] text-line">Step {steps} of 2</p>
           {(() => {
             switch (steps) {
@@ -78,7 +206,7 @@ const AddReview = () => {
             }
           })()}
 
-          <form className="my-[32px]">
+          <form onSubmit={addReview} className="my-[32px]">
             {steps === 1 && (
               <BusinessReviewForm
                 formData={newReview}
@@ -92,8 +220,9 @@ const AddReview = () => {
                 formData={newReview}
                 onBack={() => setSteps(1)}
                 onChange={onFormChange}
-                onSubmit={() => setSteps(2)}
-                onFileUpload={() => {}}
+                onFileUpload={onFileUpload}
+                errors={errors}
+                setErrors={setErrors}
               />
             )}
           </form>

@@ -1,5 +1,6 @@
 import ForgotPassword from "./views/ForgotPassword";
 import Login from "./views/Login";
+import ResetPassword from "./views/ResetPassword";
 import Signup from "./views/Signup";
 import VerifyAccount from "./views/VerifyAccount";
 
@@ -31,6 +32,13 @@ const routes = [
     path: "forgot-password",
     icon: "",
     component: <ForgotPassword />,
+  },
+  {
+    name: "Reset Password",
+    layout: "/auth",
+    path: "reset-password",
+    icon: "",
+    component: <ResetPassword />,
   },
 ];
 export default routes;

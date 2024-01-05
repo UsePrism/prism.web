@@ -1,16 +1,28 @@
-import { hamburger, logoFullWhite } from "core/consts/images";
+import { caretdown, hamburger, logoFullWhite } from "core/consts/images";
 import { btn } from "core/consts/styling";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import InputField from "../formfields/InputField";
 import Sidenav from "./Sidenav";
 import { useState } from "react";
 import useSystemStore from "core/services/stores/useSystemStore";
+import useUserStore from "core/services/stores/useUserStore";
+import Dropdown from "../Dropdown";
 
 const NavbarPublic = ({ showLinks = true }: { showLinks?: boolean }) => {
+  const navigate = useNavigate();
   const [showSidenav, setSidenav] = useState(false);
   const toggleWaitListModal = useSystemStore(
     (store) => store.toggleWaitListModal,
   );
+  const token = useUserStore((store) => store.token);
+  const resetUserStore = useUserStore((store) => store.reset);
+
+  const logout = () => {
+    resetUserStore();
+    sessionStorage.removeItem("userStore");
+    sessionStorage.removeItem("systemStore");
+    navigate("/");
+  };
 
   return (
     <>
@@ -45,40 +57,92 @@ const NavbarPublic = ({ showLinks = true }: { showLinks?: boolean }) => {
               />
             )}
           </div>
-          {showLinks && (
-            <div className="flex items-center justify-between gap-3">
-              <Link
-                to="/auth/login"
-                className={`${btn} hidden px-[10px] text-line hover:text-white lg:flex`}
-              >
-                Write a Review
-              </Link>
-              <button
-                className={`${btn} hidden px-[10px] text-line hover:text-white lg:flex`}
-                onClick={() => toggleWaitListModal(true)}
-              >
-                Add Business
-              </button>
-              <Link
-                to="/auth/login"
-                className={`${btn} border-1 hidden border border-white text-white sm:flex`}
-              >
-                Login
-              </Link>
-              <Link
-                to="/auth/signup"
-                className={`${btn} border-1 border border-brand bg-brand text-white`}
-              >
-                Sign Up
-              </Link>
-              <button
-                className={`${btn} block !bg-none !px-1 sm:hidden`}
-                onClick={() => setSidenav(!showSidenav)}
-              >
-                <img src={hamburger} alt="" loading="lazy" />
-              </button>
-            </div>
-          )}
+          <div className="flex items-center justify-between gap-3">
+            {showLinks && (
+              <>
+                {token == null || token?.length < 1 ? (
+                  <>
+                    <Link
+                      to="/auth/login"
+                      className={`${btn} hidden px-[5px] text-line hover:text-white lg:flex`}
+                    >
+                      Write a Review
+                    </Link>
+                    <button
+                      className={`${btn} hidden px-[5px] text-line hover:text-white lg:flex`}
+                      onClick={() => toggleWaitListModal(true)}
+                    >
+                      Add Business
+                    </button>
+                    <Link
+                      to="/auth/login"
+                      className={`${btn} border-1 hidden border border-white text-white sm:flex`}
+                    >
+                      Login
+                    </Link>
+                    <Link
+                      to="/auth/signup"
+                      className={`${btn} border-1 border border-brand bg-brand text-white`}
+                    >
+                      Sign Up
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      to="/review"
+                      className={`${btn} hidden !px-[5px] text-line hover:text-white lg:flex`}
+                    >
+                      Write a Review
+                    </Link>
+                    <button
+                      className={`${btn} hidden !px-[5px] text-line hover:text-white lg:flex`}
+                      onClick={() => toggleWaitListModal(true)}
+                    >
+                      Add Business
+                    </button>
+                    <Dropdown
+                      button={
+                        <div className="flex items-center justify-center gap-3">
+                          <p className="text-[14px] text-line hover:text-white">
+                            My Account
+                          </p>
+                          <img src={caretdown} alt="" />
+                          <p className="rounded-full bg-brand p-[8px] text-[16px] text-white">
+                            FN
+                          </p>
+                        </div>
+                      }
+                      children={
+                        <div className="shadow-shadow-500 flex h-auto w-auto flex-col items-center justify-center rounded-[5px] bg-white px-[60px] py-[20px] shadow-xl">
+                          <Link
+                            to="/user/settings"
+                            className="mb-[24px] text-[14px] text-sm text-black  hover:text-brand"
+                          >
+                            Settings
+                          </Link>
+
+                          <button
+                            onClick={() => logout()}
+                            className="mb-[12px] text-[14px] text-sm text-black hover:text-brand"
+                          >
+                            Log Out
+                          </button>
+                        </div>
+                      }
+                      classNames={"py-2 top-[40px] -left-[60px] w-max"}
+                    />
+                  </>
+                )}
+              </>
+            )}
+            <button
+              className={`${btn} block !bg-none !px-1 sm:hidden`}
+              onClick={() => setSidenav(!showSidenav)}
+            >
+              <img src={hamburger} alt="" loading="lazy" />
+            </button>
+          </div>
         </nav>
       </div>
 

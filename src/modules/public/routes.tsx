@@ -1,6 +1,6 @@
 import AddReview from "./views/AddReview";
+import Business from "./views/Business";
 import Businesses from "./views/Businesses";
-import Categories from "./views/Categories";
 import Home from "./views/Home";
 
 const routes = [
@@ -14,16 +14,16 @@ const routes = [
   {
     name: "Home",
     layout: "/",
-    path: "categories",
+    path: "businesses",
     icon: "",
-    component: <Categories />,
+    component: <Businesses />,
   },
   {
     name: "Home",
     layout: "/",
-    path: "categories/:businessId",
+    path: "businesses/:businessId",
     icon: "",
-    component: <Businesses />,
+    component: <Business />,
   },
   {
     name: "Add Review",

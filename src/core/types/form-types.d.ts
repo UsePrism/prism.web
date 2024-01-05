@@ -3,19 +3,19 @@ export {};
 declare global {
   interface NewReview {
     businessName: string;
-    businessCategoryId?: string | number;
+    businessCategoryId: string | number;
     businessSocialMediaProfile?: string;
     businessFacebookProfileName?: string;
-    businessPhoneNumber?: string;
+    businessPhoneNumber: string;
     businessWebsite?: string;
     businessAddress?: string;
-    businessEmailAddress?: string;
-    businessBankName?: string;
-    businessBankAccountNumber?: string;
-    channelPurchasedFrom?: string | number;
-    productName?: string;
+    businessEmailAddress: string;
+    businessBankName: string;
+    businessBankAccountNumber: string;
+    channelPurchasedFrom: string | number;
+    productName: string;
     rating: number;
-    reviewTitle?: string;
+    reviewTitle: string;
     reviewBody: string;
     assetId?: string;
   }
@@ -32,5 +32,12 @@ declare global {
     confirmNewPassword: string;
     userId: string;
     token: string;
+  }
+
+  interface Waitlist {
+    firstName: string;
+    lastName: string;
+    businessEmail: string;
+    businessName: string;
   }
 }
