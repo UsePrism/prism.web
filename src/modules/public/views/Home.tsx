@@ -1,7 +1,7 @@
 /* eslint-disable no-template-curly-in-string */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import user from "assets/img/user.png";
-import { getCatgories, renderStars } from "core/helpers/renderStars";
+import { renderStars } from "core/helpers/renderStars";
 import { Link } from "react-router-dom";
 import { btn } from "core/consts/styling";
 import InputField from "core/components/formfields/InputField";
@@ -12,63 +12,35 @@ import {
   userfeedbacks,
 } from "core/consts/images";
 import useSystemStore from "core/services/stores/useSystemStore";
+import useBusinessStore from "core/services/stores/useBusinessStore";
 
 const Home = () => {
-  const [reviews, setReviews] = useState([
-    {
-      rating: 5,
-      user: "Chioma",
-      business: "Jumia",
-      review:
-        "Fast and reliable delivery service. I've been using Jumia for years and have never had a problem.",
-    },
-    {
-      rating: 4.5,
-      user: "Adedayo",
-      business: "Interswitch",
-      review:
-        "Innovative payment solutions provider. Interswitch has made it easy to pay for goods and services online and offline.",
-    },
-    {
-      rating: 4,
-      user: "Femi",
-      business: "Flutterwave",
-      review:
-        "Secure and convenient payment platform. Flutterwave is a great option for making online payments.",
-    },
-    {
-      rating: 5,
-      user: "Ngozi",
-      business: "Paystack",
-      review:
-        "Easy-to-use payment gateway. Paystack is a great choice for businesses of all sizes.",
-    },
-    {
-      rating: 4.5,
-      user: "Uche",
-      business: "VoguePay",
-      review:
-        "Reliable and affordable payment processing services. VoguePay is a good option for businesses that need a cost-effective payment solution.",
-    },
-    {
-      rating: 5,
-      user: "Oluwatoyin",
-      business: "GTPay",
-      review:
-        "Innovative payment solutions tailored for the Nigerian market. GTPay is a great choice for businesses that want to offer their customers a variety of payment options.",
-    },
-  ]);
-
-  const categories = getCatgories();
+  const reviews = useBusinessStore((store) => store.featuredReviews);
+  const getFeaturedReviewAction = useBusinessStore(
+    (store) => store.getFeaturedReview,
+  );
+  const categories = useBusinessStore((store) => store.categories);
+  const getCategoriesAction = useBusinessStore((store) => store.getCategories);
   const toggleWaitListModal = useSystemStore(
     (store) => store.toggleWaitListModal,
   );
 
+  useEffect(() => {
+    if (categories?.length < 1) {
+      getCategoriesAction();
+    }
+    if (reviews?.length < 1) {
+      getFeaturedReviewAction();
+    }
+  }, []);
+
+  console.log(reviews);
+
   return (
     <>
-      <div className="m-[0px] -pt-[90px]">
+      <div className="-pt-[90px] m-[0px]">
         <section className="bg-accent h-[80vh] bg-black">
-          <div className="mx-auto flex h-full justify-center w-11/12 items-center overflow-hidden md:w-4/5">
+          <div className="mx-auto flex h-full w-11/12 items-center justify-center overflow-hidden md:w-4/5">
             <div className="mx-auto flex h-full w-full flex-col  items-center justify-center text-white md:w-4/5 lg:w-3/5">
               <div className="text-center text-[24px] font-[600] sm:text-[32px] md:text-[46px]">
                 <p className="leading-tight">
@@ -82,7 +54,7 @@ const Home = () => {
                   businesses
                 </p>
               </div>
-              <form className="py-[48px] flex flex w-full items-center gap-3 md:w-4/5">
+              <form className="flex flex w-full items-center gap-3 py-[48px] md:w-4/5">
                 <InputField
                   boxStyle="w-9/12 md:w-9/12"
                   placeholder="What business are you looking for?"
@@ -106,10 +78,9 @@ const Home = () => {
               Latest Reviews
             </h3>
           </div>
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {reviews &&
-              reviews?.splice(0, 3)?.length > 0 &&
-              reviews.map((review: any, index: number) => (
+          {reviews && reviews?.splice(0, 3)?.length > 0 ? (
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+              {reviews.map((review: any, index: number) => (
                 <div key={index} className="rounded-[5px] bg-shade p-5">
                   <img src={user} alt="user" loading="lazy" />
                   <div className="my-3 flex items-center gap-2">
@@ -128,7 +99,12 @@ const Home = () => {
                   <p>{review?.review}</p>
                 </div>
               ))}
-          </div>
+            </div>
+          ) : (
+            <>
+              <p className="text-center">No review yet</p>
+            </>
+          )}
         </section>
         <section className="bg-shade">
           <div className="mx-auto flex w-11/12 flex-col items-center justify-center gap-5 overflow-hidden py-[55px] sm:flex-row md:w-4/5">
@@ -144,36 +120,36 @@ const Home = () => {
           </div>
         </section>
         <div className="bg-sideaccent">
-          <section className="mx-auto w-11/12 overflow-hidden py-[60px] md:w-4/5">
-            <div className="mb-[28px] w-full text-center">
-              <h3 className="w-full text-[24px] text-[32px] font-[600]">
-                Browse through Categories
-              </h3>
-            </div>
-            <div className="grid w-full grid-flow-col grid-rows-2 gap-5 overflow-x-auto lg:grid-rows-3">
-              {categories &&
-                categories?.length > 0 &&
-                categories.map((category: any, index: number) => (
+          {categories && categories?.length > 0 && (
+            <section className="mx-auto w-11/12 overflow-hidden py-[60px] md:w-4/5">
+              <div className="mb-[28px] w-full text-center">
+                <h3 className="w-full text-[24px] text-[32px] font-[600]">
+                  Browse through Categories
+                </h3>
+              </div>
+              <div className="grid w-full grid-flow-col grid-rows-2 gap-5 overflow-x-auto lg:grid-rows-3">
+                {categories?.slice(0, 12)?.map((category: Category) => (
                   <div
-                    key={index}
+                    key={category?.id}
                     className="flex !w-[250px] flex-none snap-center snap-always items-center gap-5 rounded-[5px] bg-shade p-3 md:w-1/2 md:w-auto md:p-5 lg:!w-auto"
                   >
-                    <img src={category?.icon} alt="" loading="lazy" />
+                    <img src={category?.iconUrl} alt="" loading="lazy" />
                     <p className="text-wrap text-[14px] font-[500]">
                       {category?.name}
                     </p>
                   </div>
                 ))}
-            </div>
-            <div className="my-[34px] flex w-full justify-center">
-              <Link
-                to="/categories"
-                className={`${btn} border-1 border border-brand bg-brand !text-[18px] text-white`}
-              >
-                View more
-              </Link>
-            </div>
-          </section>
+              </div>
+              <div className="my-[34px] flex w-full justify-center">
+                <Link
+                  to="/businesses"
+                  className={`${btn} border-1 border border-brand bg-brand !text-[18px] text-white`}
+                >
+                  View more
+                </Link>
+              </div>
+            </section>
+          )}
 
           <section className="mx-auto w-11/12 overflow-hidden py-[60px] md:w-4/5">
             <div className="flex flex-col items-center justify-between gap-5 md:flex-row">

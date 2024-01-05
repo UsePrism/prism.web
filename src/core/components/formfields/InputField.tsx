@@ -1,4 +1,5 @@
 // Custom components
+import { numbersOnly } from "core/helpers/generalHelpers";
 import React from "react";
 
 function InputField({
@@ -20,6 +21,7 @@ function InputField({
   instruction = "",
   boxStyle = "",
   inputStyle = "",
+  isNumberOnly = false,
 }: {
   id?: string;
   label?: string;
@@ -29,6 +31,7 @@ function InputField({
   type?: string;
   name?: string;
   isRequired?: boolean;
+  isNumberOnly?: boolean;
   onChange?: any;
   onFocus?: any;
   onBlur?: any;
@@ -60,6 +63,11 @@ function InputField({
         onChange={onChange}
         onFocus={onFocus}
         onBlur={onBlur}
+        onKeyDown={(e) => {
+          if (isNumberOnly) {
+            numbersOnly(e);
+          }
+        }}
         placeholder={placeholder}
         value={value}
         list={dataListId}
@@ -68,7 +76,7 @@ function InputField({
           label && label?.length > 0 ? "!mt-2" : ""
         } flex h-12 w-full items-center justify-center rounded-[5px] border border-[.5px] border-line bg-shade px-4 py-3 text-sm text-white outline-none ${
           disabled === true
-            ? "!border-none !bg-gray-100"
+            ? "!cursor-not-allowed"
             : state === "error"
               ? "border-red-500 text-red-500 placeholder:text-red-500 dark:!border-red-400 dark:!text-red-400"
               : state === "success"

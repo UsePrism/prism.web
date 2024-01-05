@@ -50,9 +50,11 @@ export const apicall = async ({
   }
 
   if (auth) {
-    var token = localStorage.getItem("token");
-    if (token != null && token?.length > 0) {
-      headers.Authorization = `Bearer ${token}`;
+    var userStore = sessionStorage.getItem("userStore");
+
+    if (userStore != null && userStore?.length > 0) {
+      var userState = JSON.parse(userStore);
+      headers.Authorization = `Bearer ${userState?.state?.token}`;
     }
   }
 

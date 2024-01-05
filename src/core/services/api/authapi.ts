@@ -76,3 +76,11 @@ export const resetPassword = (resetDetail: ResetPasswordDetail) => {
     },
   });
 };
+
+export const joinWaitlist = (waitlist: Waitlist) => {
+  return apicall({
+    endpoint: "/waitlist",
+    method: "POST",
+    body: { ...waitlist },
+  });
+};

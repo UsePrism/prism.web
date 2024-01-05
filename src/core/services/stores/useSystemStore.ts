@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { devtools, persist } from "zustand/middleware";
+import { createJSONStorage, devtools, persist } from "zustand/middleware";
 
 type SystemState = {
   showWaitListModal: boolean;
@@ -17,7 +17,7 @@ const useSystemStore = create<SystemState>()(
       }),
       {
         name: "systemstore",
-        // storage: createJSONStorage(() => sessionStorage),
+        storage: createJSONStorage(() => sessionStorage),
       },
     ),
   ),

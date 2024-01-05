@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import {
   changePassword,
+  joinWaitlist,
   login,
   resetPassword,
   resetPasswordRequest,
@@ -14,6 +15,7 @@ import { handleApiResponse } from "core/helpers/generalHelpers";
 
 type UserState = {
   isLoading: boolean;
+  token: string | null;
   signup: (newUser: NewUser) => Promise<GeneralResponse>;
   login: (email: string, password: string) => Promise<GeneralResponse>;
   verifyEmail: (email: string, otp: string) => Promise<GeneralResponse>;
@@ -24,6 +26,7 @@ type UserState = {
   ) => Promise<GeneralResponse>;
   resetPasswordRequest: (email: string) => Promise<GeneralResponse>;
   resetPassword: (resetDetail: ResetPasswordDetail) => Promise<GeneralResponse>;
+  joinWaitList: (waitlist: Waitlist) => Promise<GeneralResponse>;
   reset: () => void;
 };
 
@@ -32,6 +35,7 @@ const useUserStore = create<UserState>()(
     persist(
       (set, get): UserState => ({
         isLoading: false,
+        token: "",
         changePassword: async (currentPassword, newPassword) => {
           set({ isLoading: true });
           const apiRes = await changePassword(currentPassword, newPassword);
@@ -51,8 +55,12 @@ const useUserStore = create<UserState>()(
           const apiRes = await login(email, password);
           var res = handleApiResponse(apiRes);
 
+          if (res?.status) {
+            set({ token: res?.data?.data?.token });
+          }
+
           notification({
-            message: res?.message,
+            message: res?.status ? res?.data?.data?.message : res?.message,
             type: res?.status ? "success" : "danger",
           });
 
@@ -65,7 +73,7 @@ const useUserStore = create<UserState>()(
           var res = handleApiResponse(apiRes);
 
           notification({
-            message: res?.message,
+            message: res?.status ? res?.data?.data?.message : res?.message,
             type: res?.status ? "success" : "danger",
           });
 
@@ -123,9 +131,25 @@ const useUserStore = create<UserState>()(
           set({ isLoading: false });
           return res;
         },
+        joinWaitList: async (waitlist) => {
+          set({ isLoading: true });
+          const apiRes = await joinWaitlist(waitlist);
+          var res = handleApiResponse(apiRes);
+
+          notification({
+            message: res?.status
+              ? "You have been added successfully on our waitlist"
+              : res?.message,
+            type: res?.status ? "success" : "danger",
+          });
+
+          set({ isLoading: false });
+          return res;
+        },
         reset: () => {
           set({
             isLoading: false,
+            token: "",
           });
         },
       }),
