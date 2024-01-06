@@ -17,7 +17,7 @@ declare global {
     rating: number;
     reviewTitle: string;
     reviewBody: string;
-    assetId?: string;
+    assetId: string;
   }
 
   interface NewUser {

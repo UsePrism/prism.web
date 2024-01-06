@@ -92,6 +92,13 @@ export const AdditionalInformationForm = ({
         isRequired
         value={formData?.businessBankName}
         onChange={(e: any) => onChange(e)}
+        errors={errors?.BusinessBankName}
+        onBlur={() =>
+          setErrors((state: any) => ({
+            ...state,
+            BusinessBankName: "",
+          }))
+        }
       />
 
       <InputField
@@ -99,6 +106,7 @@ export const AdditionalInformationForm = ({
         label="Account number"
         name="businessBankAccountNumber"
         isNumberOnly
+        isRequired
         type="text"
         disabled={formData?.businessBankName?.length < 1}
         placeholder="e.g 0123456789"
@@ -117,6 +125,7 @@ export const AdditionalInformationForm = ({
         boxStyle="mb-[25px]"
         label="Email Address"
         name="businessEmailAddress"
+        isRequired
         placeholder="e.g businessemail@gmail.com"
         value={formData?.businessEmailAddress}
         onChange={(e: any) => onChange(e)}

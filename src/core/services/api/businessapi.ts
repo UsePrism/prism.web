@@ -26,6 +26,7 @@ export const addReview = (review: NewReview) => {
       businessCategoryId: +review?.businessCategoryId,
       channelPurchasedFrom: +review?.channelPurchasedFrom,
       rating: +review?.rating,
+      assetId: review?.assetId?.length > 0 ? review?.assetId: null
     },
   });
 };
