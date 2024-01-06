@@ -7,6 +7,7 @@ import { useState } from "react";
 import useSystemStore from "core/services/stores/useSystemStore";
 import useUserStore from "core/services/stores/useUserStore";
 import Dropdown from "../Dropdown";
+import useBusinessStore from "core/services/stores/useBusinessStore";
 
 const NavbarPublic = ({ showLinks = true }: { showLinks?: boolean }) => {
   const navigate = useNavigate();
@@ -16,11 +17,14 @@ const NavbarPublic = ({ showLinks = true }: { showLinks?: boolean }) => {
   );
   const token = useUserStore((store) => store.token);
   const resetUserStore = useUserStore((store) => store.reset);
+  const resetBusinessStore = useBusinessStore((store) => store.reset);
 
   const logout = () => {
     resetUserStore();
+    resetBusinessStore();
     sessionStorage.removeItem("userStore");
     sessionStorage.removeItem("systemStore");
+    sessionStorage.removeItem("businessStore");
     navigate("/");
   };
 

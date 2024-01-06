@@ -1,16 +1,25 @@
 import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
-import { addReview, featuredReviews, getCategories } from "../api/businessapi";
+import {
+  addReview,
+  featuredReviews,
+  getBusinesses,
+  getCategories,
+} from "../api/businessapi";
 import { handleApiResponse, uploadFile } from "core/helpers/generalHelpers";
 import notification from "core/helpers/notification";
 
 type BusinessState = {
   isLoading: boolean;
   categories: Category[];
+  query: SearchQuery;
   featuredReviews: FeaturedReview[];
+  businesses: Business[];
+  setQuery: (query: SearchQuery) => void;
   setLoading: (status: boolean) => void;
   getCategories: () => Promise<void>;
   getFeaturedReview: () => Promise<void>;
+  getBusinesses: (query: SearchQuery) => Promise<void>;
   reset: () => void;
   uploadImage: (file: File) => Promise<string>;
   addReview: (review: NewReview) => Promise<GeneralResponse>;
@@ -22,6 +31,17 @@ const useBusinessStore = create<BusinessState>()(
       (set, get): BusinessState => ({
         isLoading: false,
         featuredReviews: [],
+        businesses: [],
+        query: {
+          categoryId: 0,
+          pageNumber: 1,
+          pageSize: 20,
+          searchTerm: "",
+          sortOrder: "",
+        },
+        setQuery: async (query) => {
+          set({ query });
+        },
         setLoading: (status) => {
           set({ isLoading: status });
         },
@@ -44,6 +64,15 @@ const useBusinessStore = create<BusinessState>()(
           set({ isLoading: false, categories: res?.data?.data });
           return;
         },
+        getBusinesses: async (query) => {
+          set({ isLoading: true });
+
+          const apiRes = await getBusinesses(query);
+          var res = handleApiResponse(apiRes);
+
+          set({ isLoading: false, businesses: res?.data?.data });
+          return;
+        },
         uploadImage: async (file) => {
           set({ isLoading: true });
           var res = await uploadFile(file);
@@ -56,7 +85,7 @@ const useBusinessStore = create<BusinessState>()(
           var res = handleApiResponse(apiRes);
 
           notification({
-            message: res?.status ? res?.data?.data?.message : res?.message,
+            message: res?.status ? "Review added successfully" : res?.message,
             type: res?.status ? "success" : "danger",
           });
 
@@ -67,11 +96,12 @@ const useBusinessStore = create<BusinessState>()(
           set({
             isLoading: false,
             categories: [],
+            featuredReviews: [],
           });
         },
       }),
       {
-        name: "businessstore",
+        name: "businessStore",
         storage: createJSONStorage(() => sessionStorage),
       },
     ),

@@ -4,11 +4,11 @@ declare global {
   interface NewReview {
     businessName: string;
     businessCategoryId: string | number;
-    businessSocialMediaProfile?: string;
-    businessFacebookProfileName?: string;
+    businessSocialMediaProfile: string;
+    businessFacebookProfileName: string;
     businessPhoneNumber: string;
-    businessWebsite?: string;
-    businessAddress?: string;
+    businessWebsite: string;
+    businessAddress: string;
     businessEmailAddress: string;
     businessBankName: string;
     businessBankAccountNumber: string;
@@ -39,5 +39,13 @@ declare global {
     lastName: string;
     businessEmail: string;
     businessName: string;
+  }
+
+  interface SearchQuery {
+    categoryId: number;
+    searchTerm: string;
+    sortOrder: string;
+    pageNumber: number;
+    pageSize: number;
   }
 }

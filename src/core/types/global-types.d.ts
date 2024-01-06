@@ -32,11 +32,11 @@ declare global {
     reviewBody: string;
     rating: number;
     createdAt: string;
-    business: Business;
+    business: FeaturedBusiness;
     reviewer: Reviewer;
   }
 
-  interface Business {
+  interface FeaturedBusiness {
     name: string;
     category: string;
   }
@@ -44,5 +44,21 @@ declare global {
   interface Reviewer {
     firstName: string;
     lastName: string;
+  }
+
+  interface Business {
+    id: string;
+    businessCategoryId: number;
+    businessName: string;
+    businessSocialMediaProfile: string;
+    businessFacebookProfileName: string;
+    businessPhoneNumber: string;
+    businessWebsite: string;
+    businessAddress: string;
+    businessEmailAddress: string;
+    businessBankName: string;
+    businessBankAccountNumber: string;
+    totalReviews: number;
+    averageRating: number;
   }
 }

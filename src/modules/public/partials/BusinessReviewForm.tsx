@@ -3,6 +3,7 @@ import SelectField from "core/components/formfields/SelectField";
 import TextField from "core/components/formfields/TextField";
 import { starEmpty, starFull } from "core/consts/images";
 import { SALES_CHANNELS } from "core/consts/systemconst";
+import { isNumeric } from "core/helpers/generalHelpers";
 import notification from "core/helpers/notification";
 import { ScrollToTop } from "core/helpers/scrollToTop";
 import useBusinessStore from "core/services/stores/useBusinessStore";
@@ -66,6 +67,81 @@ export const BusinessReviewForm = ({
         ],
       }));
       isValid = false;
+    } else {
+      switch (formData?.channelPurchasedFrom) {
+        case "1":
+          if (formData?.businessWebsite?.length < 1) {
+            setErrors((state: any) => ({
+              ...state,
+              BusinessWebsite: [
+                {
+                  errorMessage: "Business website is required.",
+                },
+              ],
+            }));
+            isValid = false;
+          }
+          break;
+        case "2":
+        case "3":
+          if (
+            !isNumeric(formData?.businessPhoneNumber) ||
+            formData?.businessPhoneNumber?.length < 11
+          ) {
+            setErrors((state: any) => ({
+              ...state,
+              BusinessPhoneNumber: [
+                {
+                  errorMessage: "A valid 11 digits phone number is required.",
+                },
+              ],
+            }));
+            isValid = false;
+          }
+          break;
+        case "5":
+          //facebook
+          if (formData?.businessFacebookProfileName?.length < 1) {
+            setErrors((state: any) => ({
+              ...state,
+              BusinessFacebookProfileName: [
+                {
+                  errorMessage: "Facebook profile of business is required.",
+                },
+              ],
+            }));
+            isValid = false;
+          }
+          break;
+        case "9":
+          //address
+          if (formData?.businessAddress?.length < 1) {
+            setErrors((state: any) => ({
+              ...state,
+              BusinessAddress: [
+                {
+                  errorMessage: "Business address is required.",
+                },
+              ],
+            }));
+            isValid = false;
+          }
+          break;
+        default:
+          // social media
+          if (formData?.businessSocialMediaProfile?.length < 1) {
+            setErrors((state: any) => ({
+              ...state,
+              BusinessSocialMediaProfile: [
+                {
+                  errorMessage: "Social media profile of business is required.",
+                },
+              ],
+            }));
+            isValid = false;
+          }
+          break;
+      }
     }
 
     if (review?.productName?.length < 1) {
@@ -235,21 +311,36 @@ export const BusinessReviewForm = ({
                   value={formData?.businessWebsite}
                   isRequired
                   onChange={(e: any) => onChange(e)}
+                  errors={errors?.BusinessWebsite}
+                  onBlur={() =>
+                    setErrors((state: any) => ({
+                      ...state,
+                      BusinessWebsite: "",
+                    }))
+                  }
                 />
               </>
             );
           case "2":
+          case "3":
             return (
               <>
                 <InputField
                   boxStyle="mb-[25px]"
                   label="Business Phone Number"
                   name="businessPhoneNumber"
-                  placeholder="Whatsapp number of business"
+                  placeholder="Phone number of business"
                   value={formData?.businessPhoneNumber}
                   isNumberOnly
                   isRequired
                   onChange={(e: any) => onChange(e)}
+                  errors={errors?.BusinessPhoneNumber}
+                  onBlur={() =>
+                    setErrors((state: any) => ({
+                      ...state,
+                      BusinessPhoneNumber: "",
+                    }))
+                  }
                 />
               </>
             );
@@ -264,6 +355,13 @@ export const BusinessReviewForm = ({
                   value={formData?.businessFacebookProfileName}
                   isRequired
                   onChange={(e: any) => onChange(e)}
+                  errors={errors?.BusinessFacebookProfileName}
+                  onBlur={() =>
+                    setErrors((state: any) => ({
+                      ...state,
+                      BusinessFacebookProfileName: "",
+                    }))
+                  }
                 />
               </>
             );
@@ -278,6 +376,13 @@ export const BusinessReviewForm = ({
                   value={formData?.businessAddress}
                   isRequired
                   onChange={(e: any) => onChange(e)}
+                  errors={errors?.BusinessAddress}
+                  onBlur={() =>
+                    setErrors((state: any) => ({
+                      ...state,
+                      BusinessAddress: "",
+                    }))
+                  }
                 />
               </>
             );
@@ -294,6 +399,13 @@ export const BusinessReviewForm = ({
                   value={formData?.businessSocialMediaProfile}
                   isRequired
                   onChange={(e: any) => onChange(e)}
+                  errors={errors?.BusinessSocialMediaProfile}
+                  onBlur={() =>
+                    setErrors((state: any) => ({
+                      ...state,
+                      BusinessSocialMediaProfile: "",
+                    }))
+                  }
                 />
               </>
             );

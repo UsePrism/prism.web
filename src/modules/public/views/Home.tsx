@@ -29,12 +29,13 @@ const Home = () => {
     if (categories?.length < 1) {
       getCategoriesAction();
     }
+  }, []);
+
+  useEffect(() => {
     if (reviews?.length < 1) {
       getFeaturedReviewAction();
     }
   }, []);
-
-  console.log(reviews);
 
   return (
     <>
@@ -78,10 +79,10 @@ const Home = () => {
               Latest Reviews
             </h3>
           </div>
-          {reviews && reviews?.splice(0, 3)?.length > 0 ? (
+          {reviews && reviews?.length > 0 ? (
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-              {reviews.map((review: any, index: number) => (
-                <div key={index} className="rounded-[5px] bg-shade p-5">
+              {reviews.map((review: FeaturedReview) => (
+                <div key={review?.id} className="rounded-[5px] bg-shade p-5">
                   <img src={user} alt="user" loading="lazy" />
                   <div className="my-3 flex items-center gap-2">
                     <div className="flex">{renderStars(review?.rating)}</div>
@@ -89,14 +90,14 @@ const Home = () => {
                   </div>
                   <p className="mb-[12px]">
                     <span className="font-[600] text-white">
-                      {review?.user}
+                      {review?.reviewer?.firstName} {review?.reviewer?.lastName}
                     </span>
                     <span className="mx-1">reviewed</span>
                     <span className="font-[600] text-white">
-                      {review?.business}
+                      {review?.business?.name}
                     </span>
                   </p>
-                  <p>{review?.review}</p>
+                  <p>{review?.reviewBody}</p>
                 </div>
               ))}
             </div>
