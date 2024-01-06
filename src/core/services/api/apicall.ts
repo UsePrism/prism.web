@@ -73,7 +73,9 @@ export const apicall = async ({
   }
 
   return axios(options)
-    .then((response) => response)
+    .then((response) => {
+      return response;
+    })
     .catch((error) => {
       if (error?.message === "Network Error") {
         return {

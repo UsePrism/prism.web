@@ -16,7 +16,7 @@ const useSystemStore = create<SystemState>()(
         },
       }),
       {
-        name: "systemstore",
+        name: "systemStore",
         storage: createJSONStorage(() => sessionStorage),
       },
     ),
