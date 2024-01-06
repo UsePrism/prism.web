@@ -104,7 +104,10 @@ const AddReview = () => {
   const validateAdditionalInfo = (review: NewReview) => {
     var isValid = true;
 
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(review?.businessEmailAddress)) {
+    if (
+      review?.businessEmailAddress?.length > 1 &&
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(review?.businessEmailAddress)
+    ) {
       setErrors((state: any) => ({
         ...state,
         BusinessEmailAddress: [
@@ -114,21 +117,10 @@ const AddReview = () => {
       isValid = false;
     }
 
-    if (review?.businessBankName?.length < 1) {
-      setErrors((state: any) => ({
-        ...state,
-        BusinessBankName: [
-          {
-            errorMessage: "Bank name is required",
-          },
-        ],
-      }));
-      isValid = false;
-    }
-
     if (
-      !isNumeric(review?.businessBankAccountNumber) ||
-      review?.businessBankAccountNumber?.length !== 10
+      review?.businessBankName?.length > 1 &&
+      (!isNumeric(review?.businessBankAccountNumber) ||
+        review?.businessBankAccountNumber?.length !== 10)
     ) {
       setErrors((state: any) => ({
         ...state,
