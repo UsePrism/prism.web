@@ -65,3 +65,46 @@ export const getBusinesses = (searchQuery: SearchQuery) => {
     method: "GET",
   });
 };
+
+export const getBusinessReview = (id: string, query: ReviewQuery) => {
+  return apicall({
+    endpoint: "/businesses",
+    param: `${id}/reviews`,
+    pQuery: { ...query },
+    method: "GET",
+  });
+};
+
+export const deleteReview = (businessId: string, reviewId: string) => {
+  return apicall({
+    endpoint: "/businesses",
+    param: `${businessId}/${reviewId}`,
+    method: "DELETE",
+    auth: true,
+  });
+};
+
+export const updateReview = (
+  businessId: string,
+  reviewId: string,
+  review: UpdateReview,
+) => {
+  return apicall({
+    endpoint: "/businesses",
+    param: `${businessId}/${reviewId}`,
+    method: "PUT",
+    body: {
+      ...review,
+    },
+    auth: true,
+  });
+};
+
+export const likeReview = (businessId: string, reviewId: string) => {
+  return apicall({
+    endpoint: "/businesses",
+    param: `${businessId}/reviews/${reviewId}/like`,
+    method: "POST",
+    auth: true,
+  });
+};

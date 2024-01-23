@@ -35,7 +35,6 @@ declare global {
     business: FeaturedBusiness;
     reviewer: Reviewer;
   }
-
   interface FeaturedBusiness {
     name: string;
     category: string;
@@ -60,5 +59,31 @@ declare global {
     businessBankAccountNumber: string;
     totalReviews: number;
     averageRating: number;
+  }
+
+  interface Review {
+    id: string;
+    businessCategoryId: number;
+    reviewerId: string;
+    reviewerName: string;
+    businessId: string;
+    productName: string;
+    rating: number;
+    reviewTitle: string;
+    reviewBody: string;
+    totalComments: number;
+    totalLikes: number;
+    totalShares: number;
+    channelPurchasedFrom: number;
+    userHasLiked: boolean;
+    createdAt: string;
+    assets: Asset[];
+  }
+
+  interface Asset {
+    id: string;
+    url: string;
+    contentType: string;
+    fileName: string;
   }
 }

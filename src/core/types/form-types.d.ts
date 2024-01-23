@@ -1,6 +1,12 @@
 export {};
 
 declare global {
+  interface User {
+    firstName: string;
+    lastName: string;
+    id?: string;
+  }
+
   interface NewReview {
     businessName: string;
     businessCategoryId: string | number;
@@ -15,6 +21,15 @@ declare global {
     channelPurchasedFrom: string | number;
     productName: string;
     rating: number;
+    reviewTitle: string;
+    reviewBody: string;
+    assetId: string;
+  }
+
+  interface UpdateReview {
+    channelPurchasedFrom: string | number;
+    productName: string;
+    rating: string | number;
     reviewTitle: string;
     reviewBody: string;
     assetId: string;
@@ -44,6 +59,12 @@ declare global {
   interface SearchQuery {
     categoryId: number;
     searchTerm: string;
+    sortOrder: string;
+    pageNumber: number;
+    pageSize: number;
+  }
+
+  interface ReviewQuery {
     sortOrder: string;
     pageNumber: number;
     pageSize: number;

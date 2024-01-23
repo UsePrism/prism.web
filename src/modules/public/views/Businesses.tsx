@@ -14,6 +14,9 @@ const Businesses = () => {
 
   const businesses = useBusinessStore((store) => store.businesses);
   const getBusinessesAction = useBusinessStore((store) => store.getBusinesses);
+  const setSelectedBusiness = useBusinessStore(
+    (store) => store.setSelectedBusiness,
+  );
 
   const [searchParams, setSearchParams]: any = useSearchParams();
 
@@ -35,8 +38,8 @@ const Businesses = () => {
 
   useEffect(() => {
     if (businesses?.length < 1) {
-      getBusinessesAction(query);
     }
+    getBusinessesAction(query);
   }, []);
 
   return (
@@ -92,11 +95,12 @@ const Businesses = () => {
                   <div
                     key={business?.id}
                     className={`cursor-pointer overflow-hidden rounded-[5px] p-[0px]`}
-                    onClick={() =>
+                    onClick={() => {
+                      setSelectedBusiness(business);
                       navigate(
                         `/businesses/${encodeURIComponent(business?.id)}`,
-                      )
-                    }
+                      );
+                    }}
                   >
                     <div className="h-[140px] border border-[.5px] border-shade bg-shade"></div>
                     <div className="w-full rounded-b-[5px] border-x border-x-[.5px] border-b border-b-[.5px] border-x-[#344054] border-b-[#344054] px-5 pb-8 text-center">
@@ -132,7 +136,7 @@ const Businesses = () => {
               <Pagination
                 pageNumber={1}
                 pageSize={20}
-                totalCount={10}
+                totalCount={5}
                 onFetch={() => {}}
               />
             </div>

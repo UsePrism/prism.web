@@ -16,6 +16,7 @@ import { handleApiResponse } from "core/helpers/generalHelpers";
 type UserState = {
   isLoading: boolean;
   token: string | null;
+  user: User;
   signup: (newUser: NewUser) => Promise<GeneralResponse>;
   login: (email: string, password: string) => Promise<GeneralResponse>;
   verifyEmail: (email: string, otp: string) => Promise<GeneralResponse>;
@@ -35,6 +36,7 @@ const useUserStore = create<UserState>()(
     persist(
       (set, get): UserState => ({
         isLoading: false,
+        user: { firstName: "", lastName: "", id: "" },
         token: "",
         changePassword: async (currentPassword, newPassword) => {
           set({ isLoading: true });
@@ -56,7 +58,12 @@ const useUserStore = create<UserState>()(
           var res = handleApiResponse(apiRes);
 
           if (res?.status) {
-            set({ token: res?.data?.data?.token });
+            set({
+              token: res?.data?.data?.token,
+              user: {
+                ...res?.data?.data,
+              },
+            });
           }
 
           notification({
@@ -150,6 +157,7 @@ const useUserStore = create<UserState>()(
           set({
             isLoading: false,
             token: "",
+            user: { firstName: "", lastName: "", id: "" },
           });
         },
       }),

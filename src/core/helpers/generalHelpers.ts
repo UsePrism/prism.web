@@ -153,3 +153,14 @@ export const numbersOnly = (e: any) => {
     e.preventDefault();
   }
 };
+
+export const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+
+  const monthName = date.toLocaleString("default", { month: "short" });
+
+  const day = String(date.getDate()).padStart(2, "0");
+  const year = date.getFullYear();
+
+  return `${monthName} ${day}, ${year}`;
+};

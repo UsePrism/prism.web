@@ -134,7 +134,7 @@ const Home = () => {
                     key={category?.id}
                     className="flex !w-[250px] flex-none snap-center snap-always items-center gap-5 rounded-[5px] bg-shade p-3 md:w-1/2 md:w-auto md:p-5 lg:!w-auto"
                   >
-                    <img src={category?.iconUrl} alt="" loading="lazy" />
+                    <img src={category?.iconUrl} alt="" className="w-[28px] h-[28px]" loading="lazy" />
                     <p className="text-wrap text-[14px] font-[500]">
                       {category?.name}
                     </p>

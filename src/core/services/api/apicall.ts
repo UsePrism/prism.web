@@ -85,7 +85,6 @@ export const apicall = async ({
       } else {
         if (error?.response?.status === 401) {
           notification({
-            title: "",
             type: "warning",
             message: "Please logout and sign in again",
           });

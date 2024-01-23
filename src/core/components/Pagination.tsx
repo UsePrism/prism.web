@@ -13,29 +13,46 @@ export default function Pagination({
 }) {
   return (
     <>
-      <button className={`${fetchBtn}`} onClick={() => onFetch()}>
+      <button
+        disabled={pageNumber - 1 < 1}
+        className={`${fetchBtn}`}
+        onClick={() => onFetch(pageNumber - 1)}
+      >
         Prev
       </button>
-      <button className={`${fetchBtn}`} onClick={() => onFetch()}>
+      <button
+        disabled={pageNumber === totalCount}
+        className={`${fetchBtn}`}
+        onClick={() => onFetch(pageNumber)}
+      >
         {pageNumber}
       </button>
       {!(pageNumber + 1 > totalCount) && (
-        <button className={`${fetchBtn}`} onClick={() => onFetch()}>
+        <button
+          disabled={pageNumber + 1 >= totalCount}
+          className={`${fetchBtn}`}
+          onClick={() => onFetch(pageNumber + 1)}
+        >
           {pageNumber + 1}
         </button>
       )}
-      <button className={`${fetchBtn}`} disabled>
+      <button className={`${fetchBtn} disabled:!cursor-pointer`} disabled>
         ...
       </button>
       {totalCount - 1 > 1 && totalCount - 1 > pageNumber + 1 && (
         <button
           className={`${fetchBtn}`}
+          disabled={totalCount - 1 < 1}
           onClick={() => onFetch(totalCount - 1)}
         >
           {totalCount - 1}
         </button>
       )}
-      <button className={`${fetchBtn}`} onClick={() => onFetch(pageNumber++)}>
+      <button
+        disabled={pageNumber === totalCount}
+        className={`${fetchBtn}`}
+        onClick={() => onFetch(pageNumber + 1)}
+      >
         Next
       </button>
     </>
