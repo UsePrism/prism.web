@@ -17,7 +17,7 @@ export const Review = ({ review }: { review: Review }) => {
   const [isActive, setIsActive] = useState(false);
 
   const likeReview = async (businessId: string, reviewId: string) => {
-    if (user && user?.firstName?.length > 0) {
+    if (user?.firstName?.length > 0) {
       await likeReviewAction(businessId, reviewId);
     } else {
       notification({
@@ -49,7 +49,6 @@ export const Review = ({ review }: { review: Review }) => {
 
   const addComment = (e: any) => {
     e.preventDefault();
-
     if (validateNewComment(user, newComment)) {
       console.log(newComment);
     }
@@ -70,7 +69,6 @@ export const Review = ({ review }: { review: Review }) => {
             <p className="font-[600] capitalize text-white">
               {review?.reviewerName}
             </p>
-            <p className="text-[14px]">Lagos, Nigeria</p>
           </div>
         </div>
         <div className="flex items-center gap-2 text-[14px]">

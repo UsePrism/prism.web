@@ -7,6 +7,7 @@ import {
   getBusinesses,
   getCategories,
   likeReview,
+  updateReview,
 } from "../api/businessapi";
 import { handleApiResponse, uploadFile } from "core/helpers/generalHelpers";
 import notification from "core/helpers/notification";
@@ -30,6 +31,11 @@ type BusinessState = {
   reset: () => void;
   uploadImage: (file: File) => Promise<string>;
   addReview: (review: NewReview) => Promise<GeneralResponse>;
+  updateReview: (
+    businessId: string,
+    reviewId: string,
+    review: UpdateReview,
+  ) => Promise<GeneralResponse>;
   likeReview: (businessId: string, reviewId: string) => Promise<void>;
 };
 
@@ -101,6 +107,19 @@ const useBusinessStore = create<BusinessState>()(
         addReview: async (review) => {
           set({ isLoading: true });
           const apiRes = await addReview(review);
+          var res = handleApiResponse(apiRes);
+
+          notification({
+            message: res?.status ? "Review added successfully" : res?.message,
+            type: res?.status ? "success" : "danger",
+          });
+
+          set({ isLoading: false });
+          return res;
+        },
+        updateReview: async (businessId, reviewId, review) => {
+          set({ isLoading: true });
+          const apiRes = await updateReview(businessId, reviewId, review);
           var res = handleApiResponse(apiRes);
 
           notification({
