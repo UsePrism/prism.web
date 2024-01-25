@@ -46,7 +46,7 @@ export const addReview = (review: NewReview) => {
           : null,
       channelPurchasedFrom: +review?.channelPurchasedFrom,
       rating: +review?.rating,
-      assetId: review?.assetId?.length > 0 ? review?.assetId : null,
+      assetId: review?.assetId?.length > 0 ? [review?.assetId] : [],
     },
   });
 };
@@ -95,6 +95,8 @@ export const updateReview = (
     method: "PUT",
     body: {
       ...review,
+      channelPurchasedFrom: +review?.channelPurchasedFrom,
+      rating: +review?.rating,
     },
     auth: true,
   });
