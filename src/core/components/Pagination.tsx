@@ -1,60 +1,44 @@
 import { fetchBtn } from "core/consts/styling";
 
 export default function Pagination({
-  pageSize = 20,
-  pageNumber = 1,
-  totalCount,
+  pagination = {
+    CurrentPage: 1,
+    HasNext: false,
+    HasPrevious: false,
+    PageSize: 5,
+    TotalCount: 1,
+    TotalPages: 1,
+  },
   onFetch = () => {},
+  boxStyle = "",
 }: {
-  pageSize: number;
-  pageNumber: number;
-  totalCount: number;
+  boxStyle?: string;
+  pagination?: Pagination;
   onFetch?: any;
 }) {
   return (
-    <>
+    <div
+      className={`mt-[25px] flex items-center justify-center gap-5 ${boxStyle}`}
+    >
       <button
-        disabled={pageNumber - 1 < 1}
+        disabled={!pagination?.HasPrevious}
         className={`${fetchBtn}`}
-        onClick={() => onFetch(pageNumber - 1)}
+        onClick={() => onFetch(pagination?.CurrentPage - 1)}
       >
         Prev
       </button>
-      <button
-        disabled={pageNumber === totalCount}
-        className={`${fetchBtn}`}
-        onClick={() => onFetch(pageNumber)}
-      >
-        {pageNumber}
-      </button>
-      {!(pageNumber + 1 > totalCount) && (
-        <button
-          disabled={pageNumber + 1 >= totalCount}
-          className={`${fetchBtn}`}
-          onClick={() => onFetch(pageNumber + 1)}
-        >
-          {pageNumber + 1}
-        </button>
-      )}
+
       <button className={`${fetchBtn} disabled:!cursor-pointer`} disabled>
-        ...
+        {pagination?.CurrentPage} | {pagination?.TotalPages}
       </button>
-      {totalCount - 1 > 1 && totalCount - 1 > pageNumber + 1 && (
-        <button
-          className={`${fetchBtn}`}
-          disabled={totalCount - 1 < 1}
-          onClick={() => onFetch(totalCount - 1)}
-        >
-          {totalCount - 1}
-        </button>
-      )}
+
       <button
-        disabled={pageNumber === totalCount}
+        disabled={!pagination?.HasNext}
         className={`${fetchBtn}`}
-        onClick={() => onFetch(pageNumber + 1)}
+        onClick={() => onFetch(pagination?.CurrentPage + 1)}
       >
         Next
       </button>
-    </>
+    </div>
   );
 }

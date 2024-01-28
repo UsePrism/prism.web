@@ -8,36 +8,41 @@ import useSystemStore from "core/services/stores/useSystemStore";
 import useBusinessStore from "core/services/stores/useBusinessStore";
 import { useEffect, useState } from "react";
 import Pagination from "core/components/Pagination";
-import Modal from "core/components/Modal";
 import { Comments } from "../partials/Comments";
+import { cp } from "fs";
 
-const Business = () => {
+const BusinessReview = () => {
   const categories = useBusinessStore((store) => store.categories);
   const getCategoriesAction = useBusinessStore((store) => store.getCategories);
 
   const { businessId } = useParams();
-  const business = useBusinessStore((store) => store.selectedBusiness);
+  const { reviewId } = useParams();
 
-  const reviewList = useBusinessStore((store) => store.reviewList);
-  const getReviewAction = useBusinessStore((store) => store.getBusinessReview);
+  const business = useBusinessStore((store) => store.selectedBusiness);
+  const review = useBusinessStore((store) => store.selectedReview);
+
+  const commentList = useBusinessStore((store) => store.commentList);
+  const getCommentAction = useBusinessStore((store) => store.getComments);
 
   const toggleWaitListModal = useSystemStore(
     (store) => store.toggleWaitListModal,
   );
 
-  const getReview = async () => {
-    await getReviewAction(businessId!, {
-      sortOrder: "",
-      pageNumber: reviewList?.pagination?.CurrentPage,
-      pageSize: reviewList?.pagination?.PageSize,
+  const getComments = async () => {
+    await getCommentAction({
+      businessId: businessId!,
+      reviewId: reviewId!,
+      pageNumber: commentList?.pagination?.CurrentPage,
+      pageSize: commentList?.pagination?.PageSize,
     });
   };
 
   const fetchMore = async (page: number) => {
-    await getReviewAction(businessId!, {
-      sortOrder: "",
+    await getCommentAction({
+      businessId: businessId!,
+      reviewId: reviewId!,
       pageNumber: page,
-      pageSize: reviewList?.pagination?.PageSize,
+      pageSize: commentList?.pagination?.PageSize,
     });
   };
 
@@ -46,13 +51,14 @@ const Business = () => {
       getCategoriesAction();
     }
 
-    if (reviewList?.reviews?.length < 1) {
-      getReview();
+    if (commentList?.comments?.length < 1) {
+      getComments();
     } else if (
-      reviewList?.reviews?.length > 0 &&
-      reviewList?.reviews[0]?.businessId !== businessId
+      commentList?.comments?.length > 0 &&
+      commentList?.comments[0]?.businessId !== businessId &&
+      commentList?.comments[0]?.reviewId !== reviewId
     ) {
-      getReview();
+      getComments();
     }
   }, []);
 
@@ -72,39 +78,12 @@ const Business = () => {
               }
             </Link>
             <img src={caretright} alt="" loading="lazy" />
-            <span className="text-white">{business?.businessName}</span>
+            <Link to={`/businesses/${business?.id}`} className="text-white">
+              {business?.businessName}
+            </Link>
           </header>
         </section>
         <section className="mb-[28px] flex flex-col gap-5 lg:flex-row">
-          {/*
-        <div className={`w-full lg:w-3/4`}>
-          <div className={`${borderline} !px-0 !py-0`}>
-            <div className="h-[160px] border-b-[.5px] border-b-[#344054] bg-shade"></div>
-            <div className="px-5 pb-8 pt-5">
-              <img
-                src={businesslogo}
-                alt=""
-                className="mt-[-75px] inline-block rounded-full"
-              />
-              <p className="mb-1 mt-5 text-white">Burger King</p>
-              <p className="mb-1 text-[14px] text-line">Food and Dining</p>
-              <div className="my-[12px] flex items-center gap-[5px]">
-                <img src={locationimg} alt="" />
-                <p className="mr-[20px] text-[14px]">Ikeja, Lagos.</p>
-                <p className="text-[14px]">
-                  Rating <span>5.0</span>
-                </p>
-                <img src={starFull} alt="" className="h-[14px] w-[14px]" />
-              </div>
-              <p className="text-white">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta
-                rerum blanditiis temporibus, maxime accusamus quaerat error
-                facere nam ab rem?
-              </p>
-            </div>
-          </div>
-        </div>*/}
-
           <div className="w-full lg:w-1/4">
             <div
               className={`${borderline} w-full overflow-hidden bg-shade !pb-8`}
@@ -163,23 +142,28 @@ const Business = () => {
           </div>
           <div className="w-full lg:w-3/4">
             <p className="text-[24px] font-[600] text-white">
-              {business?.totalReviews}{" "}
-              {business?.totalReviews! > 1 ? "Reviews" : "Review"}
+              {commentList?.comments?.length}{" "}
+              {commentList?.comments?.length > 1 ? "Comments" : "Comment"}
             </p>
-            <div>
-              {reviewList?.reviews?.length > 0 ? (
-                reviewList?.reviews?.map((review: any, index: number) => (
-                  <Review boxStyle="my-[24px]" review={review} key={index} />
+
+            <Review
+              boxStyle="my-[24px] hover:!bg-[#1a1a1a]"
+              review={review!}
+              showForm
+            >
+              {commentList?.comments?.length > 0 ? (
+                commentList?.comments?.map((comment) => (
+                  <Comments comment={comment} key={comment?.id} />
                 ))
               ) : (
-                <div className="my-[24px]">
-                  <p>No review for this business</p>
+                <div className="my-[28px]">
+                  <p>No comment on this review</p>
                 </div>
               )}
-            </div>
+            </Review>
 
             <Pagination
-              pagination={reviewList?.pagination}
+              pagination={commentList?.pagination}
               onFetch={fetchMore}
             />
           </div>
@@ -189,4 +173,4 @@ const Business = () => {
   );
 };
 
-export default Business;
+export default BusinessReview;

@@ -7,12 +7,26 @@ import { renderStars } from "core/helpers/renderStars";
 import useBusinessStore from "core/services/stores/useBusinessStore";
 import useUserStore from "core/services/stores/useUserStore";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export const Review = ({ review }: { review: Review }) => {
+export const Review = ({
+  review,
+  boxStyle = "",
+  showForm = false,
+  children = <></>,
+}: {
+  children?: any;
+  showForm?: boolean;
+  boxStyle?: string;
+  review: Review;
+}) => {
   const user = useUserStore((store) => store.user);
-
+  const navigate = useNavigate();
   const likeReviewAction = useBusinessStore((store) => store.likeReview);
-
+  const setSelectedReview = useBusinessStore(
+    (store) => store.setSelectedReview,
+  );
+  const addCommentAction = useBusinessStore((store) => store.addComment);
   const [newComment, setNewComment] = useState("");
   const [isActive, setIsActive] = useState(false);
 
@@ -47,10 +61,13 @@ export const Review = ({ review }: { review: Review }) => {
     return true;
   };
 
-  const addComment = (e: any) => {
+  const addComment = async (e: any) => {
     e.preventDefault();
+    showForm = true;
     if (validateNewComment(user, newComment)) {
-      console.log(newComment);
+      var res = await addCommentAction(review?.businessId, review?.id, comment);
+
+      if (res?.status) setNewComment("");
     }
   };
 
@@ -60,7 +77,7 @@ export const Review = ({ review }: { review: Review }) => {
     <div
       onMouseEnter={() => setIsActive(true)}
       onMouseLeave={() => setIsActive(false)}
-      className={`my-[24px] ${borderline} transition-height bg-[#1a1a1a] delay-150 duration-300 ease-in-out hover:bg-black`}
+      className={`${borderline} bg-[#1a1a1a] transition-height delay-150 duration-300 ease-in-out hover:bg-black ${boxStyle}`}
     >
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2">
@@ -85,9 +102,19 @@ export const Review = ({ review }: { review: Review }) => {
         {review?.reviewTitle}
       </h5>
       <p className="mb-[24px]">{review?.reviewBody}</p>
-      <div className="border-t-[.5px] border-t-[#344054] pt-5">
+      <div className="relative border-t-[.5px]  border-t-[#344054] pt-5">
         <div className="flex items-center gap-2">
-          <button className={`${reviewact} !mr-5`}>
+          <button
+            className={`${reviewact} !mr-5`}
+            onClick={() => {
+              setSelectedReview(review);
+              navigate(
+                `/businesses/${encodeURIComponent(
+                  review?.businessId,
+                )}/${review?.id}/comments`,
+              );
+            }}
+          >
             <img src={comment} alt="" />
             <p>
               {review?.totalComments}
@@ -126,34 +153,33 @@ export const Review = ({ review }: { review: Review }) => {
             <p className="text-red-500">Delete</p>
           </button>
         </div>
-        {isActive && (
-          <form onSubmit={addComment}>
-            <div className="mt-[24px] flex w-full items-start gap-5 rounded-[5px] border border-[.5px] border-black-support px-4 py-3">
-              <img src={userImg} alt="" />
-              <TextField
-                textareaStyle={`${
-                  isActive ? "bg-black" : "bg-[#1a1a1a]"
-                } !px-0 !w-full !border-0`}
-                boxStyle="w-full"
-                name="newComment"
-                value={newComment}
-                placeholder="Write a comment here..."
-                ref={null}
-                onChange={(e: any) => {
-                  setNewComment(e?.target?.value);
-                }}
-                rows={1}
-              />
-            </div>
-            <div className="mt-5 flex w-full justify-end">
-              <button
-                className={`${btn} border-1 border border-brand bg-brand text-white`}
-              >
-                Send
-              </button>
-            </div>
-          </form>
-        )}
+
+        <div className="mt-[24px]">{children}</div>
+
+        <form onSubmit={addComment} className="w-full">
+          <div className="mt-[24px] flex w-full items-start gap-5 rounded-[5px] border border-[.5px] border-black-support px-4 py-3">
+            <img src={userImg} alt="" />
+            <TextField
+              textareaStyle={`bg-transparent !px-0 !w-full !border-0`}
+              boxStyle="w-full"
+              name="newComment"
+              value={newComment}
+              placeholder="Write a comment here..."
+              ref={null}
+              onChange={(e: any) => {
+                setNewComment(e?.target?.value);
+              }}
+              rows={1}
+            />
+          </div>
+          <div className="mt-5 flex w-full justify-end">
+            <button
+              className={`${btn} border-1 border border-brand bg-brand text-white`}
+            >
+              Send
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

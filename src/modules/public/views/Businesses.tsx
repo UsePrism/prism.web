@@ -12,7 +12,7 @@ const Businesses = () => {
   const categories = useBusinessStore((store) => store.categories);
   const getCategoriesAction = useBusinessStore((store) => store.getCategories);
 
-  const businesses = useBusinessStore((store) => store.businesses);
+  const businessList = useBusinessStore((store) => store.businessList);
   const getBusinessesAction = useBusinessStore((store) => store.getBusinesses);
   const setSelectedBusiness = useBusinessStore(
     (store) => store.setSelectedBusiness,
@@ -23,12 +23,18 @@ const Businesses = () => {
   const [query, setQuery] = useState<SearchQuery>({
     categoryId: 0,
     pageNumber: 1,
-    pageSize: 20,
+    pageSize: 5,
     searchTerm: "",
     sortOrder: "",
   });
 
   const navigate = useNavigate();
+
+  const fetchMore = async (page: number) => {
+    setQuery((state) => ({ ...state, pageNumber: page }));
+
+    await getBusinessesAction({ ...query, pageNumber: page });
+  };
 
   useEffect(() => {
     if (categories?.length < 1) {
@@ -37,9 +43,9 @@ const Businesses = () => {
   }, []);
 
   useEffect(() => {
-    if (businesses?.length < 1) {
+    if (businessList?.businesses?.length < 1) {
+      getBusinessesAction(query);
     }
-    getBusinessesAction(query);
   }, []);
 
   return (
@@ -89,9 +95,9 @@ const Businesses = () => {
           <div className={`${borderline} w-full`}>
             <h5 className="mb-[28px] font-[600] text-white">Automotive</h5>
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
-              {businesses &&
-                businesses.length > 0 &&
-                businesses.map((business: Business) => (
+              {businessList?.businesses &&
+                businessList?.businesses.length > 0 &&
+                businessList?.businesses.map((business: Business) => (
                   <div
                     key={business?.id}
                     className={`cursor-pointer overflow-hidden rounded-[5px] p-[0px]`}
@@ -132,14 +138,11 @@ const Businesses = () => {
                   </div>
                 ))}
             </div>
-            <div className="mt-[25px] flex items-center justify-center gap-5">
-              <Pagination
-                pageNumber={1}
-                pageSize={20}
-                totalCount={5}
-                onFetch={() => {}}
-              />
-            </div>
+
+            <Pagination
+              pagination={businessList?.pagination}
+              onFetch={fetchMore}
+            />
           </div>
         </div>
       </section>

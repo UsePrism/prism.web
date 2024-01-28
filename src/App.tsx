@@ -139,7 +139,7 @@ const App = () => {
           instruction="kindly enter your correct details"
           onClose={() => toggleWaitListModal(false)}
         >
-          <form onSubmit={joinWaitList}>
+          <form onSubmit={joinWaitList} className="mt-[25px]">
             <div className="mb-[16px] flex gap-[16px]">
               <div className="w-1/2">
                 <InputField

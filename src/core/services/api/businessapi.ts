@@ -110,3 +110,39 @@ export const likeReview = (businessId: string, reviewId: string) => {
     auth: true,
   });
 };
+
+export const addComment = (
+  businessId: string,
+  reviewId: string,
+  comment: string,
+) => {
+  return apicall({
+    endpoint: "/businesses",
+    param: `${businessId}/reviews/${reviewId}/comments`,
+    method: "POST",
+    body: { commentBody: comment },
+    auth: true,
+  });
+};
+
+export const getComments = (query: CommmentQuery) => {
+  return apicall({
+    endpoint: "/businesses",
+    param: `${query?.businessId}/reviews/${query?.reviewId}/comments`,
+    pQuery: { pageNumber: query?.pageNumber, pageSize: query?.pageSize },
+    method: "GET",
+  });
+};
+
+export const deleteComment = (
+  businessId: string,
+  reviewId: string,
+  commentId: string,
+) => {
+  return apicall({
+    endpoint: "/businesses",
+    param: `${businessId}/reviews/${reviewId}/comments/${commentId}`,
+    method: "DELETE",
+    auth: true,
+  });
+};

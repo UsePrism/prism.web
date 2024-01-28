@@ -1,5 +1,6 @@
 import AddReview from "./views/AddReview";
 import Business from "./views/Business";
+import BusinessReview from "./views/BusinessReview";
 import Businesses from "./views/Businesses";
 import Home from "./views/Home";
 
@@ -17,6 +18,13 @@ const routes = [
     path: "businesses",
     icon: "",
     component: <Businesses />,
+  },
+  {
+    name: "Home",
+    layout: "/",
+    path: "businesses/:businessId/:reviewId/comments",
+    icon: "",
+    component: <BusinessReview />,
   },
   {
     name: "Home",

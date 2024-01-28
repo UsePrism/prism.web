@@ -24,20 +24,24 @@ export default function Modal({
         zIndex: 800,
       }}
     >
-      <div className="flex h-full w-full items-center justify-center gap-1">
-        <div
-          className={`mx-auto w-11/12 rounded-[5px] bg-[#111111] !p-8 sm:w-2/3 md:w-[65%] lg:w-1/3 ${bodyStyle}`}
-        >
-          <div className="border-b-1 mb-[25px] flex items-start justify-between border-b border-b-black-support pb-5">
-            <div>
-              <p className="mb-2 text-[18px] font-[600] text-white">{header}</p>
-              <p className="text-[14px]">{instruction}</p>
+      <div className="h-full">
+        <div className="flex h-full w-full items-center justify-center gap-1">
+          <div
+            className={`mx-auto w-11/12 rounded-[5px] bg-[#111111] !p-8 sm:w-2/3 md:w-[65%] lg:w-1/3 ${bodyStyle}`}
+          >
+            <div className="border-b-1 flex items-start justify-between border-b border-b-black-support pb-5">
+              <div>
+                <p className="mb-2 text-[18px] font-[600] text-white">
+                  {header}
+                </p>
+                <p className="text-[14px]">{instruction}</p>
+              </div>
+              <button type="button" className="" onClick={onClose}>
+                <img src={closeImg} alt="" />
+              </button>
             </div>
-            <button type="button" className="" onClick={onClose}>
-              <img src={closeImg} alt="" />
-            </button>
+            <div>{children}</div>
           </div>
-          <div>{children}</div>
         </div>
       </div>
     </div>

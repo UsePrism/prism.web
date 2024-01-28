@@ -69,4 +69,21 @@ declare global {
     pageNumber: number;
     pageSize: number;
   }
+
+  interface Comment {
+    id: string;
+    commenterName: string;
+    commenterId: string;
+    businessId: string;
+    reviewId: string;
+    commentBody: string;
+    createdAt: string;
+  }
+
+  interface CommmentQuery {
+    pageNumber: number;
+    pageSize: number;
+    businessId: string;
+    reviewId: string;
+  }
 }
