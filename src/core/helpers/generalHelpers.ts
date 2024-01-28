@@ -30,12 +30,21 @@ export const handleApiResponse = (apiRes: any) => {
   const { status, data } = apiRes;
 
   switch (status) {
-    case 200 || 204:
+    case 200:
       response = {
         status: true,
         statusCode: status,
         message: data?.message,
-        data: apiRes?.data,
+        data: data,
+        errors: null,
+      };
+      break;
+    case 204:
+      response = {
+        status: true,
+        statusCode: status,
+        message: "Request was successful",
+        data: null,
         errors: null,
       };
       break;
@@ -50,6 +59,7 @@ export const handleApiResponse = (apiRes: any) => {
       };
       break;
     case 422:
+      console.log(data);
       response = {
         status: false,
         statusCode: status,

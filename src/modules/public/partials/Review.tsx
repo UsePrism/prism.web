@@ -1,5 +1,12 @@
 import TextField from "core/components/formfields/TextField";
-import { comment, editIcon, share, thumbup, userImg } from "core/consts/images";
+import {
+  comment,
+  deleteIcon,
+  editIcon,
+  share,
+  thumbup,
+  userImg,
+} from "core/consts/images";
 import { borderline, btn, reviewact } from "core/consts/styling";
 import { formatDate } from "core/helpers/generalHelpers";
 import notification from "core/helpers/notification";
@@ -26,7 +33,11 @@ export const Review = ({
   const setSelectedReview = useBusinessStore(
     (store) => store.setSelectedReview,
   );
+  const updateReviewAction = useBusinessStore((store) => store.updateReview);
+  const deleteReviewAction = useBusinessStore((store) => store.deleteReview);
+
   const addCommentAction = useBusinessStore((store) => store.addComment);
+  const deleteCommentAction = useBusinessStore((store) => store.deleteComment);
   const [newComment, setNewComment] = useState("");
   const [isActive, setIsActive] = useState(false);
 
@@ -65,9 +76,19 @@ export const Review = ({
     e.preventDefault();
     showForm = true;
     if (validateNewComment(user, newComment)) {
-      var res = await addCommentAction(review?.businessId, review?.id, comment);
+      var res = await addCommentAction(
+        review?.businessId,
+        review?.id,
+        newComment,
+      );
 
       if (res?.status) setNewComment("");
+    }
+  };
+
+  const deleteReview = async (review: Review) => {
+    if (window.confirm(`Click 'OK' to delete review: ${review?.reviewTitle}`)) {
+      await deleteReviewAction(review?.businessId, review?.id);
     }
   };
 
@@ -89,9 +110,11 @@ export const Review = ({
           </div>
         </div>
         <div className="flex items-center gap-2 text-[14px]">
-          <p className="rounded-[5px] border border-[.5px] border-[#344054] px-2 py-1">
-            Edited
-          </p>
+          {review?.hasBeenEdited && (
+            <p className="rounded-[5px] border border-[.5px] border-[#344054] px-2 py-1">
+              Edited
+            </p>
+          )}
           <p>{formatDate(review?.createdAt)}</p>
         </div>
       </div>
@@ -144,14 +167,22 @@ export const Review = ({
               </span>
             </p>
           </button>
-          <button className={reviewact}>
-            <img src={editIcon} alt="" />
-            <p className="text-yellow-500">Edit</p>
-          </button>
-          <button className={reviewact}>
-            <img src={editIcon} alt="" />
-            <p className="text-red-500">Delete</p>
-          </button>
+          {review?.reviewerId !== user?.id && (
+            <>
+              <button className={reviewact}>
+                <img src={editIcon} alt="" />
+                <p className="text-yellow-500">Edit</p>
+              </button>
+              <button
+                onClick={() => deleteReview(review)}
+                disabled={review?.reviewerId === user?.id}
+                className={reviewact}
+              >
+                <img src={deleteIcon} alt="" />
+                <p className="text-red-500">Delete</p>
+              </button>
+            </>
+          )}
         </div>
 
         <div className="mt-[24px]">{children}</div>

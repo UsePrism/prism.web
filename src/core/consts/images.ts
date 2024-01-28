@@ -27,3 +27,4 @@ export const closeImg = require("assets/img/close.png");
 export const hamburger = require("assets/img/hamburger.png");
 export const searchIcon = require("assets/img/searchicon.png");
 export const editIcon = require("assets/img/edit.png");
+export const deleteIcon = require("assets/img/delete.png");

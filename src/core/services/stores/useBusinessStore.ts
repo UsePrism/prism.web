@@ -220,6 +220,13 @@ const useBusinessStore = create<BusinessState>()(
                     : review,
                 ),
               },
+              selectedReview: {
+                ...state.selectedReview!,
+                totalLikes:
+                  state.selectedReview?.id === reviewId
+                    ? res?.data?.data?.likesCount
+                    : state?.selectedReview?.totalLikes,
+              },
             }));
           } else {
             notification({
@@ -273,8 +280,15 @@ const useBusinessStore = create<BusinessState>()(
                 ...state.commentList,
                 comments:
                   get().selectedReview?.id === reviewId
-                    ? [...state.commentList?.comments, { ...res?.data?.data }]
+                    ? [{ ...res?.data?.data }, ...state.commentList?.comments]
                     : [...state.commentList?.comments],
+              },
+              selectedReview: {
+                ...state.selectedReview!,
+                totalComments:
+                  state.selectedReview?.id === reviewId
+                    ? state.selectedReview?.totalComments! + 1
+                    : state.selectedReview?.totalComments!,
               },
               reviewList: {
                 ...state.reviewList,
@@ -310,6 +324,21 @@ const useBusinessStore = create<BusinessState>()(
                 ...state.commentList,
                 comments: state.commentList?.comments.filter(
                   (comment: Comment) => comment.id !== commentId,
+                ),
+              },
+              selectedReview: {
+                ...state.selectedReview!,
+                totalComments: state.selectedReview?.totalComments! - 1,
+              },
+              reviewList: {
+                ...state.reviewList,
+                reviews: state.reviewList?.reviews?.map((rev) =>
+                  rev.id === reviewId
+                    ? {
+                        ...rev,
+                        totalComments: rev?.totalComments - 1,
+                      }
+                    : rev,
                 ),
               },
             }));

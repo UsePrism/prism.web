@@ -76,6 +76,7 @@ declare global {
     totalShares: number;
     channelPurchasedFrom: number;
     userHasLiked: boolean;
+    hasBeenEdited: boolean;
     createdAt: string;
     assets: Asset[];
   }
