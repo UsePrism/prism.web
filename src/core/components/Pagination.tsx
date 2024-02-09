@@ -5,7 +5,7 @@ export default function Pagination({
     CurrentPage: 1,
     HasNext: false,
     HasPrevious: false,
-    PageSize: 5,
+    PageSize: 10,
     TotalCount: 1,
     TotalPages: 1,
   },

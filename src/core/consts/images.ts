@@ -28,3 +28,6 @@ export const hamburger = require("assets/img/hamburger.png");
 export const searchIcon = require("assets/img/searchicon.png");
 export const editIcon = require("assets/img/edit.png");
 export const deleteIcon = require("assets/img/delete.png");
+export const home1 = require("assets/img/home1.png");
+export const home2 = require("assets/img/home2.png");
+export const home3 = require("assets/img/home3.png");

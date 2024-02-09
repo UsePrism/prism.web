@@ -14,11 +14,13 @@ export const BusinessReviewForm = ({
   onSubmit = () => {},
   onChange = () => {},
   onRateChange = () => {},
+  isExisting = false,
 }: {
   onSubmit: any;
   formData: NewReview;
   onChange: any;
   onRateChange: any;
+  isExisting?: boolean;
 }) => {
   const categories = useBusinessStore((store) => store.categories);
   const getCategoriesAction = useBusinessStore((store) => store.getCategories);
@@ -219,6 +221,7 @@ export const BusinessReviewForm = ({
         type="text"
         placeholder="Business Name"
         value={formData?.businessName}
+        disabled={isExisting}
         isRequired
         onChange={(e: any) => onChange(e)}
         errors={errors?.BusinessName}
@@ -234,6 +237,7 @@ export const BusinessReviewForm = ({
         boxStyle="mb-[25px]"
         label="Category"
         name="businessCategoryId"
+        disabled={isExisting}
         options={[
           ...categories?.map((category: Category) => {
             return {

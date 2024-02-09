@@ -23,7 +23,7 @@ const Businesses = () => {
   const [query, setQuery] = useState<SearchQuery>({
     categoryId: 0,
     pageNumber: 1,
-    pageSize: 5,
+    pageSize: 10,
     searchTerm: "",
     sortOrder: "",
   });
@@ -43,10 +43,12 @@ const Businesses = () => {
   }, []);
 
   useEffect(() => {
-    if (businessList?.businesses?.length < 1) {
-      getBusinessesAction(query);
-    }
-  }, []);
+    var categoryId = searchParams.get("categoryId");
+    getBusinessesAction({
+      ...query,
+      categoryId: categoryId != null ? categoryId : 0,
+    });
+  }, [searchParams.get("categoryId")]);
 
   return (
     <div className="m-[0px] mx-auto mb-[34px] h-full w-11/12 overflow-hidden pt-[20px] md:w-4/5">
@@ -54,21 +56,27 @@ const Businesses = () => {
         <header className="flex items-center">
           <Link to="/">Home</Link>
           <img src={caretright} alt="" loading="lazy" />
-          <span
+          <Link
+            to="/businesses"
             className={`font-[500] ${
-              searchParams.get("searchTerm")?.length > 1 ? "" : "text-white"
+              searchParams.get("categoryId")?.length > 1 ? "" : "text-white"
             }`}
           >
             Businesses
-          </span>
-          {searchParams.get("searchTerm")?.length > 1 && (
-            <>
-              <img src={caretright} alt="" loading="lazy" />
-              <span className="text-white">
-                {searchParams.get("searchTerm")}
-              </span>
-            </>
-          )}
+          </Link>
+          {searchParams.get("categoryId") != null &&
+            searchParams.get("categoryId") > 0 && (
+              <>
+                <img src={caretright} alt="" loading="lazy" />
+                <span className="text-white">
+                  {
+                    categories?.find(
+                      (x) => x.id == searchParams.get("categoryId"),
+                    )?.name
+                  }
+                </span>
+              </>
+            )}
         </header>
       </section>
       <section className="mb-[28px] flex flex-col gap-5 lg:flex-row">
@@ -77,27 +85,39 @@ const Businesses = () => {
             <h5 className="mb-[28px] font-[600] text-white">Categories</h5>
             <div className="flex snap-mandatory flex-nowrap gap-5 overflow-x-auto lg:block">
               {categories?.length > 0 &&
-                categories?.map((category: any, index: number) => (
-                  <div
+                categories?.map((category: Category, index: number) => (
+                  <a
                     key={index}
+                    href={`businesses?categoryId=${category?.id}`}
                     className="mb-5 flex w-auto flex-none snap-center snap-always items-center gap-3 rounded-[5px] p-3 hover:bg-shade hover:text-white"
                   >
-                    <img src={category?.icon} alt="" loading="lazy" />
+                    <img
+                      src={category?.iconUrl}
+                      className="h-[28px] w-[28px]"
+                      alt=""
+                      loading="lazy"
+                    />
                     <p className="text-wrap text-[14px] font-[500]">
                       {category?.name}
                     </p>
-                  </div>
+                  </a>
                 ))}
             </div>
           </div>
         </div>
         <div className="w-full lg:w-3/4">
           <div className={`${borderline} w-full`}>
-            <h5 className="mb-[28px] font-[600] text-white">Automotive</h5>
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
-              {businessList?.businesses &&
-                businessList?.businesses.length > 0 &&
-                businessList?.businesses.map((business: Business) => (
+            <h5 className="mb-[28px] font-[600] text-white">
+              {searchParams.get("categoryId") != null
+                ? categories?.find(
+                    (x) => x.id == searchParams.get("categoryId"),
+                  )?.name
+                : "All"}{" "}
+              ({businessList?.businesses?.length})
+            </h5>
+            {businessList?.businesses && businessList?.businesses.length > 0 ? (
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
+                {businessList?.businesses.map((business: Business) => (
                   <div
                     key={business?.id}
                     className={`cursor-pointer overflow-hidden rounded-[5px] p-[0px]`}
@@ -126,23 +146,29 @@ const Businesses = () => {
                         }
                       </p>
                       <div className="mb-1 flex w-full items-center justify-center gap-2">
-                        <div className="flex">
+                        <div className="flex items-center">
                           {renderStars(business?.averageRating)}
                         </div>
                         <span>{business?.averageRating}</span>
                       </div>
                       <p className="text-[14px] text-black-support">
-                        {business?.totalReviews} Reviews
+                        {business?.totalReviews}{" "}
+                        {business?.totalReviews > 1 ? "Reviews" : "Review"}
                       </p>
                     </div>
                   </div>
                 ))}
-            </div>
+              </div>
+            ) : (
+              <div>No business has been reviewed yet for this category</div>
+            )}
 
-            <Pagination
-              pagination={businessList?.pagination}
-              onFetch={fetchMore}
-            />
+            {businessList?.businesses?.length > 0 && (
+              <Pagination
+                pagination={businessList?.pagination}
+                onFetch={fetchMore}
+              />
+            )}
           </div>
         </div>
       </section>

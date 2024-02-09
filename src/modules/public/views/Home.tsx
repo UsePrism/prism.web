@@ -1,16 +1,11 @@
 /* eslint-disable no-template-curly-in-string */
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import user from "assets/img/user.png";
 import { renderStars } from "core/helpers/renderStars";
 import { Link } from "react-router-dom";
 import { btn } from "core/consts/styling";
 import InputField from "core/components/formfields/InputField";
-import {
-  chats,
-  emptycards,
-  searchIcon,
-  userfeedbacks,
-} from "core/consts/images";
+import { home1, home2, home3, searchIcon } from "core/consts/images";
 import useSystemStore from "core/services/stores/useSystemStore";
 import useBusinessStore from "core/services/stores/useBusinessStore";
 
@@ -80,16 +75,21 @@ const Home = () => {
             </h3>
           </div>
           {reviews && reviews?.length > 0 ? (
+            // TODO: Link review to the business review page
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
               {reviews.map((review: FeaturedReview) => (
                 <div key={review?.id} className="rounded-[5px] bg-shade p-5">
-                  <img src={user} alt="user" loading="lazy" />
+                  <div className="inline-block w-auto rounded-full border-[3px] border-white bg-[#2da11e] p-2 text-[16px] uppercase text-white">
+                    {review?.reviewer?.firstName?.slice(0, 2)}
+                  </div>
                   <div className="my-3 flex items-center gap-2">
-                    <div className="flex">{renderStars(review?.rating)}</div>
+                    <div className="flex items-center">
+                      {renderStars(review?.rating)}
+                    </div>
                     <span>{review?.rating}</span>
                   </div>
                   <p className="mb-[12px]">
-                    <span className="font-[600] text-white">
+                    <span className="font-[600] capitalize text-white">
                       {review?.reviewer?.firstName} {review?.reviewer?.lastName}
                     </span>
                     <span className="mx-1">reviewed</span>
@@ -134,7 +134,12 @@ const Home = () => {
                     key={category?.id}
                     className="flex !w-[250px] flex-none snap-center snap-always items-center gap-5 rounded-[5px] bg-shade p-3 md:w-1/2 md:w-auto md:p-5 lg:!w-auto"
                   >
-                    <img src={category?.iconUrl} alt="" className="w-[28px] h-[28px]" loading="lazy" />
+                    <img
+                      src={category?.iconUrl}
+                      alt=""
+                      className="h-[28px] w-[28px]"
+                      loading="lazy"
+                    />
                     <p className="text-wrap text-[14px] font-[500]">
                       {category?.name}
                     </p>
@@ -156,7 +161,7 @@ const Home = () => {
             <div className="flex flex-col items-center justify-between gap-5 md:flex-row">
               <div className="w-full md:w-1/2">
                 <img
-                  src={emptycards}
+                  src={home2}
                   alt=""
                   className="h-auto w-auto"
                   loading="lazy"
@@ -180,7 +185,7 @@ const Home = () => {
             <div className="flex flex-col items-center justify-between gap-5 md:flex-row-reverse">
               <div className="flex w-full justify-center md:w-1/2">
                 <img
-                  src={chats}
+                  src={home1}
                   alt=""
                   className="h-auto w-auto"
                   loading="lazy"
@@ -212,7 +217,7 @@ const Home = () => {
             <div className="flex flex-col items-center justify-between gap-5 md:flex-row-reverse">
               <div className="mt-[-30px] flex w-full justify-center md:w-1/2">
                 <img
-                  src={userfeedbacks}
+                  src={home3}
                   alt=""
                   className="h-auto w-auto"
                   loading="lazy"

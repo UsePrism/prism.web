@@ -2,21 +2,23 @@
 import { caretright, locationimg, world } from "core/consts/images";
 import { borderline, btn } from "core/consts/styling";
 import { renderStars } from "core/helpers/renderStars";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { Review } from "../partials/Review";
 import useSystemStore from "core/services/stores/useSystemStore";
 import useBusinessStore from "core/services/stores/useBusinessStore";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Pagination from "core/components/Pagination";
-import Modal from "core/components/Modal";
-import { Comments } from "../partials/Comments";
 
 const Business = () => {
+  const navigate = useNavigate();
   const categories = useBusinessStore((store) => store.categories);
   const getCategoriesAction = useBusinessStore((store) => store.getCategories);
 
   const { businessId } = useParams();
   const business = useBusinessStore((store) => store.selectedBusiness);
+  const setSelectedBusiness = useBusinessStore(
+    (store) => store.setSelectedBusiness,
+  );
 
   const reviewList = useBusinessStore((store) => store.reviewList);
   const getReviewAction = useBusinessStore((store) => store.getBusinessReview);
@@ -61,11 +63,11 @@ const Business = () => {
       <div className="m-[0px] mx-auto mb-[34px] h-full w-11/12 overflow-hidden pt-[20px] md:w-4/5">
         <section className="mb-[28px]">
           <header className="flex items-center">
-            <span>Home</span>
+            <Link to="/home">Home</Link>
             <img src={caretright} alt="" loading="lazy" />
             <Link to="/businesses">Businesses</Link>
             <img src={caretright} alt="" loading="lazy" />
-            <Link to={`/businesses`}>
+            <Link to={`/businesses?categoryId=${business?.businessCategoryId}`}>
               {
                 categories?.find((x) => x.id === business?.businessCategoryId)
                   ?.name
@@ -119,8 +121,8 @@ const Business = () => {
                 Own this business? Claim
               </button>
               <div className="relative my-[24px] flex w-full items-center justify-start gap-2">
-                <div className="flex rounded-[5px] bg-[#344054] p-[8px]">
-                  {renderStars(+business?.averageRating!, "w-[18px] h-[18px]")}
+                <div className="flex items-center rounded-[5px] bg-[#344054] p-[8px]">
+                  {renderStars(+business?.averageRating!)}
                 </div>
                 <p className="text-[14px]">
                   <span className="mr-1 font-bold">
@@ -152,12 +154,16 @@ const Business = () => {
                 </div>
               )}
               <div className="flex w-full items-center">
-                <Link
-                  to="/review"
+                <button
                   className={`${btn} bg-brand py-[8px] text-white`}
+                  onClick={() => {
+                    setSelectedBusiness({ ...business! });
+
+                    navigate(`/review?businessId=${business?.id}`);
+                  }}
                 >
                   Write a Review
-                </Link>
+                </button>
               </div>
             </div>
           </div>

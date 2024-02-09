@@ -16,6 +16,7 @@ const NavbarPublic = ({ showLinks = true }: { showLinks?: boolean }) => {
     (store) => store.toggleWaitListModal,
   );
   const token = useUserStore((store) => store.token);
+  const user = useUserStore((store) => store.user);
   const resetUserStore = useUserStore((store) => store.reset);
   const resetBusinessStore = useBusinessStore((store) => store.reset);
 
@@ -57,6 +58,7 @@ const NavbarPublic = ({ showLinks = true }: { showLinks?: boolean }) => {
                 id="search"
                 type="text"
                 value=""
+                disabled
                 onChange={() => {}}
               />
             )}
@@ -108,23 +110,23 @@ const NavbarPublic = ({ showLinks = true }: { showLinks?: boolean }) => {
                     <Dropdown
                       button={
                         <div className="flex items-center justify-center gap-3">
-                          <p className="text-[14px] text-line hover:text-white">
-                            My Account
+                          <p className="inline-block text-[14px] capitalize text-line hover:text-white">
+                            {user?.firstName}
                           </p>
                           <img src={caretdown} alt="" />
-                          <p className="rounded-full bg-brand p-[8px] text-[16px] text-white">
-                            FN
+                          <p className="rounded-full bg-brand p-[8px] text-[16px] uppercase text-white">
+                            {user?.firstName?.slice(0, 2)}
                           </p>
                         </div>
                       }
                       children={
                         <div className="shadow-shadow-500 flex h-auto w-auto flex-col items-center justify-center rounded-[5px] bg-white px-[60px] py-[20px] shadow-xl">
-                          <Link
-                            to="/user/settings"
-                            className="mb-[24px] text-[14px] text-sm text-black  hover:text-brand"
+                          <button
+                            disabled
+                            className="mb-[24px] text-[14px] text-sm text-black  hover:text-brand disabled:cursor-not-allowed"
                           >
                             Settings
-                          </Link>
+                          </button>
 
                           <button
                             onClick={() => logout()}

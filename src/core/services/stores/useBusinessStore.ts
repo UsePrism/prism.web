@@ -6,6 +6,7 @@ import {
   deleteComment,
   deleteReview,
   featuredReviews,
+  getBusinessById,
   getBusinessReview,
   getBusinesses,
   getCategories,
@@ -36,9 +37,10 @@ type BusinessState = {
   getFeaturedReview: () => Promise<void>;
   getBusinessReview: (id: string, query: ReviewQuery) => Promise<void>;
   getBusinesses: (query: SearchQuery) => Promise<void>;
+  getBusinessById: (id: string) => Promise<Business | null>;
   reset: () => void;
   uploadImage: (file: File) => Promise<string>;
-  addReview: (review: NewReview) => Promise<GeneralResponse>;
+  addReview: (review: NewReview, id: string) => Promise<GeneralResponse>;
   deleteReview: (businessId: string, reviewId: string) => Promise<void>;
   updateReview: (
     businessId: string,
@@ -59,54 +61,58 @@ type BusinessState = {
   ) => Promise<void>;
 };
 
+const initialState = {
+  isLoading: false,
+  featuredReviews: [],
+  businessList: {
+    businesses: [],
+    pagination: {
+      CurrentPage: 1,
+      HasNext: false,
+      HasPrevious: false,
+      PageSize: 10,
+      TotalCount: 0,
+      TotalPages: 1,
+    },
+  },
+  commentList: {
+    comments: [],
+    pagination: {
+      CurrentPage: 1,
+      HasNext: false,
+      HasPrevious: false,
+      PageSize: 10,
+      TotalCount: 0,
+      TotalPages: 1,
+    },
+  },
+  reviewList: {
+    reviews: [],
+    pagination: {
+      CurrentPage: 1,
+      HasNext: false,
+      HasPrevious: false,
+      PageSize: 10,
+      TotalCount: 0,
+      TotalPages: 1,
+    },
+  },
+  query: {
+    categoryId: 0,
+    pageNumber: 1,
+    pageSize: 10,
+    searchTerm: "",
+    sortOrder: "",
+  },
+  selectedBusiness: null,
+  selectedReview: null,
+};
+
 const useBusinessStore = create<BusinessState>()(
   devtools(
     persist(
       (set, get): BusinessState => ({
-        isLoading: false,
-        featuredReviews: [],
-        businessList: {
-          businesses: [],
-          pagination: {
-            CurrentPage: 1,
-            HasNext: false,
-            HasPrevious: false,
-            PageSize: 5,
-            TotalCount: 0,
-            TotalPages: 1,
-          },
-        },
-        commentList: {
-          comments: [],
-          pagination: {
-            CurrentPage: 1,
-            HasNext: false,
-            HasPrevious: false,
-            PageSize: 5,
-            TotalCount: 0,
-            TotalPages: 1,
-          },
-        },
-        reviewList: {
-          reviews: [],
-          pagination: {
-            CurrentPage: 1,
-            HasNext: false,
-            HasPrevious: false,
-            PageSize: 5,
-            TotalCount: 0,
-            TotalPages: 1,
-          },
-        },
-        query: {
-          categoryId: 0,
-          pageNumber: 1,
-          pageSize: 20,
-          searchTerm: "",
-          sortOrder: "",
-        },
-        selectedBusiness: null,
-        selectedReview: null,
+        ...initialState,
         setQuery: async (query) => {
           set({ query });
         },
@@ -151,6 +157,15 @@ const useBusinessStore = create<BusinessState>()(
 
           return;
         },
+        getBusinessById: async (id) => {
+          set({ isLoading: true });
+
+          const apiRes = await getBusinessById(id);
+
+          var res = handleApiResponse(apiRes);
+
+          return res?.data?.data as Business;
+        },
         getBusinessReview: async (id, query) => {
           set({ isLoading: true });
 
@@ -176,7 +191,7 @@ const useBusinessStore = create<BusinessState>()(
           set({ isLoading: false });
           return res;
         },
-        addReview: async (review) => {
+        addReview: async (review, id) => {
           set({ isLoading: true });
           const apiRes = await addReview(review);
           var res = handleApiResponse(apiRes);
@@ -185,6 +200,24 @@ const useBusinessStore = create<BusinessState>()(
             message: res?.status ? "Review added successfully" : res?.message,
             type: res?.status ? "success" : "danger",
           });
+
+          if (res?.status) {
+            if (id?.length > 0) {
+              get().getBusinessReview(id, {
+                pageNumber: 1,
+                pageSize: 10,
+                sortOrder: "",
+              });
+            } else {
+              get().getBusinesses({
+                categoryId: 0,
+                pageNumber: 1,
+                pageSize: 10,
+                searchTerm: "",
+                sortOrder: "",
+              });
+            }
+          }
 
           set({ isLoading: false });
           return res;
@@ -359,6 +392,8 @@ const useBusinessStore = create<BusinessState>()(
 
           var res = handleApiResponse(apiRes);
           if (res?.status) {
+            var business: any = await get().getBusinessById(businessId);
+
             set((state) => ({
               reviewList: {
                 ...state.reviewList,
@@ -366,6 +401,15 @@ const useBusinessStore = create<BusinessState>()(
                   (review) => review.id !== reviewId,
                 ),
               },
+              businessList: {
+                ...state.businessList,
+                businesses: state.businessList?.businesses?.map(
+                  (bus: Business) =>
+                    bus?.id === businessId ? { ...business } : bus,
+                ),
+              },
+              selectedBusiness: business,
+              selectedReview: null,
             }));
           }
 
@@ -378,46 +422,7 @@ const useBusinessStore = create<BusinessState>()(
           return;
         },
         reset: () => {
-          set({
-            isLoading: false,
-            categories: [],
-            featuredReviews: [],
-            reviewList: {
-              reviews: [],
-              pagination: {
-                CurrentPage: 1,
-                HasNext: false,
-                HasPrevious: false,
-                PageSize: 5,
-                TotalCount: 0,
-                TotalPages: 1,
-              },
-            },
-            selectedBusiness: null,
-            selectedReview: null,
-            businessList: {
-              businesses: [],
-              pagination: {
-                CurrentPage: 1,
-                HasNext: false,
-                HasPrevious: false,
-                PageSize: 5,
-                TotalCount: 0,
-                TotalPages: 1,
-              },
-            },
-            commentList: {
-              comments: [],
-              pagination: {
-                CurrentPage: 1,
-                HasNext: false,
-                HasPrevious: false,
-                PageSize: 5,
-                TotalCount: 0,
-                TotalPages: 1,
-              },
-            },
-          });
+          set({ ...initialState });
         },
       }),
       {

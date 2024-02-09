@@ -1,14 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BusinessReviewForm } from "../partials/BusinessReviewForm";
 import { AdditionalInformationForm } from "../partials/AdditionalInformationForm";
 import notification from "core/helpers/notification";
 import { isNumeric } from "core/helpers/generalHelpers";
 import useBusinessStore from "core/services/stores/useBusinessStore";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const AddReview = () => {
+  const navigate = useNavigate();
   const [steps, setSteps] = useState(1);
   const [errors, setErrors] = useState<any>([]);
   const addReviewAction = useBusinessStore((store) => store.addReview);
+
+  const [searchParams, setSearchParams]: any = useSearchParams();
+  const selectedBusiness = useBusinessStore((store) => store.selectedBusiness);
 
   const [newReview, setNewReview] = useState<NewReview>({
     businessName: "",
@@ -56,9 +61,22 @@ const AddReview = () => {
             [name]: value,
             businessBankAccountNumber: "",
           }));
+        }
+        break;
+      case "businessBankAccountNumber":
+        setNewReview((state) => ({
+          ...state,
+          [name]: value,
+        }));
+        if (value?.length > 0 && value?.length !== 10) {
           setErrors((state: any) => ({
             ...state,
-            BusinessEmailAddress: [{ errorMessage: "" }],
+            BusinessBankAccountNumber: [
+              {
+                errorMessage:
+                  "Business bank account number must be 10 digits long",
+              },
+            ],
           }));
         }
         break;
@@ -77,12 +95,12 @@ const AddReview = () => {
     } else {
       setNewReview((state) => ({
         ...state,
-        [name]: value,
         businessWebsite: "",
         businessPhoneNumber: "",
         businessFacebookProfileName: "",
         businessAddress: "",
         businessSocialMediaProfile: "",
+        [name]: value,
       }));
     }
   };
@@ -138,7 +156,12 @@ const AddReview = () => {
     e.preventDefault();
 
     if (validateAdditionalInfo(newReview)) {
-      var res = await addReviewAction(newReview);
+      var res = await addReviewAction(
+        newReview,
+        searchParams.get("businessId")?.length > 1 && selectedBusiness != null
+          ? selectedBusiness?.id
+          : "",
+      );
 
       if (res?.status) {
         setNewReview({
@@ -159,7 +182,10 @@ const AddReview = () => {
           reviewBody: "",
           assetId: "",
         });
-        setSteps(1);
+
+        searchParams.get("businessId")?.length > 1 && selectedBusiness != null
+          ? navigate(`/businesses/${selectedBusiness?.id}`)
+          : navigate("/businesses");
       } else {
         setErrors({ ...res?.errors });
       }
@@ -172,6 +198,19 @@ const AddReview = () => {
     }
   };
 
+  useEffect(() => {
+    if (
+      searchParams.get("businessId")?.length > 1 &&
+      selectedBusiness != null
+    ) {
+      setNewReview((state) => ({
+        ...state,
+        businessName: selectedBusiness?.businessName,
+        businessCategoryId: selectedBusiness?.businessCategoryId,
+      }));
+    }
+  }, []);
+
   return (
     <div className="mx-auto mb-8 mt-[40px] w-11/12 md:w-4/5">
       <section className="flex items-center justify-center">
@@ -183,7 +222,10 @@ const AddReview = () => {
                 return (
                   <>
                     <h3 className="text-[24px] font-[600] text-white">
-                      Business Review
+                      {searchParams.get("businessId")?.length > 1 &&
+                      selectedBusiness != null
+                        ? `Review for ${selectedBusiness?.businessName}`
+                        : "Business Review"}
                     </h3>
                     <p className="text-[16px] text-line">
                       Your honest answers help us win.
@@ -213,6 +255,10 @@ const AddReview = () => {
                 onChange={onFormChange}
                 onSubmit={() => setSteps(2)}
                 onRateChange={onRateChange}
+                isExisting={
+                  searchParams.get("businessId")?.length > 1 &&
+                  selectedBusiness != null
+                }
               />
             )}
             {steps === 2 && (

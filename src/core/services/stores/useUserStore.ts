@@ -31,13 +31,17 @@ type UserState = {
   reset: () => void;
 };
 
+const initialState = {
+  isLoading: false,
+  user: { firstName: "", lastName: "", id: "" },
+  token: "",
+};
+
 const useUserStore = create<UserState>()(
   devtools(
     persist(
       (set, get): UserState => ({
-        isLoading: false,
-        user: { firstName: "", lastName: "", id: "" },
-        token: "",
+        ...initialState,
         changePassword: async (currentPassword, newPassword) => {
           set({ isLoading: true });
           const apiRes = await changePassword(currentPassword, newPassword);
@@ -154,11 +158,7 @@ const useUserStore = create<UserState>()(
           return res;
         },
         reset: () => {
-          set({
-            isLoading: false,
-            token: "",
-            user: { firstName: "", lastName: "", id: "" },
-          });
+          set({ ...initialState });
         },
       }),
       {

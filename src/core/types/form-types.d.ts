@@ -5,6 +5,7 @@ declare global {
     firstName: string;
     lastName: string;
     id?: string;
+    userId?: string;
   }
 
   interface NewReview {

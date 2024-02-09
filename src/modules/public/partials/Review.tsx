@@ -27,7 +27,7 @@ export const Review = ({
   boxStyle?: string;
   review: Review;
 }) => {
-  const user = useUserStore((store) => store.user);
+  const user: any = useUserStore((store) => store.user);
   const navigate = useNavigate();
   const likeReviewAction = useBusinessStore((store) => store.likeReview);
   const setSelectedReview = useBusinessStore(
@@ -37,7 +37,6 @@ export const Review = ({
   const deleteReviewAction = useBusinessStore((store) => store.deleteReview);
 
   const addCommentAction = useBusinessStore((store) => store.addComment);
-  const deleteCommentAction = useBusinessStore((store) => store.deleteComment);
   const [newComment, setNewComment] = useState("");
   const [isActive, setIsActive] = useState(false);
 
@@ -53,7 +52,7 @@ export const Review = ({
   };
 
   const validateNewComment = (user: any, comment: string) => {
-    if (user?.firstName?.length > 0) {
+    if (user?.userId?.length > 0) {
       if (newComment?.length < 1) {
         notification({
           message: "Comment is required",
@@ -75,6 +74,7 @@ export const Review = ({
   const addComment = async (e: any) => {
     e.preventDefault();
     showForm = true;
+
     if (validateNewComment(user, newComment)) {
       var res = await addCommentAction(
         review?.businessId,
@@ -87,12 +87,12 @@ export const Review = ({
   };
 
   const deleteReview = async (review: Review) => {
+    if (user?.userId !== review?.reviewerId) return;
+
     if (window.confirm(`Click 'OK' to delete review: ${review?.reviewTitle}`)) {
       await deleteReviewAction(review?.businessId, review?.id);
     }
   };
-
-  // TODO: Add user check to determine access level for edit and delete
 
   return (
     <div
@@ -102,7 +102,9 @@ export const Review = ({
     >
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2">
-          <img src={userImg} alt="" />
+          <div className="border-[3px] p-2 text-[16px] rounded-full border-white bg-[#2da11e] uppercase text-white">
+            {review?.reviewerName?.slice(0, 2)}
+          </div>
           <div>
             <p className="font-[600] capitalize text-white">
               {review?.reviewerName}
@@ -158,7 +160,7 @@ export const Review = ({
               </span>
             </p>
           </button>
-          <button className={reviewact}>
+          <button className={reviewact} disabled>
             <img src={share} alt="" />
             <p>
               {review?.totalShares}
@@ -167,7 +169,7 @@ export const Review = ({
               </span>
             </p>
           </button>
-          {review?.reviewerId !== user?.id && (
+          {review?.reviewerId === user?.userId && (
             <>
               <button className={reviewact}>
                 <img src={editIcon} alt="" />
@@ -175,7 +177,7 @@ export const Review = ({
               </button>
               <button
                 onClick={() => deleteReview(review)}
-                disabled={review?.reviewerId === user?.id}
+                disabled={review?.reviewerId !== user?.userId}
                 className={reviewact}
               >
                 <img src={deleteIcon} alt="" />
@@ -194,6 +196,7 @@ export const Review = ({
               textareaStyle={`bg-transparent !px-0 !w-full !border-0`}
               boxStyle="w-full"
               name="newComment"
+              disabled={user?.userId?.length < 1}
               value={newComment}
               placeholder="Write a comment here..."
               ref={null}

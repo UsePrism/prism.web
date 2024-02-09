@@ -23,6 +23,12 @@ export const addReview = (review: NewReview) => {
     auth: true,
     body: {
       ...review,
+      businessBankName:
+        review?.businessBankName?.length > 0 ? review?.businessBankName : null,
+      businessBankAccountNumber:
+        review?.businessBankAccountNumber?.length > 0
+          ? review?.businessBankAccountNumber
+          : null,
       businessCategoryId: +review?.businessCategoryId,
       businessSocialMediaProfile:
         review?.businessSocialMediaProfile?.length > 0
@@ -66,6 +72,14 @@ export const getBusinesses = (searchQuery: SearchQuery) => {
   });
 };
 
+export const getBusinessById = (id: string) => {
+  return apicall({
+    endpoint: "/businesses",
+    param: id,
+    method: "GET",
+  });
+};
+
 export const getBusinessReview = (id: string, query: ReviewQuery) => {
   return apicall({
     endpoint: "/businesses",
@@ -78,7 +92,7 @@ export const getBusinessReview = (id: string, query: ReviewQuery) => {
 export const deleteReview = (businessId: string, reviewId: string) => {
   return apicall({
     endpoint: "/businesses",
-    param: `${businessId}/${reviewId}`,
+    param: `${businessId}/reviews/${reviewId}`,
     method: "DELETE",
     auth: true,
   });
@@ -91,7 +105,7 @@ export const updateReview = (
 ) => {
   return apicall({
     endpoint: "/businesses",
-    param: `${businessId}/${reviewId}`,
+    param: `${businessId}/reviews/${reviewId}`,
     method: "PUT",
     body: {
       ...review,
