@@ -143,7 +143,8 @@ const Home = () => {
               </div>
               <div className="grid w-full grid-flow-col grid-rows-2 gap-5 overflow-x-auto lg:grid-rows-3">
                 {categories?.slice(0, 12)?.map((category: Category) => (
-                  <div
+                  <Link
+                    to={`/businesses?categoryId=${category?.id}`}
                     key={category?.id}
                     className="flex !w-[250px] flex-none snap-center snap-always items-center gap-5 rounded-[5px] bg-shade p-3 md:w-1/2 md:w-auto md:p-5 lg:!w-auto"
                   >
@@ -156,7 +157,7 @@ const Home = () => {
                     <p className="text-wrap text-[14px] font-[500]">
                       {category?.name}
                     </p>
-                  </div>
+                  </Link>
                 ))}
               </div>
               <div className="my-[34px] flex w-full justify-center">
