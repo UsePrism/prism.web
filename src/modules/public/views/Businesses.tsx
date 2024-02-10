@@ -44,6 +44,12 @@ const Businesses = () => {
 
   useEffect(() => {
     var categoryId = searchParams.get("categoryId");
+
+    setQuery((state) => ({
+      ...state,
+      categoryId: categoryId != null ? categoryId : 0,
+    }));
+
     getBusinessesAction({
       ...query,
       categoryId: categoryId != null ? categoryId : 0,

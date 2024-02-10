@@ -109,7 +109,6 @@ export const updateReview = (
     method: "PUT",
     body: {
       ...review,
-      channelPurchasedFrom: +review?.channelPurchasedFrom,
       rating: +review?.rating,
     },
     auth: true,

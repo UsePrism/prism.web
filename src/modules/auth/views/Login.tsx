@@ -46,7 +46,7 @@ const Login = () => {
       if (res?.status) {
         setEmail("");
         setPassword("");
-        navigate("/");
+        navigate("/businesses");
       } else {
         setErrors({ ...res?.errors });
 

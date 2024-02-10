@@ -9,9 +9,12 @@ import useBusinessStore from "core/services/stores/useBusinessStore";
 import { useEffect } from "react";
 import Pagination from "core/components/Pagination";
 import { Comments } from "../partials/Comments";
+import useUserStore from "core/services/stores/useUserStore";
+import notification from "core/helpers/notification";
 
 const BusinessReview = () => {
   const categories = useBusinessStore((store) => store.categories);
+  const user: any = useUserStore((store) => store.user);
   const getCategoriesAction = useBusinessStore((store) => store.getCategories);
   const navigate = useNavigate();
 
@@ -142,9 +145,15 @@ const BusinessReview = () => {
                 <button
                   className={`${btn} bg-brand py-[8px] text-white`}
                   onClick={() => {
-                    setSelectedBusiness({ ...business! });
-
-                    navigate(`/review?businessId=${business?.id}`);
+                    if (user.id?.length < 1) {
+                      return notification({
+                        type: "warning",
+                        message: "Please login before you can add a review",
+                      });
+                    } else {
+                      setSelectedBusiness({ ...business! });
+                      navigate(`/review?businessId=${business?.id}`);
+                    }
                   }}
                 >
                   Write a Review

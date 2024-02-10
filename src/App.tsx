@@ -119,6 +119,8 @@ const App = () => {
     }
   };
 
+  // TODO: Add not found page
+
   return (
     <>
       {(isUserStoreLoading || isBusinessStoreLoading) && <Loader />}

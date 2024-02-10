@@ -5,6 +5,7 @@ import notification from "core/helpers/notification";
 import { isNumeric } from "core/helpers/generalHelpers";
 import useBusinessStore from "core/services/stores/useBusinessStore";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const AddReview = () => {
   const navigate = useNavigate();
@@ -221,12 +222,22 @@ const AddReview = () => {
               case 1:
                 return (
                   <>
-                    <h3 className="text-[24px] font-[600] text-white">
-                      {searchParams.get("businessId")?.length > 1 &&
-                      selectedBusiness != null
-                        ? `Review for ${selectedBusiness?.businessName}`
-                        : "Business Review"}
-                    </h3>
+                    {searchParams.get("businessId")?.length > 1 &&
+                    selectedBusiness != null ? (
+                      <Link
+                        to={`/businesses/${selectedBusiness?.id}`}
+                        className="text-[24px] font-[600] text-white"
+                      >
+                        Review for{" "}
+                        <span className="underline">
+                          {selectedBusiness?.businessName}
+                        </span>
+                      </Link>
+                    ) : (
+                      <h3 className="text-[24px] font-[600] text-white">
+                        Business Review
+                      </h3>
+                    )}
                     <p className="text-[16px] text-line">
                       Your honest answers help us win.
                     </p>

@@ -8,9 +8,12 @@ import useSystemStore from "core/services/stores/useSystemStore";
 import useBusinessStore from "core/services/stores/useBusinessStore";
 import { useEffect } from "react";
 import Pagination from "core/components/Pagination";
+import useUserStore from "core/services/stores/useUserStore";
+import notification from "core/helpers/notification";
 
 const Business = () => {
   const navigate = useNavigate();
+  const user: any = useUserStore((store) => store.user);
   const categories = useBusinessStore((store) => store.categories);
   const getCategoriesAction = useBusinessStore((store) => store.getCategories);
 
@@ -108,6 +111,9 @@ const Business = () => {
         </div>*/}
 
           <div className="w-full lg:w-1/4">
+            {/*
+              TODO: Make section reuseable
+            */}
             <div
               className={`${borderline} w-full overflow-hidden bg-shade !pb-8`}
             >
@@ -157,9 +163,15 @@ const Business = () => {
                 <button
                   className={`${btn} bg-brand py-[8px] text-white`}
                   onClick={() => {
-                    setSelectedBusiness({ ...business! });
-
-                    navigate(`/review?businessId=${business?.id}`);
+                    if (user.id?.length < 1) {
+                      return notification({
+                        type: "warning",
+                        message: "Please login before you can add a review",
+                      });
+                    } else {
+                      setSelectedBusiness({ ...business! });
+                      navigate(`/review?businessId=${business?.id}`);
+                    }
                   }}
                 >
                   Write a Review
@@ -167,6 +179,7 @@ const Business = () => {
               </div>
             </div>
           </div>
+
           <div className="w-full lg:w-3/4">
             <p className="text-[24px] font-[600] text-white">
               {business?.totalReviews}{" "}

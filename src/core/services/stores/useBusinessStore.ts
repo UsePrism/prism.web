@@ -227,8 +227,34 @@ const useBusinessStore = create<BusinessState>()(
           const apiRes = await updateReview(businessId, reviewId, review);
           var res = handleApiResponse(apiRes);
 
+          if (res?.status) {
+            set((state) => ({
+              reviewList: {
+                ...state.reviewList,
+                reviews: state.reviewList?.reviews.map((re) =>
+                  re.id === reviewId
+                    ? {
+                        ...re,
+                        rating: +review?.rating,
+                        reviewTitle: review?.reviewTitle,
+                        reviewBody: review?.reviewBody,
+                        hasBeenEdited: true,
+                      }
+                    : re,
+                ),
+              },
+              selectedReview: {
+                ...state.selectedReview!,
+                rating: +review?.rating,
+                reviewTitle: review?.reviewTitle,
+                reviewBody: review?.reviewBody,
+                hasBeenEdited: true,
+              },
+            }));
+          }
+
           notification({
-            message: res?.status ? "Review added successfully" : res?.message,
+            message: res?.status ? "Review updated successfully" : res?.message,
             type: res?.status ? "success" : "danger",
           });
 

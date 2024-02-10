@@ -28,12 +28,9 @@ declare global {
   }
 
   interface UpdateReview {
-    channelPurchasedFrom: string | number;
-    productName: string;
-    rating: string | number;
+    rating: number;
     reviewTitle: string;
     reviewBody: string;
-    assetId: string;
   }
 
   interface NewUser {

@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import user from "assets/img/user.png";
 import { renderStars } from "core/helpers/renderStars";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { btn } from "core/consts/styling";
 import InputField from "core/components/formfields/InputField";
 import { home1, home2, home3, searchIcon } from "core/consts/images";
@@ -10,6 +10,7 @@ import useSystemStore from "core/services/stores/useSystemStore";
 import useBusinessStore from "core/services/stores/useBusinessStore";
 
 const Home = () => {
+  const navigate = useNavigate();
   const reviews = useBusinessStore((store) => store.featuredReviews);
   const getFeaturedReviewAction = useBusinessStore(
     (store) => store.getFeaturedReview,
@@ -31,6 +32,10 @@ const Home = () => {
       getFeaturedReviewAction();
     }
   }, []);
+
+  //TODO: Add Emmeet for seo
+
+  // TODO: Add tooltips for upcoming features
 
   return (
     <>
@@ -58,9 +63,13 @@ const Home = () => {
                   id="search"
                   type="text"
                   value=""
+                  disabled
                   onChange={() => {}}
                 />
-                <button className="flex w-3/12 items-center justify-center rounded-[5px] bg-brand px-4 py-3 md:w-3/12">
+                <button
+                  className="flex w-3/12 items-center justify-center rounded-[5px] bg-brand px-4 py-3 disabled:cursor-not-allowed md:w-3/12"
+                  disabled
+                >
                   <span className="hidden md:block">Search</span>
                   <img src={searchIcon} alt="" className="p-1 md:hidden" />
                 </button>
@@ -78,7 +87,11 @@ const Home = () => {
             // TODO: Link review to the business review page
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
               {reviews.map((review: FeaturedReview) => (
-                <div key={review?.id} className="rounded-[5px] bg-shade p-5">
+                <div
+                  key={review?.id}
+                  className="cursor-pointer rounded-[5px] bg-shade p-5"
+                  onClick={() => navigate("/businesses")}
+                >
                   <div className="inline-block w-auto rounded-full border-[3px] border-white bg-[#2da11e] p-2 text-[16px] uppercase text-white">
                     {review?.reviewer?.firstName?.slice(0, 2)}
                   </div>
