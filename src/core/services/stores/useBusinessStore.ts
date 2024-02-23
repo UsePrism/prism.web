@@ -8,6 +8,7 @@ import {
   featuredReviews,
   getBusinessById,
   getBusinessReview,
+  getBusinessReviewById,
   getBusinesses,
   getCategories,
   getComments,
@@ -29,19 +30,19 @@ type BusinessState = {
   selectedReview: Review | null;
   setQuery: (query: SearchQuery) => void;
   setLoading: (status: boolean) => void;
-  setSelectedBusiness: (business: Business) => void;
-  setSelectedReview: (review: Review) => void;
-  resetSelectedBusiness: () => void;
-  resetSelectedReview: () => void;
   getCategories: () => Promise<void>;
   getFeaturedReview: () => Promise<void>;
   getBusinessReview: (id: string, query: ReviewQuery) => Promise<void>;
   getBusinesses: (query: SearchQuery) => Promise<void>;
-  getBusinessById: (id: string) => Promise<Business | null>;
+  getBusinessById: (id: string) => Promise<GeneralResponse>;
+  getReviewById: (
+    businessId: string,
+    reviewId: string,
+  ) => Promise<GeneralResponse>;
   reset: () => void;
   uploadImage: (file: File) => Promise<string>;
   addReview: (review: NewReview, id: string) => Promise<GeneralResponse>;
-  deleteReview: (businessId: string, reviewId: string) => Promise<void>;
+  deleteReview: (businessId: string, reviewId: string) => Promise<GeneralResponse>;
   updateReview: (
     businessId: string,
     reviewId: string,
@@ -164,7 +165,25 @@ const useBusinessStore = create<BusinessState>()(
 
           var res = handleApiResponse(apiRes);
 
-          return res?.data?.data as Business;
+          if (res?.status) {
+            set({ selectedBusiness: res?.data?.data });
+          }
+          set({ isLoading: false });
+          return res;
+        },
+        getReviewById: async (businessId, reviewId) => {
+          set({ isLoading: true });
+
+          const apiRes = await getBusinessReviewById(businessId, reviewId);
+
+          var res = handleApiResponse(apiRes);
+
+          if (res?.status) {
+            set({ selectedReview: res?.data?.data });
+          }
+
+          set({ isLoading: false });
+          return res;
         },
         getBusinessReview: async (id, query) => {
           set({ isLoading: true });
@@ -298,18 +317,6 @@ const useBusinessStore = create<BusinessState>()(
           set({ isLoading: false });
           return;
         },
-        setSelectedBusiness: async (business) => {
-          set({ selectedBusiness: { ...business } });
-        },
-        resetSelectedBusiness: () => {
-          set({ selectedBusiness: null });
-        },
-        setSelectedReview: async (review) => {
-          set({ selectedReview: { ...review } });
-        },
-        resetSelectedReview: () => {
-          set({ selectedReview: null });
-        },
         getComments: async (query) => {
           set({ isLoading: true });
 
@@ -427,13 +434,6 @@ const useBusinessStore = create<BusinessState>()(
                   (review) => review.id !== reviewId,
                 ),
               },
-              businessList: {
-                ...state.businessList,
-                businesses: state.businessList?.businesses?.map(
-                  (bus: Business) =>
-                    bus?.id === businessId ? { ...business } : bus,
-                ),
-              },
               selectedBusiness: business,
               selectedReview: null,
             }));
@@ -445,7 +445,7 @@ const useBusinessStore = create<BusinessState>()(
           });
 
           set({ isLoading: false });
-          return;
+          return res;
         },
         reset: () => {
           set({ ...initialState });

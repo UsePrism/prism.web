@@ -90,10 +90,9 @@ const Footer = () => {
               <div className="flex gap-3">
                 {footerLinks?.map((link: any, index: number) => (
                   <Link
-                    className="text-[14px] hover:text-brand-white cursor-not-allowed"
+                    className="text-[14px] hover:text-brand-white"
                     key={index}
                     to={link?.url}
-                    onClick={(e:any) => e.preventDefault()}
                   >
                     {link?.name}
                   </Link>

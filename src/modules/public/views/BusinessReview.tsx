@@ -1,5 +1,10 @@
 /* eslint-disable no-template-curly-in-string */
-import { caretright, locationimg, world } from "core/consts/images";
+import {
+  businesslogo,
+  caretright,
+  locationimg,
+  world,
+} from "core/consts/images";
 import { borderline, btn } from "core/consts/styling";
 import { renderStars } from "core/helpers/renderStars";
 import { useParams, Link, useNavigate } from "react-router-dom";
@@ -11,10 +16,12 @@ import Pagination from "core/components/Pagination";
 import { Comments } from "../partials/Comments";
 import useUserStore from "core/services/stores/useUserStore";
 import notification from "core/helpers/notification";
+import { isObjectEmpty } from "core/helpers/generalHelpers";
 
 const BusinessReview = () => {
   const categories = useBusinessStore((store) => store.categories);
   const user: any = useUserStore((store) => store.user);
+
   const getCategoriesAction = useBusinessStore((store) => store.getCategories);
   const navigate = useNavigate();
 
@@ -22,11 +29,12 @@ const BusinessReview = () => {
   const { reviewId } = useParams();
 
   const business = useBusinessStore((store) => store.selectedBusiness);
-  const setSelectedBusiness = useBusinessStore(
-    (store) => store.setSelectedBusiness,
+  const getBusinessByIdAction = useBusinessStore(
+    (store) => store.getBusinessById,
   );
 
   const review = useBusinessStore((store) => store.selectedReview);
+  const getReviewAction = useBusinessStore((store) => store.getReviewById);
 
   const commentList = useBusinessStore((store) => store.commentList);
   const getCommentAction = useBusinessStore((store) => store.getComments);
@@ -54,22 +62,22 @@ const BusinessReview = () => {
   };
 
   useEffect(() => {
-    review === null && navigate(`/businesses/${business?.id}`);
-  }, []);
+    if (businessId == null || businessId?.length < 1) {
+      return navigate("/businesses");
+    } else if (reviewId == null || reviewId?.length < 1) {
+      return navigate(`/businesses/${businessId}`);
+    } else {
+      if (isObjectEmpty(business) || business?.id !== businessId) {
+        getBusinessByIdAction(businessId);
+      }
+      getReviewAction(businessId, reviewId);
+      getComments();
+    }
+  }, [businessId]);
 
   useEffect(() => {
     if (categories?.length < 1) {
       getCategoriesAction();
-    }
-
-    if (commentList?.comments?.length < 1) {
-      getComments();
-    } else if (
-      commentList?.comments?.length > 0 &&
-      commentList?.comments[0]?.businessId !== businessId &&
-      commentList?.comments[0]?.reviewId !== reviewId
-    ) {
-      getComments();
     }
   }, []);
 
@@ -89,8 +97,11 @@ const BusinessReview = () => {
               }
             </Link>
             <img src={caretright} alt="" loading="lazy" />
-            <Link to={`/businesses/${business?.id}`} className="text-white">
-              {business?.businessName}
+            <Link
+              to={`/businesses/${business?.id}`}
+              className="!capitalize text-white"
+            >
+              <span className="capitalize">{business?.businessName}</span>
             </Link>
           </header>
         </section>
@@ -99,7 +110,7 @@ const BusinessReview = () => {
             <div
               className={`${borderline} w-full overflow-hidden bg-shade !pb-8`}
             >
-              <h5 className="mb-[6px] hidden text-[24px] font-[500] text-white lg:block">
+              <h5 className="mb-[6px] hidden text-[24px] font-[500] !capitalize text-white lg:block">
                 {business?.businessName}
               </h5>
               <button
@@ -151,7 +162,6 @@ const BusinessReview = () => {
                         message: "Please login before you can add a review",
                       });
                     } else {
-                      setSelectedBusiness({ ...business! });
                       navigate(`/review?businessId=${business?.id}`);
                     }
                   }}
@@ -171,6 +181,7 @@ const BusinessReview = () => {
               boxStyle="my-[24px] hover:!bg-[#1a1a1a]"
               review={review!}
               showForm
+              isSingleView={true}
             >
               {commentList?.comments?.length > 0 ? (
                 commentList?.comments?.map((comment) => (

@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import Pagination from "core/components/Pagination";
 import useUserStore from "core/services/stores/useUserStore";
 import notification from "core/helpers/notification";
+import { isObjectEmpty } from "core/helpers/generalHelpers";
 
 const Business = () => {
   const navigate = useNavigate();
@@ -19,9 +20,7 @@ const Business = () => {
 
   const { businessId } = useParams();
   const business = useBusinessStore((store) => store.selectedBusiness);
-  const setSelectedBusiness = useBusinessStore(
-    (store) => store.setSelectedBusiness,
-  );
+  const getBusiness = useBusinessStore((store) => store.getBusinessById);
 
   const reviewList = useBusinessStore((store) => store.reviewList);
   const getReviewAction = useBusinessStore((store) => store.getBusinessReview);
@@ -47,18 +46,20 @@ const Business = () => {
   };
 
   useEffect(() => {
+    if (businessId == null || businessId?.length < 1) {
+      navigate("/businesses");
+    } else {
+      if (isObjectEmpty(business) || business?.id !== businessId) {
+        getBusiness(businessId);
+      }
+    }
+  }, [businessId]);
+
+  useEffect(() => {
     if (categories?.length < 1) {
       getCategoriesAction();
     }
-
-    if (reviewList?.reviews?.length < 1) {
-      getReview();
-    } else if (
-      reviewList?.reviews?.length > 0 &&
-      reviewList?.reviews[0]?.businessId !== businessId
-    ) {
-      getReview();
-    }
+    getReview();
   }, []);
 
   return (
@@ -112,7 +113,7 @@ const Business = () => {
 
           <div className="w-full lg:w-1/4">
             {/*
-              TODO: Make section reuseable
+              // TODO: Make section reuseable
             */}
             <div
               className={`${borderline} w-full overflow-hidden bg-shade !pb-8`}
@@ -169,7 +170,6 @@ const Business = () => {
                         message: "Please login before you can add a review",
                       });
                     } else {
-                      setSelectedBusiness({ ...business! });
                       navigate(`/review?businessId=${business?.id}`);
                     }
                   }}

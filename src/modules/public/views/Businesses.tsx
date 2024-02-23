@@ -14,9 +14,6 @@ const Businesses = () => {
 
   const businessList = useBusinessStore((store) => store.businessList);
   const getBusinessesAction = useBusinessStore((store) => store.getBusinesses);
-  const setSelectedBusiness = useBusinessStore(
-    (store) => store.setSelectedBusiness,
-  );
 
   const [searchParams, setSearchParams]: any = useSearchParams();
 
@@ -128,7 +125,6 @@ const Businesses = () => {
                     key={business?.id}
                     className={`cursor-pointer overflow-hidden rounded-[5px] p-[0px]`}
                     onClick={() => {
-                      setSelectedBusiness(business);
                       navigate(
                         `/businesses/${encodeURIComponent(business?.id)}`,
                       );

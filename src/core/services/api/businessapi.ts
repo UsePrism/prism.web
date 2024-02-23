@@ -89,6 +89,14 @@ export const getBusinessReview = (id: string, query: ReviewQuery) => {
   });
 };
 
+export const getBusinessReviewById = (businessId: string, reviewId: string) => {
+  return apicall({
+    endpoint: "/businesses",
+    param: `${businessId}/reviews/${reviewId}`,
+    method: "GET",
+  });
+};
+
 export const deleteReview = (businessId: string, reviewId: string) => {
   return apicall({
     endpoint: "/businesses",

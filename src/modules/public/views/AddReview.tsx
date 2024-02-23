@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { BusinessReviewForm } from "../partials/BusinessReviewForm";
 import { AdditionalInformationForm } from "../partials/AdditionalInformationForm";
 import notification from "core/helpers/notification";
-import { isNumeric } from "core/helpers/generalHelpers";
+import { isNumeric, isObjectEmpty } from "core/helpers/generalHelpers";
 import useBusinessStore from "core/services/stores/useBusinessStore";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -15,8 +15,11 @@ const AddReview = () => {
 
   const [searchParams, setSearchParams]: any = useSearchParams();
   const selectedBusiness = useBusinessStore((store) => store.selectedBusiness);
+  const getBusinessByIdAction = useBusinessStore(
+    (store) => store.getBusinessById,
+  );
 
-  const [newReview, setNewReview] = useState<NewReview>({
+  const defaultReview = {
     businessName: "",
     businessCategoryId: "0",
     businessSocialMediaProfile: "",
@@ -33,6 +36,10 @@ const AddReview = () => {
     reviewTitle: "",
     reviewBody: "",
     assetId: "",
+  };
+
+  const [newReview, setNewReview] = useState<NewReview>({
+    ...defaultReview,
   });
 
   const onFormChange = (event: any) => {
@@ -166,22 +173,7 @@ const AddReview = () => {
 
       if (res?.status) {
         setNewReview({
-          businessName: "",
-          businessCategoryId: "0",
-          businessSocialMediaProfile: "",
-          businessFacebookProfileName: "",
-          businessPhoneNumber: "",
-          businessWebsite: "",
-          businessAddress: "",
-          businessEmailAddress: "",
-          businessBankName: "",
-          businessBankAccountNumber: "",
-          channelPurchasedFrom: "0",
-          productName: "",
-          rating: 0,
-          reviewTitle: "",
-          reviewBody: "",
-          assetId: "",
+          ...defaultReview,
         });
 
         searchParams.get("businessId")?.length > 1 && selectedBusiness != null
@@ -200,17 +192,33 @@ const AddReview = () => {
   };
 
   useEffect(() => {
-    if (
-      searchParams.get("businessId")?.length > 1 &&
-      selectedBusiness != null
-    ) {
-      setNewReview((state) => ({
+    var id = searchParams.get("businessId");
+
+    const updateReview = (data: Business) => {
+      setNewReview((state: any) => ({
         ...state,
-        businessName: selectedBusiness?.businessName,
-        businessCategoryId: selectedBusiness?.businessCategoryId,
+        businessName: data?.businessName,
+        businessCategoryId: data?.businessCategoryId,
       }));
+    };
+
+    const getBusiness = async (id: string) => {
+      var res = await getBusinessByIdAction(id);
+      if (res?.status) {
+        updateReview(res?.data?.data);
+      }
+    };
+
+    if (id != null && id?.length > 0) {
+      if (isObjectEmpty(selectedBusiness) || selectedBusiness?.id !== id) {
+        getBusiness(id);
+      } else {
+        updateReview(selectedBusiness!);
+      }
+    } else {
+      setNewReview({ ...defaultReview });
     }
-  }, []);
+  }, [searchParams.get("businessId")]);
 
   return (
     <div className="mx-auto mb-8 mt-[40px] w-11/12 md:w-4/5">
@@ -229,7 +237,7 @@ const AddReview = () => {
                         className="text-[24px] font-[600] text-white"
                       >
                         Review for{" "}
-                        <span className="underline">
+                        <span className="underline capitalize">
                           {selectedBusiness?.businessName}
                         </span>
                       </Link>

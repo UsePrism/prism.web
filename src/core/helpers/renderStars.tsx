@@ -42,7 +42,7 @@ export const renderStars = (ratings: number, styling?: string) => {
   return stars;
 };
 
-export const getCatgories = () => {
+export const getCategories = () => {
   const categories = [
     {
       name: "Automative",

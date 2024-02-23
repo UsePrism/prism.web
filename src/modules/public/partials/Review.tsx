@@ -20,23 +20,24 @@ import useUserStore from "core/services/stores/useUserStore";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export const Review = ({
-  review,
-  boxStyle = "",
-  showForm = false,
-  children = <></>,
-}: {
+interface Props {
   children?: any;
   showForm?: boolean;
   boxStyle?: string;
   review: Review;
-}) => {
+  isSingleView?: boolean;
+}
+
+export const Review = ({
+  review,
+  isSingleView = false,
+  boxStyle = "",
+  showForm = false,
+  children = <></>,
+}: Props) => {
   const user: any = useUserStore((store) => store.user);
   const navigate = useNavigate();
   const likeReviewAction = useBusinessStore((store) => store.likeReview);
-  const setSelectedReview = useBusinessStore(
-    (store) => store.setSelectedReview,
-  );
   const updateReviewAction = useBusinessStore((store) => store.updateReview);
   const deleteReviewAction = useBusinessStore((store) => store.deleteReview);
 
@@ -45,6 +46,7 @@ export const Review = ({
   const addCommentAction = useBusinessStore((store) => store.addComment);
   const [newComment, setNewComment] = useState("");
   const [isActive, setIsActive] = useState(false);
+
   const [updatedReview, setUpdatedReview] = useState<UpdateReview>({
     rating: review?.rating,
     reviewBody: review?.reviewBody,
@@ -154,7 +156,12 @@ export const Review = ({
     if (user?.userId !== review?.reviewerId) return;
 
     if (window.confirm(`Click 'OK' to delete review: ${review?.reviewTitle}`)) {
-      await deleteReviewAction(review?.businessId, review?.id);
+      const businessId = review?.businessId;
+
+      var res = await deleteReviewAction(businessId, review?.id);
+      if (res?.status && isSingleView) {
+        navigate(`/businesses/${businessId}`);
+      }
     }
   };
 
@@ -219,7 +226,6 @@ export const Review = ({
             <button
               className={`${reviewact} !mr-5`}
               onClick={() => {
-                setSelectedReview(review);
                 navigate(
                   `/businesses/${encodeURIComponent(
                     review?.businessId,

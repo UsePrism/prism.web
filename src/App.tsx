@@ -121,6 +121,8 @@ const App = () => {
 
   // TODO: Add not found page
 
+  // TODO: Add automatic logout when token expires
+
   return (
     <>
       {(isUserStoreLoading || isBusinessStoreLoading) && <Loader />}

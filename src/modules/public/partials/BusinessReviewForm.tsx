@@ -88,7 +88,7 @@ export const BusinessReviewForm = ({
         case "3":
           if (
             !isNumeric(formData?.businessPhoneNumber) ||
-            formData?.businessPhoneNumber?.length < 11
+            formData?.businessPhoneNumber?.length !== 11
           ) {
             setErrors((state: any) => ({
               ...state,
