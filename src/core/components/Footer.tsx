@@ -15,7 +15,7 @@ const Footer = () => {
     },
     {
       name: "Privacy",
-      url: "/policy",
+      url: "/privacy",
     },
     {
       name: "Cookies",
@@ -36,7 +36,7 @@ const Footer = () => {
                 className="mx-auto mb-[32px] w-[100px]"
               />
               <p className="text-[14px] text-line">
-                Prims allow users to submit detailed reports, including the name
+                Prism allow users to submit detailed reports, including the name
                 of the business, its contact information, a description of the
                 fraudulent activity, and any supporting documentation. Prism
                 will also provide users with resources and support, such as

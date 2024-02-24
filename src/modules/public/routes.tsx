@@ -3,6 +3,7 @@ import Business from "./views/Business";
 import BusinessReview from "./views/BusinessReview";
 import Businesses from "./views/Businesses";
 import Home from "./views/Home";
+import PrivacyPolicy from "./views/PrivacyPolicy";
 
 const routes = [
   {
@@ -39,6 +40,13 @@ const routes = [
     path: "/review",
     icon: "",
     component: <AddReview />,
+  },
+  {
+    name: "Privacy Policy",
+    layout: "/",
+    path: "/privacy",
+    icon: "",
+    component: <PrivacyPolicy />,
   },
 ];
 export default routes;
