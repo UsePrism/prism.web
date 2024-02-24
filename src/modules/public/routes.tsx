@@ -2,8 +2,10 @@ import AddReview from "./views/AddReview";
 import Business from "./views/Business";
 import BusinessReview from "./views/BusinessReview";
 import Businesses from "./views/Businesses";
+import CookiePolicy from "./views/CookiePolicy";
 import Home from "./views/Home";
 import PrivacyPolicy from "./views/PrivacyPolicy";
+import TermsCondition from "./views/TermsCondition";
 
 const routes = [
   {
@@ -47,6 +49,20 @@ const routes = [
     path: "/privacy",
     icon: "",
     component: <PrivacyPolicy />,
+  },
+  {
+    name: "Cookie Policy",
+    layout: "/",
+    path: "/cookies",
+    icon: "",
+    component: <CookiePolicy />,
+  },
+  {
+    name: "Terms & Conditions",
+    layout: "/",
+    path: "/terms",
+    icon: "",
+    component: <TermsCondition />,
   },
 ];
 export default routes;

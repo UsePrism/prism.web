@@ -223,28 +223,9 @@ const Signup = () => {
             By clicking on &quot;Create Account&quot; &#44; you have agreed{" "}
             <br />
             to our{" "}
-            <Link
-              to="/terms"
-              className="cursor-not-allowed text-green"
-              onClick={(e: any) => e.preventDefault()}
-            >
+            <Link to="/terms" className="text-green">
               Terms &amp; Conditions.
             </Link>
-            <div>
-              <button
-                className="text-blue-500 hover:text-blue-700 focus:text-blue-700"
-                data-tooltip-target="tooltip-1"
-              >
-                Hover me
-              </button>
-              <div
-                id="tooltip-1"
-                className="absolute z-50 hidden transform rounded-md bg-white p-4 font-medium text-gray-700 shadow-md transition duration-150 ease-in-out"
-                data-tooltip
-              >
-                This is a tooltip!
-              </div>
-            </div>
           </p>
         </div>
       </section>

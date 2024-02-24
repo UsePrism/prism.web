@@ -1,4 +1,10 @@
-import { caretdown, hamburger, logoFullWhite } from "core/consts/images";
+import {
+  caretdown,
+  hamburger,
+  logoFullWhite,
+  logoutImg,
+  settingImg,
+} from "core/consts/images";
 import { btn } from "core/consts/styling";
 import { Link, useNavigate } from "react-router-dom";
 import InputField from "../formfields/InputField";
@@ -120,19 +126,21 @@ const NavbarPublic = ({ showLinks = true }: { showLinks?: boolean }) => {
                         </div>
                       }
                       children={
-                        <div className="shadow-shadow-500 flex h-auto w-auto flex-col items-center justify-center rounded-[5px] bg-white px-[60px] py-[20px] shadow-xl">
+                        <div className="flex h-auto flex-col items-center rounded-[5px] border border-[.5px] border-[#344054] !bg-black  p-[10px] text-white shadow-xl">
                           <button
                             disabled
-                            className="mb-[24px] text-[14px] text-sm text-black  hover:text-brand disabled:cursor-not-allowed"
+                            className="flex items-center justify-start   gap-5 rounded-[5px] px-[10px] py-[20px] text-[14px] text-sm hover:bg-[#1A1A1A] disabled:cursor-not-allowed"
                           >
-                            Settings
+                            <img src={settingImg} alt="" />
+                            <span className="px-[40px]">Settings</span>
                           </button>
 
                           <button
                             onClick={() => logout()}
-                            className="mb-[12px] text-[14px] text-sm text-black hover:text-brand"
+                            className="flex items-center justify-start   gap-5 rounded-[5px] px-[10px] py-[20px] text-[14px] text-sm hover:bg-[#1A1A1A] disabled:cursor-not-allowed"
                           >
-                            Log Out
+                            <img src={logoutImg} alt="" />
+                            <span className="px-[40px]">Log Out</span>
                           </button>
                         </div>
                       }

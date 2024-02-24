@@ -31,3 +31,6 @@ export const deleteIcon = require("assets/img/delete.png");
 export const home1 = require("assets/img/home1.png");
 export const home2 = require("assets/img/home2.png");
 export const home3 = require("assets/img/home3.png");
+
+export const settingImg = require("assets/img/settings.png");
+export const logoutImg = require("assets/img/logout.png");
