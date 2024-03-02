@@ -5,6 +5,7 @@ import {
   comment,
   deleteIcon,
   editIcon,
+  pdfImg,
   share,
   starEmpty,
   starFull,
@@ -12,7 +13,7 @@ import {
   userImg,
 } from "core/consts/images";
 import { borderline, btn, reviewact } from "core/consts/styling";
-import { formatDate } from "core/helpers/generalHelpers";
+import { formatDate, openInNewTab } from "core/helpers/generalHelpers";
 import notification from "core/helpers/notification";
 import { renderStars } from "core/helpers/renderStars";
 import useBusinessStore from "core/services/stores/useBusinessStore";
@@ -187,6 +188,9 @@ export const Review = ({
     }
   };
 
+  const [preview, setPreview] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<Asset | null>(null);
+
   return (
     <>
       <div
@@ -221,6 +225,55 @@ export const Review = ({
           {review?.reviewTitle}
         </h5>
         <p className="mb-[24px]">{review?.reviewBody}</p>
+        {review?.assets?.length > 0 && (
+          <div className="mb-[24px] flex gap-5">
+            {review?.assets?.map((asset) => (
+              <>
+                {["image/jpg", "image/jpeg", "image/png", "image/gif"].includes(
+                  asset?.contentType,
+                ) && (
+                  <img
+                    src={asset?.url}
+                    alt={asset?.fileName}
+                    onClick={() => {
+                      setSelectedFile({
+                        ...asset,
+                      });
+
+                      setPreview(true);
+                    }}
+                    className="h-[140px] w-[140px] cursor-pointer rounded-[10px] border border-[.5px] border-[#344054] bg-shade"
+                  />
+                )}
+
+                {["application/pdf"].includes(asset?.contentType) && (
+                  <div
+                    onClick={() => {
+                      openInNewTab(asset?.url);
+                    }}
+                    className="flex h-[140px] w-[140px] cursor-pointer flex-row items-center justify-center rounded-[10px] border border-[.5px] border-[#344054] bg-shade"
+                  >
+                    <img src={pdfImg} alt="" className="h-[100px] w-[100px]" />
+                  </div>
+                )}
+
+                {[
+                  "video/mp4",
+                  "video/webm",
+                  "video/ogg",
+                  "video/x-flv",
+                ].includes(asset?.contentType) && (
+                  <video
+                    className="h-[140px] w-[140px] cursor-pointer rounded-[10px] border border-[.5px] border-[#344054] bg-shade"
+                    controls
+                  >
+                    <source src={asset?.url} type="video/mp4" />
+                  </video>
+                )}
+              </>
+            ))}
+          </div>
+        )}
         <div className="relative border-t-[.5px]  border-t-[#344054] pt-5">
           <div className="flex items-center gap-2">
             <button
@@ -396,6 +449,42 @@ export const Review = ({
               Submit
             </button>
           </form>
+        </Modal>
+      )}
+
+      {preview && (
+        <Modal
+          header={selectedFile?.fileName}
+          onClose={() => {
+            setPreview(false);
+            setSelectedFile(null);
+          }}
+        >
+          {selectedFile != null && (
+            <>
+              {["image/jpg", "image/jpeg", "image/png", "image/gif"].includes(
+                selectedFile?.contentType,
+              ) ? (
+                <div className="flex h-full w-full flex-row flex-col items-center">
+                  <img
+                    src={selectedFile?.url}
+                    width={"100%"}
+                    height={"100%"}
+                    alt={selectedFile?.fileName}
+                    className="mt-[24px]"
+                  />
+                </div>
+              ) : (
+                <>
+                  <iframe
+                    src={selectedFile?.url}
+                    title={selectedFile?.fileName}
+                    className="h-full w-full"
+                  />
+                </>
+              )}
+            </>
+          )}
         </Modal>
       )}
     </>

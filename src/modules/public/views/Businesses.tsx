@@ -86,13 +86,13 @@ const Businesses = () => {
         <div className="w-full lg:w-1/4">
           <div className={`${borderline} w-full`}>
             <h5 className="mb-[28px] font-[600] text-white">Categories</h5>
-            <div className="flex snap-mandatory flex-nowrap gap-5 overflow-x-auto lg:block">
+            <div className="grid w-full grid-flow-col grid-rows-2 gap-5 overflow-x-auto lg:block">
               {categories?.length > 0 &&
                 categories?.map((category: Category, index: number) => (
                   <a
                     key={index}
                     href={`businesses?categoryId=${category?.id}`}
-                    className="mb-5 flex w-auto flex-none snap-center snap-always items-center gap-3 rounded-[5px] p-3 hover:bg-shade hover:text-white"
+                    className="flex !w-[250px] flex-none snap-center snap-always items-center gap-3 rounded-[5px] p-3 hover:bg-shade hover:text-white lg:mb-5 lg:w-auto"
                   >
                     <img
                       src={category?.iconUrl}

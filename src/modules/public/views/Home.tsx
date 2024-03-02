@@ -1,13 +1,13 @@
 /* eslint-disable no-template-curly-in-string */
 import { useEffect } from "react";
-import user from "assets/img/user.png";
 import { renderStars } from "core/helpers/renderStars";
 import { Link, useNavigate } from "react-router-dom";
 import { btn } from "core/consts/styling";
-import InputField from "core/components/formfields/InputField";
-import { home1, home2, home3, searchIcon } from "core/consts/images";
+import { home1, home2, home3 } from "core/consts/images";
 import useSystemStore from "core/services/stores/useSystemStore";
 import useBusinessStore from "core/services/stores/useBusinessStore";
+import SearchBox from "core/components/SearchBox";
+import { addMetaData } from "core/helpers/seoHelpers";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -33,12 +33,14 @@ const Home = () => {
     }
   }, []);
 
-  //TODO: Add Emmeet for seo
-
-  // TODO: Add tooltips for upcoming features
-
   return (
     <>
+      {addMetaData({
+        title: "Prism - Report fraudlent business",
+        description:
+          "Tired of fraudstars, report them and save others from falling prey",
+      })}
+
       <div className="-pt-[90px] m-[0px]">
         <section className="bg-accent h-[80vh] bg-black">
           <div className="mx-auto flex h-full w-11/12 items-center justify-center overflow-hidden md:w-4/5">
@@ -55,25 +57,12 @@ const Home = () => {
                   businesses
                 </p>
               </div>
-              <form className="flex flex w-full items-center gap-3 py-[48px] md:w-4/5">
-                <InputField
-                  boxStyle="w-9/12 md:w-9/12"
-                  placeholder="What business are you looking for?"
-                  name="search"
-                  id="search"
-                  type="text"
-                  value=""
-                  disabled
-                  onChange={() => {}}
-                />
-                <button
-                  className="flex w-3/12 items-center justify-center rounded-[5px] bg-brand px-4 py-3 disabled:cursor-not-allowed md:w-3/12"
-                  disabled
-                >
-                  <span className="hidden md:block">Search</span>
-                  <img src={searchIcon} alt="" className="p-1 md:hidden" />
-                </button>
-              </form>
+
+              <SearchBox
+                formStyle="flex flex w-full items-center gap-3 py-[48px] md:w-4/5"
+                inputStyle="w-9/12 md:w-9/12"
+                buttonStyle="flex w-3/12 items-center justify-center rounded-[5px] bg-brand px-4 py-3 disabled:cursor-not-allowed md:w-3/12"
+              />
             </div>
           </div>
         </section>
@@ -84,13 +73,12 @@ const Home = () => {
             </h3>
           </div>
           {reviews && reviews?.length > 0 ? (
-            // TODO: Link review to the business review page
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
               {reviews.map((review: FeaturedReview) => (
                 <div
                   key={review?.id}
                   className="cursor-pointer rounded-[5px] bg-shade p-5"
-                  onClick={() => navigate("/businesses")}
+                  onClick={() => navigate(`/businesses`)}
                 >
                   <div className="inline-block w-auto rounded-full border-[3px] border-white bg-[#2da11e] p-2 text-[16px] uppercase text-white">
                     {review?.reviewer?.firstName?.slice(0, 2)}

@@ -11,6 +11,16 @@ export const login = (email: string, password: string) => {
   });
 };
 
+export const googleLogin = (token: string) => {
+  return apicall({
+    endpoint: "/auth/google-login",
+    method: "POST",
+    body: {
+      idToken: token,
+    },
+  });
+};
+
 export const signUp = (newUser: NewUser) => {
   return apicall({
     endpoint: "/onboarding/sign-up",

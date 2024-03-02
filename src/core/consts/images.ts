@@ -34,3 +34,4 @@ export const home3 = require("assets/img/home3.png");
 
 export const settingImg = require("assets/img/settings.png");
 export const logoutImg = require("assets/img/logout.png");
+export const pdfImg = require("assets/img/pdf.png");

@@ -3,17 +3,22 @@ import {
   hamburger,
   logoFullWhite,
   logoutImg,
+  searchIcon,
   settingImg,
 } from "core/consts/images";
 import { btn } from "core/consts/styling";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import InputField from "../formfields/InputField";
 import Sidenav from "./Sidenav";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useSystemStore from "core/services/stores/useSystemStore";
 import useUserStore from "core/services/stores/useUserStore";
 import Dropdown from "../Dropdown";
 import useBusinessStore from "core/services/stores/useBusinessStore";
+import notification from "core/helpers/notification";
+import SearchBox from "../SearchBox";
+import Modal from "../Modal";
+import useIdleTimer from "core/helpers/useIdleTimer";
 
 const NavbarPublic = ({ showLinks = true }: { showLinks?: boolean }) => {
   const navigate = useNavigate();
@@ -21,8 +26,12 @@ const NavbarPublic = ({ showLinks = true }: { showLinks?: boolean }) => {
   const toggleWaitListModal = useSystemStore(
     (store) => store.toggleWaitListModal,
   );
+
+  const [showSearch, setShowSearch] = useState(false);
+
   const token = useUserStore((store) => store.token);
   const user = useUserStore((store) => store.user);
+
   const resetUserStore = useUserStore((store) => store.reset);
   const resetBusinessStore = useBusinessStore((store) => store.reset);
 
@@ -34,6 +43,8 @@ const NavbarPublic = ({ showLinks = true }: { showLinks?: boolean }) => {
     sessionStorage.removeItem("businessStore");
     navigate("/");
   };
+
+  useIdleTimer({ timeout: 15 * 60 * 1000, onInactive: logout });
 
   return (
     <>
@@ -57,16 +68,13 @@ const NavbarPublic = ({ showLinks = true }: { showLinks?: boolean }) => {
               />
             </Link>
             {showLinks && (
-              <InputField
-                boxStyle="w-2/3 hidden lg:flex"
-                placeholder="Search for a business"
-                name="search"
-                id="search"
-                type="text"
-                value=""
-                disabled
-                onChange={() => {}}
-              />
+              <>
+                <SearchBox
+                  formStyle="hidden w-2/3 items-center gap-2 lg:flex"
+                  inputStyle="w-10/12"
+                  buttonStyle="flex w-2/12 items-center justify-center rounded-[5px] bg-brand px-2 py-3 disabled:cursor-not-allowed"
+                />
+              </>
             )}
           </div>
           <div className="flex items-center justify-between gap-3">
@@ -74,6 +82,12 @@ const NavbarPublic = ({ showLinks = true }: { showLinks?: boolean }) => {
               <>
                 {token == null || token?.length < 1 ? (
                   <>
+                    <button
+                      className="flex items-center justify-center rounded-[5px] bg-brand px-2 py-1 disabled:cursor-not-allowed lg:hidden"
+                      onClick={() => setShowSearch(true)}
+                    >
+                      <img src={searchIcon} alt="" className="p-1" />
+                    </button>
                     <Link
                       to="/auth/login"
                       className={`${btn} hidden px-[5px] text-line hover:text-white lg:flex`}
@@ -101,6 +115,16 @@ const NavbarPublic = ({ showLinks = true }: { showLinks?: boolean }) => {
                   </>
                 ) : (
                   <>
+                    <button
+                      className="flex items-center justify-center rounded-[5px] bg-brand px-2 py-1 disabled:cursor-not-allowed lg:hidden"
+                      onClick={() => {
+                        console.log("search");
+                        setShowSearch(true);
+                        console.log(showSearch);
+                      }}
+                    >
+                      <img src={searchIcon} alt="" className="p-1" />
+                    </button>
                     <Link
                       to="/review"
                       className={`${btn} hidden !px-[5px] text-line hover:text-white lg:flex`}
@@ -161,6 +185,20 @@ const NavbarPublic = ({ showLinks = true }: { showLinks?: boolean }) => {
       </div>
 
       <Sidenav isOpen={showSidenav} close={() => setSidenav(false)} />
+
+      {showSearch && (
+        <Modal
+          header="Search for business"
+          onClose={() => setShowSearch(false)}
+        >
+          <SearchBox
+            formStyle="mt-5 w-full items-center gap-2 flex"
+            inputStyle="w-10/12"
+            buttonStyle="flex w-2/12 items-center justify-center rounded-[5px] bg-brand px-2 py-3 disabled:cursor-not-allowed"
+            closeModal={() => setShowSearch(false)}
+          />
+        </Modal>
+      )}
     </>
   );
 };
