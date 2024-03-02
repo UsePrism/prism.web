@@ -137,17 +137,17 @@ const Search = () => {
                       );
                     }}
                   >
-                    <div className="flex items-center gap-[40px] px-[20px] py-[30px]">
+                    <div className="jusitify-center flex flex-col items-center gap-[15px] px-[10px] md:px-[20px] py-[20px] md:py-[30px] md:flex-row md:justify-start md:gap-[40px]">
                       <img
                         src={businesslogo}
                         alt=""
                         className="inline-block h-[60px] w-[60px] rounded-full"
                       />
-                      <div>
+                      <div className="text-center md:text-start">
                         <p className="mb-1 font-[500]">
                           {business?.businessName}
                         </p>
-                        <div className="flex items-center gap-5 lg:gap-10">
+                        <div className="flex items-center justify-center gap-5 md:justify-start lg:gap-10">
                           <div className="hidden items-center md:flex">
                             {renderStars(business?.averageRating)}
                           </div>
@@ -168,7 +168,7 @@ const Search = () => {
                             {business?.totalReviews > 1 ? "Reviews" : "Review"}
                           </p>
                         </div>
-                        <div className="mt-1 flex items-center gap-5">
+                        <div className="mt-1 flex  flex-col items-center justify-center gap-1 md:flex-row md:justify-start md:gap-5">
                           {business?.businessPhoneNumber && (
                             <p className="text-[14px]">
                               {business?.businessPhoneNumber}
@@ -182,8 +182,8 @@ const Search = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-center justify-between border-t border-t-[.5px] border-[#344054] p-[20px]">
-                      <div className="flex items-center gap-5">
+                    <div className="flex items-center justify-between border-t border-t-[.5px] border-[#344054] p-[15px] md:p-[20px]">
+                      <div className="flex items-center gap-2 md:gap-5">
                         <img src={world} alt="" />
                         <img src={locationimg} alt="" />
                         <span>|</span>
@@ -197,7 +197,7 @@ const Search = () => {
                       </div>
 
                       <button
-                        className="text-brand"
+                        className="text-brand text-[14px]"
                         onClick={(e: any) => {
                           e.stopPropagation();
 
