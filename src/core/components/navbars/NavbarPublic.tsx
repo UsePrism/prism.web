@@ -7,15 +7,13 @@ import {
   settingImg,
 } from "core/consts/images";
 import { btn } from "core/consts/styling";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import InputField from "../formfields/InputField";
+import { Link, useNavigate } from "react-router-dom";
 import Sidenav from "./Sidenav";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useSystemStore from "core/services/stores/useSystemStore";
 import useUserStore from "core/services/stores/useUserStore";
 import Dropdown from "../Dropdown";
 import useBusinessStore from "core/services/stores/useBusinessStore";
-import notification from "core/helpers/notification";
 import SearchBox from "../SearchBox";
 import Modal from "../Modal";
 import useIdleTimer from "core/helpers/useIdleTimer";

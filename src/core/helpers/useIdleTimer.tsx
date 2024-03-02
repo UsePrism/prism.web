@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import notification from "./notification";
+import useUserStore from "core/services/stores/useUserStore";
 
 interface Props {
   timeout?: any;
@@ -7,6 +8,7 @@ interface Props {
 }
 
 const useIdleTimer = ({ timeout = () => {}, onInactive = () => {} }: Props) => {
+  const token = useUserStore((store) => store.token);
   const lastActiveTime = useRef(Date.now());
 
   useEffect(() => {
@@ -27,12 +29,14 @@ const useIdleTimer = ({ timeout = () => {}, onInactive = () => {} }: Props) => {
 
   useEffect(() => {
     const handleInactivity = () => {
-      onInactive();
+      if (token != null && token?.length > 0) {
+        onInactive();
 
-      notification({
-        message: "You have been logged out due to inactivity",
-        type: "warning",
-      });
+        notification({
+          message: "You have been logged out due to inactivity",
+          type: "warning",
+        });
+      }
     };
 
     const intervalId = setInterval(handleInactivity, timeout);

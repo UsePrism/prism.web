@@ -97,8 +97,6 @@ export const uploadFile = async (file: File) => {
 
       var uploadToS3 = await uploadImageToS3(file, uploadLink, ext);
 
-      console.log(uploadToS3);
-
       if (uploadToS3?.status) {
         generatedId = assetId;
       } else {
