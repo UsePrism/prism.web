@@ -3,10 +3,13 @@ import notification from "core/helpers/notification";
 import useUserStore from "core/services/stores/useUserStore";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useGoogleLogin } from "@react-oauth/google";
+import googleLogo from "assets/img/google.svg";
 
 const Login = () => {
   const navigate = useNavigate();
   const loginAction = useUserStore((store) => store.login);
+  const googleLoginAction = useUserStore((store) => store.googleLogin);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<any>([]);
@@ -63,6 +66,21 @@ const Login = () => {
     }
   };
 
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (response) => {
+      console.log(response);
+      await googleLoginAction(response?.access_token!);
+    },
+    onError: (error) => {
+      console.log(error);
+
+      notification({
+        type: "error",
+        message: "An error occurred. Please try login using the form option.",
+      });
+    },
+  });
+
   return (
     <div className="mx-auto mb-8 mt-[40px] w-11/12 md:w-4/5">
       <section className="flex items-center justify-center">
@@ -72,7 +90,7 @@ const Login = () => {
             Enter your details to login to your account.
           </p>
 
-          <form className="my-[32px]" onSubmit={login}>
+          <form className="my-[28px]" onSubmit={login}>
             <div className="mb-[16px] flex gap-[16px]">
               <div className="w-full">
                 <InputField
@@ -127,6 +145,14 @@ const Login = () => {
               Login to your account
             </button>
           </form>
+
+          <button
+            onClick={() => googleLogin()}
+            className="mb-5 flex w-full items-center justify-center gap-2 rounded-[8px] border border-brand bg-shade py-[14px] text-white"
+          >
+            <img src={googleLogo} alt="" className="h-[16px] w-[16px]" />
+            <span>Sign in With Google</span>
+          </button>
 
           <div>
             <p className="text-center">

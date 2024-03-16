@@ -71,7 +71,7 @@ const initialState = {
       CurrentPage: 1,
       HasNext: false,
       HasPrevious: false,
-      PageSize: 10,
+      PageSize: 12,
       TotalCount: 0,
       TotalPages: 1,
     },
@@ -82,7 +82,7 @@ const initialState = {
       CurrentPage: 1,
       HasNext: false,
       HasPrevious: false,
-      PageSize: 10,
+      PageSize: 12,
       TotalCount: 0,
       TotalPages: 1,
     },
@@ -93,7 +93,7 @@ const initialState = {
       CurrentPage: 1,
       HasNext: false,
       HasPrevious: false,
-      PageSize: 10,
+      PageSize: 12,
       TotalCount: 0,
       TotalPages: 1,
     },
@@ -101,7 +101,7 @@ const initialState = {
   query: {
     categoryId: 0,
     pageNumber: 1,
-    pageSize: 10,
+    pageSize: 12,
     searchTerm: "",
     sortOrder: "",
   },
@@ -224,14 +224,14 @@ const useBusinessStore = create<BusinessState>()(
             if (id?.length > 0) {
               get().getBusinessReview(id, {
                 pageNumber: 1,
-                pageSize: 10,
+                pageSize: 12,
                 sortOrder: "",
               });
             } else {
               get().getBusinesses({
                 categoryId: 0,
                 pageNumber: 1,
-                pageSize: 10,
+                pageSize: 12,
                 searchTerm: "",
                 sortOrder: "",
               });

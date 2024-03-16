@@ -20,7 +20,7 @@ const Businesses = () => {
   const [query, setQuery] = useState<SearchQuery>({
     categoryId: 0,
     pageNumber: 1,
-    pageSize: 10,
+    pageSize: 12,
     searchTerm: "",
     sortOrder: "",
   });

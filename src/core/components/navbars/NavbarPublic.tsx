@@ -17,6 +17,7 @@ import useBusinessStore from "core/services/stores/useBusinessStore";
 import SearchBox from "../SearchBox";
 import Modal from "../Modal";
 import useIdleTimer from "core/helpers/useIdleTimer";
+import { googleLogout } from "@react-oauth/google";
 
 const NavbarPublic = ({ showLinks = true }: { showLinks?: boolean }) => {
   const navigate = useNavigate();
@@ -36,6 +37,7 @@ const NavbarPublic = ({ showLinks = true }: { showLinks?: boolean }) => {
   const logout = () => {
     resetUserStore();
     resetBusinessStore();
+    googleLogout();
     sessionStorage.removeItem("userStore");
     sessionStorage.removeItem("systemStore");
     sessionStorage.removeItem("businessStore");
@@ -116,9 +118,7 @@ const NavbarPublic = ({ showLinks = true }: { showLinks?: boolean }) => {
                     <button
                       className="flex items-center justify-center rounded-[5px] bg-brand px-2 py-1 disabled:cursor-not-allowed lg:hidden"
                       onClick={() => {
-                        console.log("search");
                         setShowSearch(true);
-                        console.log(showSearch);
                       }}
                     >
                       <img src={searchIcon} alt="" className="p-1" />

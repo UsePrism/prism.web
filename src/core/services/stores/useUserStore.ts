@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import {
   changePassword,
+  googleLogin,
   joinWaitlist,
   login,
   resetPassword,
@@ -19,6 +20,7 @@ type UserState = {
   user: User;
   signup: (newUser: NewUser) => Promise<GeneralResponse>;
   login: (email: string, password: string) => Promise<GeneralResponse>;
+  googleLogin: (token: string) => Promise<GeneralResponse>;
   verifyEmail: (email: string, otp: string) => Promise<GeneralResponse>;
   sendOtp: (email: string) => Promise<void>;
   changePassword: (
@@ -59,6 +61,29 @@ const useUserStore = create<UserState>()(
         login: async (email, password) => {
           set({ isLoading: true });
           const apiRes = await login(email, password);
+          var res = handleApiResponse(apiRes);
+
+          if (res?.status) {
+            set({
+              token: res?.data?.data?.token,
+              user: {
+                ...res?.data?.data,
+              },
+            });
+          }
+
+          notification({
+            message: res?.status ? res?.data?.data?.message : res?.message,
+            type: res?.status ? "success" : "danger",
+          });
+
+          set({ isLoading: false });
+          return res;
+        },
+        googleLogin: async (token) => {
+          set({ isLoading: true });
+          const apiRes = await googleLogin(token);
+          
           var res = handleApiResponse(apiRes);
 
           if (res?.status) {
