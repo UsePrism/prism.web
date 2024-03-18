@@ -5,9 +5,11 @@ import { NavLink } from "react-router-dom";
 
 const Sidenav = ({
   close,
+  isLoggedIn = false,
   isOpen = false,
 }: {
   close?: any;
+  isLoggedIn?: boolean;
   isOpen: boolean;
 }) => {
   return (
@@ -30,23 +32,37 @@ const Sidenav = ({
           >
             Home
           </NavLink>
+
+          {!isLoggedIn && (
+            <>
+              <NavLink
+                to="/auth/signup"
+                onClick={() => close()}
+                className={({ isActive }) =>
+                  isActive ? activeSidenavLink : sidenavLink
+                }
+              >
+                Register
+              </NavLink>
+              <NavLink
+                to="/auth/login"
+                onClick={() => close()}
+                className={({ isActive }) =>
+                  isActive ? activeSidenavLink : sidenavLink
+                }
+              >
+                Login
+              </NavLink>
+            </>
+          )}
           <NavLink
-            to="/auth/signup"
+            to="/businesses"
             onClick={() => close()}
             className={({ isActive }) =>
               isActive ? activeSidenavLink : sidenavLink
             }
           >
-            Register
-          </NavLink>
-          <NavLink
-            to="/auth/login"
-            onClick={() => close()}
-            className={({ isActive }) =>
-              isActive ? activeSidenavLink : sidenavLink
-            }
-          >
-            Login
+            Businesses
           </NavLink>
           <NavLink
             to="/terms"
@@ -56,6 +72,24 @@ const Sidenav = ({
             }
           >
             Terms
+          </NavLink>
+          <NavLink
+            to="/privacy"
+            onClick={() => close()}
+            className={({ isActive }) =>
+              isActive ? activeSidenavLink : sidenavLink
+            }
+          >
+            Privacy Policy
+          </NavLink>
+          <NavLink
+            to="/cookies"
+            onClick={() => close()}
+            className={({ isActive }) =>
+              isActive ? activeSidenavLink : sidenavLink
+            }
+          >
+            Cookie Policy
           </NavLink>
         </div>
         <div

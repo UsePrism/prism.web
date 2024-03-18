@@ -176,6 +176,7 @@ export const Review = ({
         updatedReview,
       );
       if (res?.status) {
+        setShowUpdateModal(false);
       } else {
         setErrors({ ...res?.errors });
       }

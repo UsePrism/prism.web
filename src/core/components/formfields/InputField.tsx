@@ -1,6 +1,7 @@
 // Custom components
+import { eyeCloseImg, eyeShowImg } from "core/consts/images";
 import { numbersOnly } from "core/helpers/generalHelpers";
-import React from "react";
+import React, { useState } from "react";
 
 function InputField({
   id = "",
@@ -22,6 +23,7 @@ function InputField({
   boxStyle = "",
   inputStyle = "",
   isNumberOnly = false,
+  isPassword = false,
 }: {
   id?: string;
   label?: string;
@@ -42,9 +44,12 @@ function InputField({
   instruction?: string;
   boxStyle?: string;
   inputStyle?: string;
+  isPassword?: boolean;
 }) {
   const uniqueId =
     id != null && id.length > 0 ? id : Math.random().toString(36).substring(2);
+
+  const [inputType, setInputType] = useState(type);
 
   return (
     <div className={`${boxStyle}`}>
@@ -54,36 +59,59 @@ function InputField({
         </label>
       )}
 
-      <input
-        disabled={disabled}
-        type={type}
-        id={uniqueId}
-        autoComplete="on"
-        name={name}
-        onChange={onChange}
-        onFocus={onFocus}
-        onBlur={onBlur}
-        onKeyDown={(e) => {
-          if (isNumberOnly) {
-            numbersOnly(e);
-          }
-        }}
-        placeholder={placeholder}
-        value={value}
-        list={dataListId}
-        aria-autocomplete="none"
-        className={`${
-          label && label?.length > 0 ? "!mt-2" : ""
-        } flex h-12 w-full items-center justify-center rounded-[5px] border border-[.5px] border-line bg-shade px-4 py-3 text-sm text-white outline-none ${
-          disabled === true
-            ? "!cursor-not-allowed"
-            : state === "error"
-              ? "border-red-500 text-red-500 placeholder:text-red-500 dark:!border-red-400 dark:!text-red-400"
-              : state === "success"
-                ? "border-green-500 text-green-500 placeholder:text-green-500"
-                : "border-line"
-        } ${inputStyle}`}
-      />
+      <div className="relative">
+        <input
+          disabled={disabled}
+          type={inputType}
+          id={uniqueId}
+          autoComplete="on"
+          name={name}
+          onChange={onChange}
+          onFocus={onFocus}
+          onBlur={onBlur}
+          onKeyDown={(e) => {
+            if (isNumberOnly) {
+              numbersOnly(e);
+            }
+          }}
+          placeholder={placeholder}
+          value={value}
+          list={dataListId}
+          aria-autocomplete="none"
+          className={`${
+            label && label?.length > 0 ? "!mt-2" : ""
+          } flex h-12 w-full items-center justify-center rounded-[5px] border border-[.5px] border-line bg-shade px-4 py-3 text-sm text-white outline-none ${
+            disabled === true
+              ? "!cursor-not-allowed"
+              : state === "error"
+                ? "border-red-500 text-red-500 placeholder:text-red-500 dark:!border-red-400 dark:!text-red-400"
+                : state === "success"
+                  ? "border-green-500 text-green-500 placeholder:text-green-500"
+                  : "border-line"
+          } ${inputStyle}`}
+        />
+        {isPassword && (
+          <div className="absolute right-3 top-3 hover:cursor-pointer">
+            {inputType === "password" ? (
+              <>
+                <img
+                  className="h-[24px] w-[24px]"
+                  onClick={() => setInputType("text")}
+                  src={eyeShowImg}
+                  alt=""
+                />
+              </>
+            ) : (
+              <img
+                className="h-[24px] w-[24px]"
+                onClick={() => setInputType("password")}
+                src={eyeCloseImg}
+                alt=""
+              />
+            )}
+          </div>
+        )}
+      </div>
 
       {dataList?.length > 0 && (
         <datalist id={dataListId}>

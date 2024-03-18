@@ -42,7 +42,10 @@ type BusinessState = {
   reset: () => void;
   uploadImage: (file: File) => Promise<string>;
   addReview: (review: NewReview, id: string) => Promise<GeneralResponse>;
-  deleteReview: (businessId: string, reviewId: string) => Promise<GeneralResponse>;
+  deleteReview: (
+    businessId: string,
+    reviewId: string,
+  ) => Promise<GeneralResponse>;
   updateReview: (
     businessId: string,
     reviewId: string,
@@ -189,9 +192,14 @@ const useBusinessStore = create<BusinessState>()(
           set({ isLoading: true });
 
           const apiRes = await getBusinessReview(id, query);
-          var pages = JSON.parse(apiRes?.headers.get("x-pagination"));
+
+          var pages:any = {};
 
           var res = handleApiResponse(apiRes);
+
+          if (res?.status) {
+            pages = JSON.parse(apiRes?.headers?.get("x-pagination"));
+          }
 
           set({
             isLoading: false,

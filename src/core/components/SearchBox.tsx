@@ -5,6 +5,7 @@ import notification from "core/helpers/notification";
 import { searchIcon } from "core/consts/images";
 
 interface Props {
+  id?: string;
   formStyle?: string;
   inputStyle?: string;
   buttonStyle?: string;
@@ -14,6 +15,7 @@ interface Props {
 export default function SearchBox({
   formStyle = "",
   buttonStyle = "",
+  id = "",
   closeModal = () => {},
   inputStyle,
 }: Props) {
@@ -43,7 +45,7 @@ export default function SearchBox({
   // TODO: Add suggestions when typing in search field
 
   return (
-    <form className={formStyle} onSubmit={search}>
+    <form id={id} className={formStyle} onSubmit={search}>
       <InputField
         boxStyle={inputStyle}
         placeholder="Search for a business"

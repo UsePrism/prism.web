@@ -120,6 +120,7 @@ const Login = () => {
                 name="password"
                 type="password"
                 placeholder="*******"
+                isPassword
                 value={password}
                 errors={errors?.Password}
                 onChange={(e: any) => {

@@ -200,6 +200,7 @@ const Signup = () => {
               name="password"
               type="password"
               placeholder="*******"
+              isPassword
               value={newUser?.password}
               onChange={onFormChange}
               errors={newUserError?.["Password"]}

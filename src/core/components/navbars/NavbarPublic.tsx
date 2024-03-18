@@ -18,6 +18,7 @@ import SearchBox from "../SearchBox";
 import Modal from "../Modal";
 import useIdleTimer from "core/helpers/useIdleTimer";
 import { googleLogout } from "@react-oauth/google";
+import notification from "core/helpers/notification";
 
 const NavbarPublic = ({ showLinks = true }: { showLinks?: boolean }) => {
   const navigate = useNavigate();
@@ -34,17 +35,26 @@ const NavbarPublic = ({ showLinks = true }: { showLinks?: boolean }) => {
   const resetUserStore = useUserStore((store) => store.reset);
   const resetBusinessStore = useBusinessStore((store) => store.reset);
 
-  const logout = () => {
+  const logout = (isExpired: boolean = false) => {
     resetUserStore();
     resetBusinessStore();
     googleLogout();
     sessionStorage.removeItem("userStore");
     sessionStorage.removeItem("systemStore");
     sessionStorage.removeItem("businessStore");
+
+    if (isExpired) {
+      notification({
+        title: "SESSION TIMEOUT",
+        type: "warning",
+        message: "You have been logged out automatically, due to inactivity.",
+      });
+    }
+
     navigate("/");
   };
 
-  useIdleTimer({ timeout: 15 * 60 * 1000, onInactive: logout });
+  useIdleTimer({ timeout: 15 * 60 * 1000, onInactive: () => logout(true) });
 
   return (
     <>
@@ -70,6 +80,7 @@ const NavbarPublic = ({ showLinks = true }: { showLinks?: boolean }) => {
             {showLinks && (
               <>
                 <SearchBox
+                  id="nav-search"
                   formStyle="hidden w-2/3 items-center gap-2 lg:flex"
                   inputStyle="w-10/12"
                   buttonStyle="flex w-2/12 items-center justify-center rounded-[5px] bg-brand px-2 py-3 disabled:cursor-not-allowed"
@@ -158,7 +169,7 @@ const NavbarPublic = ({ showLinks = true }: { showLinks?: boolean }) => {
                           </button>
 
                           <button
-                            onClick={() => logout()}
+                            onClick={() => logout(false)}
                             className="flex items-center justify-start   gap-5 rounded-[5px] px-[10px] py-[20px] text-[14px] text-sm hover:bg-[#1A1A1A] disabled:cursor-not-allowed"
                           >
                             <img src={logoutImg} alt="" />
@@ -182,7 +193,11 @@ const NavbarPublic = ({ showLinks = true }: { showLinks?: boolean }) => {
         </nav>
       </div>
 
-      <Sidenav isOpen={showSidenav} close={() => setSidenav(false)} />
+      <Sidenav
+        isLoggedIn={token != null && token?.length > 0}
+        isOpen={showSidenav}
+        close={() => setSidenav(false)}
+      />
 
       {showSearch && (
         <Modal

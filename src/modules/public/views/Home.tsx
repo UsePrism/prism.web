@@ -8,6 +8,7 @@ import useSystemStore from "core/services/stores/useSystemStore";
 import useBusinessStore from "core/services/stores/useBusinessStore";
 import SearchBox from "core/components/SearchBox";
 import { addMetaData } from "core/helpers/seoHelpers";
+import useScrollHide from "core/helpers/useScrollHide";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -59,6 +60,7 @@ const Home = () => {
               </div>
 
               <SearchBox
+                id="home-seach"
                 formStyle="flex flex w-full items-center gap-3 py-[48px] md:w-4/5"
                 inputStyle="w-9/12 md:w-9/12"
                 buttonStyle="flex w-3/12 items-center justify-center rounded-[5px] bg-brand px-4 py-3 disabled:cursor-not-allowed md:w-3/12"

@@ -88,7 +88,7 @@ const Search = () => {
                     <a
                       key={index}
                       href={`businesses?categoryId=${category?.id}`}
-                      className={`${borderline} rounded-[5px] !bg-black !p-4  hover:bg-shade hover:text-white`}
+                      className={`${borderline} flex items-center rounded-[5px] !bg-black !p-3 gap-2 hover:bg-shade hover:text-white md:block md:!p-4`}
                     >
                       <img
                         src={category?.iconUrl}
@@ -106,7 +106,7 @@ const Search = () => {
         </div>
       </section>
       <section className="m-[0px] mx-auto mb-[28px] mb-[34px] flex h-full w-11/12 flex-col gap-5 overflow-hidden pt-[20px] md:w-4/5 lg:flex-row">
-        <div className="w-full lg:w-1/5">
+        <div className="hidden w-full md:block lg:w-1/5">
           <div className={`${borderline} w-full`}>
             <h5 className="mb-[28px] font-[600] text-white">Rating</h5>
 
@@ -137,7 +137,7 @@ const Search = () => {
                       );
                     }}
                   >
-                    <div className="jusitify-center flex flex-col items-center gap-[15px] px-[10px] md:px-[20px] py-[20px] md:py-[30px] md:flex-row md:justify-start md:gap-[40px]">
+                    <div className="jusitify-center flex flex-col items-center gap-[15px] px-[10px] py-[20px] md:flex-row md:justify-start md:gap-[40px] md:px-[20px] md:py-[30px]">
                       <img
                         src={businesslogo}
                         alt=""
@@ -197,7 +197,7 @@ const Search = () => {
                       </div>
 
                       <button
-                        className="text-brand text-[14px]"
+                        className="text-[14px] text-brand"
                         onClick={(e: any) => {
                           e.stopPropagation();
 
