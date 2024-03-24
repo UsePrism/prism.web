@@ -75,7 +75,7 @@ const Search = () => {
             <h5 className="mb-[28px] text-center text-[24px] font-[600] text-white">
               You searched for "{`${query?.searchTerm}`}"
             </h5>
-            <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-6">
+            <div className="hidden md:grid md:grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-6">
               {categories?.length > 0 &&
                 categories
                   ?.filter((category) =>
@@ -127,8 +127,8 @@ const Search = () => {
               </h5>
 
               <SelectField
-                boxStyle="block md:hidden !w-2/5"
-                selectStyle="h-10 !text-[12px] !py-1 !px-1"
+                boxStyle="block md:hidden !w-[120px]"
+                selectStyle="!bg-black h-10 !text-[12px] !py-1 !px-1"
                 label=""
                 name="businessCategoryId"
                 defaultName="Select Category"
