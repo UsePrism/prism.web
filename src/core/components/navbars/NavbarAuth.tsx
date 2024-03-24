@@ -1,4 +1,4 @@
-import { logoFullWhite } from "core/consts/images";
+import logoFullWhite from 'assets/img/logofull.svg';
 import { Link } from "react-router-dom";
 
 const NavbarAuth = () => {

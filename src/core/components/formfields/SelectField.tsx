@@ -33,12 +33,12 @@ function SelectField({
     <div className={`${boxStyle}`}>
       {label && label?.length > 0 && (
         <label htmlFor={name} className="text-[14px] text-line">
-          {label} {isRequired && <span className="text-red-500">*</span>}
+          {label} {isRequired && <span className="mb-2 text-red-500">*</span>}
         </label>
       )}
       <select
         value={value}
-        className={`mt-2 flex h-12 w-full items-center justify-center rounded-[5px] border border-[.5px] border-line bg-shade px-4 py-3 text-sm text-white outline-none disabled:cursor-not-allowed ${selectStyle}`}
+        className={`flex h-12 w-full items-center justify-center rounded-[5px] border border-[.5px] border-line bg-shade px-4 py-3 text-sm text-white outline-none disabled:cursor-not-allowed ${selectStyle}`}
         name={name}
         onChange={onChange}
         onBlur={onBlur}

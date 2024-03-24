@@ -1,5 +1,5 @@
-import { closeImg } from "core/consts/images";
 import React from "react";
+import closeImg from "assets/img/close.svg";
 
 export default function Modal({
   onClose = () => {},

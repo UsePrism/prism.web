@@ -1,7 +1,7 @@
 /* eslint-disable no-template-curly-in-string */
 import { Link, useNavigate } from "react-router-dom";
-import { caretright } from "core/consts/images";
 import { addMetaData } from "core/helpers/seoHelpers";
+import caretright from "assets/img/caretright.svg";
 
 const TermsCondition = () => {
   const navigate = useNavigate();
@@ -454,7 +454,7 @@ const TermsCondition = () => {
                 >
                   support@useprism.co
                 </a>{" "}
-                within 90 (ninety) days of the transaction date.
+                within 90 (ninety) days of the dispute.
               </p>
 
               <p className="my-[10px]">

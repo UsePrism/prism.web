@@ -3,12 +3,13 @@ import { useEffect } from "react";
 import { renderStars } from "core/helpers/renderStars";
 import { Link, useNavigate } from "react-router-dom";
 import { btn } from "core/consts/styling";
-import { home1, home2, home3 } from "core/consts/images";
 import useSystemStore from "core/services/stores/useSystemStore";
 import useBusinessStore from "core/services/stores/useBusinessStore";
 import SearchBox from "core/components/SearchBox";
 import { addMetaData } from "core/helpers/seoHelpers";
-import useScrollHide from "core/helpers/useScrollHide";
+import home1 from 'assets/img/guywithphone.svg';
+import home2 from 'assets/img/ladywithphone.svg';
+import home3 from 'assets/img/usercomments.svg';
 
 const Home = () => {
   const navigate = useNavigate();

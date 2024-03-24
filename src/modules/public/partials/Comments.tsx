@@ -1,7 +1,7 @@
-import { deleteIcon } from "core/consts/images";
 import { reviewact } from "core/consts/styling";
 import useBusinessStore from "core/services/stores/useBusinessStore";
 import useUserStore from "core/services/stores/useUserStore";
+import deleteIcon from "assets/img/trash.svg";
 
 export const Comments = ({ comment }: { comment?: Comment | null }) => {
   const user = useUserStore((store) => store.user);

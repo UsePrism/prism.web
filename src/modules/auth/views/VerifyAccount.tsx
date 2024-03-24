@@ -1,4 +1,3 @@
-import { clock } from "core/consts/images";
 import { otpBox, otpInput } from "core/consts/styling";
 import notification from "core/helpers/notification";
 import useUserStore from "core/services/stores/useUserStore";
@@ -6,6 +5,7 @@ import { useState } from "react";
 import OTPInput from "react-otp-input";
 import { Link } from "react-router-dom";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import clock from "assets/img/clock.svg";
 
 const VerifyAccount = () => {
   const navigate = useNavigate();

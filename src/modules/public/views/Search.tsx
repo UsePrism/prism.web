@@ -1,21 +1,18 @@
 /* eslint-disable no-template-curly-in-string */
 import Pagination from "core/components/Pagination";
 import RatingsField from "core/components/formfields/RatingsField";
-import {
-  businesslogo,
-  caretright,
-  locationimg,
-  starFull,
-  world,
-} from "core/consts/images";
 import { borderline } from "core/consts/styling";
 import notification from "core/helpers/notification";
 import { renderStars } from "core/helpers/renderStars";
 import useBusinessStore from "core/services/stores/useBusinessStore";
 import useUserStore from "core/services/stores/useUserStore";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import businesslogo from "assets/img/businesslogo.svg";
+import locationimg from "assets/img/location.svg";
+import world from "assets/img/world.svg";
+import starFull from "assets/img/starfull.svg";
+import SelectField from "core/components/formfields/SelectField";
 
 const Search = () => {
   const user: any = useUserStore((store) => store.user);
@@ -85,10 +82,12 @@ const Search = () => {
                     uniqueBusinessCategories.includes(category?.id),
                   )
                   ?.map((category: Category, index: number) => (
-                    <a
+                    <div
                       key={index}
-                      href={`businesses?categoryId=${category?.id}`}
-                      className={`${borderline} flex items-center rounded-[5px] !bg-black !p-3 gap-2 hover:bg-shade hover:text-white md:block md:!p-4`}
+                      onClick={() =>
+                        navigate(`/businesses?categoryId=${category?.id}`)
+                      }
+                      className={`${borderline} flex items-center gap-2 rounded-[5px] !bg-black !p-3 hover:cursor-pointer hover:bg-shade hover:text-white md:block md:!p-4`}
                     >
                       <img
                         src={category?.iconUrl}
@@ -99,7 +98,7 @@ const Search = () => {
                       <p className="text-wrap text-[12px] font-[500]">
                         {category?.name}
                       </p>
-                    </a>
+                    </div>
                   ))}
             </div>
           </div>
@@ -122,9 +121,34 @@ const Search = () => {
         </div>
         <div className="w-full lg:w-4/5">
           <div className={`${borderline} w-full !p-6`}>
-            <h5 className="mb-[28px] font-[600] text-white">
-              Businesses ({businessList?.businesses?.length})
-            </h5>
+            <div className="flex mb-[28px] items-center justify-between">
+              <h5 className="font-[600] text-white">
+                Businesses ({businessList?.businesses?.length})
+              </h5>
+
+              <SelectField
+                boxStyle="block md:hidden !w-2/5"
+                selectStyle="h-10 !text-[12px] !py-1 !px-1"
+                label=""
+                name="businessCategoryId"
+                defaultName="Select Category"
+                defaultValue=""
+                options={[
+                  ...categories?.map((category) => {
+                    return {
+                      name: category?.name,
+                      value: category?.id,
+                    };
+                  }),
+                ]}
+                onChange={(e: any) => {
+                  if (e?.target?.value?.length > 0) {
+                    navigate(`/businesses?categoryId=${e?.target?.value}`);
+                  }
+                }}
+              />
+            </div>
+
             {businessList?.businesses && businessList?.businesses.length > 0 ? (
               <div>
                 {businessList?.businesses.map((business: Business) => (

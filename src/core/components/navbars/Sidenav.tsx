@@ -1,7 +1,7 @@
-import { closeImg } from "core/consts/images";
 import { activeSidenavLink, sidenavLink } from "core/consts/styling";
 import React from "react";
 import { NavLink } from "react-router-dom";
+import closeImg from "assets/img/close.svg";
 
 const Sidenav = ({
   close,

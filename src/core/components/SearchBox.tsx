@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import InputField from "./formfields/InputField";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import notification from "core/helpers/notification";
-import { searchIcon } from "core/consts/images";
+import searchIcon from "assets/img/search.svg";
 
 interface Props {
   id?: string;

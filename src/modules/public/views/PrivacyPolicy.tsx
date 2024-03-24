@@ -1,6 +1,6 @@
 /* eslint-disable no-template-curly-in-string */
 import { Link, useNavigate } from "react-router-dom";
-import { caretright } from "core/consts/images";
+import caretright from "assets/img/caretright.svg";
 
 const PrivacyPolicy = () => {
   const navigate = useNavigate();

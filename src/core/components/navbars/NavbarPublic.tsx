@@ -1,11 +1,3 @@
-import {
-  caretdown,
-  hamburger,
-  logoFullWhite,
-  logoutImg,
-  searchIcon,
-  settingImg,
-} from "core/consts/images";
 import { btn } from "core/consts/styling";
 import { Link, useNavigate } from "react-router-dom";
 import Sidenav from "./Sidenav";
@@ -19,6 +11,12 @@ import Modal from "../Modal";
 import useIdleTimer from "core/helpers/useIdleTimer";
 import { googleLogout } from "@react-oauth/google";
 import notification from "core/helpers/notification";
+import caretdown from 'assets/img/caretdown.svg';
+import hamburger from 'assets/img/hamburger.svg';
+import logoFullWhite from 'assets/img/logofull.svg';
+import logoutImg from 'assets/img/logout.svg';
+import searchIcon from 'assets/img/search.svg';
+import settingImg from 'assets/img/profile.svg';
 
 const NavbarPublic = ({ showLinks = true }: { showLinks?: boolean }) => {
   const navigate = useNavigate();

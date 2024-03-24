@@ -1,5 +1,5 @@
-import { logofull } from "core/consts/images";
 import { Helmet } from "react-helmet";
+import logofull from 'assets/img/logofull.svg';
 
 interface Props {
   title?: string;

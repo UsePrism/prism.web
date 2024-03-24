@@ -1,7 +1,8 @@
 // Custom components
-import { eyeCloseImg, eyeShowImg } from "core/consts/images";
-import { numbersOnly } from "core/helpers/generalHelpers";
 import React, { useState } from "react";
+import { numbersOnly } from "core/helpers/generalHelpers";
+import eyeShow from 'assets/img/eyeshow.svg';
+import eyeClose from 'assets/img/eyeclose.svg';
 
 function InputField({
   id = "",
@@ -97,7 +98,7 @@ function InputField({
                 <img
                   className="h-[24px] w-[24px]"
                   onClick={() => setInputType("text")}
-                  src={eyeShowImg}
+                  src={eyeShow}
                   alt=""
                 />
               </>
@@ -105,7 +106,7 @@ function InputField({
               <img
                 className="h-[24px] w-[24px]"
                 onClick={() => setInputType("password")}
-                src={eyeCloseImg}
+                src={eyeClose}
                 alt=""
               />
             )}

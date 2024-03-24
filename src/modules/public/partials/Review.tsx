@@ -1,17 +1,6 @@
 import Modal from "core/components/Modal";
 import InputField from "core/components/formfields/InputField";
 import TextField from "core/components/formfields/TextField";
-import {
-  comment,
-  deleteIcon,
-  editIcon,
-  pdfImg,
-  share,
-  starEmpty,
-  starFull,
-  thumbup,
-  userImg,
-} from "core/consts/images";
 import { borderline, btn, reviewact } from "core/consts/styling";
 import { formatDate, openInNewTab } from "core/helpers/generalHelpers";
 import notification from "core/helpers/notification";
@@ -20,6 +9,15 @@ import useBusinessStore from "core/services/stores/useBusinessStore";
 import useUserStore from "core/services/stores/useUserStore";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import deleteIcon from 'assets/img/trash.svg';
+import editIcon from 'assets/img/edit.svg';
+import comment from 'assets/img/comment.svg';
+import share from 'assets/img/share.svg';
+import pdfImg from 'assets/img/pdf.png';
+import starEmpty from 'assets/img/starempty.svg';
+import starFull from 'assets/img/starfull.svg';
+import thumbup from 'assets/img/thumbup.svg';
+import userImg from 'assets/img/user.svg';
 
 interface Props {
   children?: any;

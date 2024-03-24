@@ -16,6 +16,11 @@ export const groupError = (data: any) => {
   return groupedData;
 };
 
+export const createImageFromSVG = (svg: any) => {
+  const blob = new Blob([svg]);
+  return URL.createObjectURL(blob);
+};
+
 export const handleApiResponse = (apiRes: any) => {
   var response: GeneralResponse = {
     status: false,
@@ -214,4 +219,8 @@ export const openNewBackgroundTab = (url: string) => {
     null,
   );
   a.dispatchEvent(evt);
+};
+
+export const addEllipsis = (word: string) => {
+  return word.length > 30 ? word.substring(0, 30) + "..." : word;
 };

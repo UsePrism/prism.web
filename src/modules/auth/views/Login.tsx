@@ -3,7 +3,7 @@ import notification from "core/helpers/notification";
 import useUserStore from "core/services/stores/useUserStore";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useGoogleLogin } from "@react-oauth/google";
+import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 import googleLogo from "assets/img/google.svg";
 
 const Login = () => {
@@ -66,20 +66,19 @@ const Login = () => {
     }
   };
 
-  const googleLogin = useGoogleLogin({
-    onSuccess: async (response) => {
-      console.log(response);
-      await googleLoginAction(response?.access_token!);
-    },
-    onError: (error) => {
-      console.log(error);
+  const googleLogin = async (response: any) => {
+    console.log(response);
+    await googleLoginAction(response?.access_token!);
+  };
 
-      notification({
-        type: "error",
-        message: "An error occurred. Please try login using the form option.",
-      });
-    },
-  });
+  const handleGoogleLoginError: any = (error: any) => {
+    console.log(error);
+
+    notification({
+      type: "error",
+      message: "An error occurred. Please try login using the form option.",
+    });
+  };
 
   return (
     <div className="mx-auto mb-8 mt-[40px] w-11/12 md:w-4/5">
@@ -147,13 +146,22 @@ const Login = () => {
             </button>
           </form>
 
-          <button
-            onClick={() => googleLogin()}
-            className="mb-5 flex w-full items-center justify-center gap-2 rounded-[8px] border border-brand bg-shade py-[14px] text-white"
-          >
-            <img src={googleLogo} alt="" className="h-[16px] w-[16px]" />
-            <span>Sign in With Google</span>
-          </button>
+          {/* 
+            <button
+              onClick={() => googleLogin()}
+              className="mb-5 flex w-full items-center justify-center gap-2 rounded-[8px] border border-brand bg-shade py-[14px] text-white"
+            >
+              <img src={googleLogo} alt="" className="h-[16px] w-[16px]" />
+              <span>Sign in With Google</span>
+            </button>
+          */}
+
+          <div className="w-full rounded-[5px] bg-white py-2 flex justify-center mb-[12px]">
+            <GoogleLogin
+              onSuccess={googleLogin}
+              onError={handleGoogleLoginError}
+            />
+          </div>
 
           <div>
             <p className="text-center">

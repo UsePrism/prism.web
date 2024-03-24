@@ -1,9 +1,9 @@
 import InputField from "core/components/formfields/InputField";
-import { upload } from "core/consts/images";
 import { BANKS } from "core/consts/systemconst";
 import { ScrollToTop } from "core/helpers/scrollToTop";
 import useBusinessStore from "core/services/stores/useBusinessStore";
 import { useState } from "react";
+import upload from "assets/img/upload.svg";
 
 export const AdditionalInformationForm = ({
   onBack = () => {},

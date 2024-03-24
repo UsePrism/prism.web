@@ -1,13 +1,14 @@
 import InputField from "core/components/formfields/InputField";
 import SelectField from "core/components/formfields/SelectField";
 import TextField from "core/components/formfields/TextField";
-import { starEmpty, starFull } from "core/consts/images";
 import { SALES_CHANNELS } from "core/consts/systemconst";
 import { isNumeric } from "core/helpers/generalHelpers";
 import notification from "core/helpers/notification";
 import { ScrollToTop } from "core/helpers/scrollToTop";
 import useBusinessStore from "core/services/stores/useBusinessStore";
 import { useEffect, useState } from "react";
+import starEmpty from 'assets/img/starempty.svg';
+import starFull from 'assets/img/starfull.svg';
 
 export const BusinessReviewForm = ({
   formData,

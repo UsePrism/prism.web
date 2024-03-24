@@ -1,16 +1,6 @@
-import { starEmpty, starFull, starHalf } from "core/consts/images";
-import car from "assets/img/car.png";
-import bus from "assets/img/bus.png";
-import laptop from "assets/img/laptop.png";
-import books from "assets/img/books.png";
-import player from "assets/img/player.png";
-import noodles from "assets/img/noodles.png";
-import medicine from "assets/img/medicine.png";
-import leaf from "assets/img/leaf.png";
-import law from "assets/img/law.png";
-import inventory from "assets/img/inventory.png";
-import shops from "assets/img/shops.png";
-import underConstruction from "assets/img/construction.png";
+import starFull from "assets/img/starfull.svg";
+import starHalf from "assets/img/starhalf.svg";
+import starEmpty from "assets/img/starempty.svg";
 
 export const renderStars = (ratings: number, styling?: string) => {
   var fullRating = Math.trunc(ratings);
@@ -19,13 +9,23 @@ export const renderStars = (ratings: number, styling?: string) => {
 
   for (let i = 0; i < fullRating; i++) {
     stars.push(
-      <img loading="lazy" src={starFull} alt="" className={styling} />,
+      <img
+        loading="lazy"
+        src={starFull}
+        alt=""
+        className={styling}
+      />,
     );
   }
 
   if (ratings % 1 !== 0) {
     stars.push(
-      <img loading="lazy" src={starHalf} alt="" className={`${styling} h-[20px]`} />,
+      <img
+        loading="lazy"
+        src={starHalf}
+        alt=""
+        className={`${styling}`}
+      />,
     );
   }
 
@@ -34,7 +34,12 @@ export const renderStars = (ratings: number, styling?: string) => {
 
     for (let i = 0; i < emptystars; i++) {
       stars.push(
-        <img loading="lazy" src={starEmpty} alt="" className={`${styling} mx-[2px] h-[17px]`} />,
+        <img
+          loading="lazy"
+          src={starEmpty}
+          alt=""
+          className={`${styling}`}
+        />,
       );
     }
   }
@@ -42,6 +47,7 @@ export const renderStars = (ratings: number, styling?: string) => {
   return stars;
 };
 
+/*
 export const getCategories = () => {
   const categories = [
     {
@@ -94,4 +100,4 @@ export const getCategories = () => {
     },
   ];
   return categories;
-};
+};*/

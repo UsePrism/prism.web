@@ -1,5 +1,4 @@
 /* eslint-disable no-template-curly-in-string */
-import { caretright, locationimg, world } from "core/consts/images";
 import { borderline, btn } from "core/consts/styling";
 import { renderStars } from "core/helpers/renderStars";
 import { useParams, Link, useNavigate } from "react-router-dom";
@@ -11,6 +10,9 @@ import Pagination from "core/components/Pagination";
 import useUserStore from "core/services/stores/useUserStore";
 import notification from "core/helpers/notification";
 import { isObjectEmpty } from "core/helpers/generalHelpers";
+import caretright from "assets/img/caretright.svg";
+import locationimg from "assets/img/location.svg";
+import world from "assets/img/world.svg";
 
 const Business = () => {
   const navigate = useNavigate();

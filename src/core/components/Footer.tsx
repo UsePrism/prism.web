@@ -1,11 +1,9 @@
-import {
-  facebook,
-  instagram,
-  linkedin,
-  logoFullWhite,
-  twitter,
-} from "core/consts/images";
 import { Link } from "react-router-dom";
+import instagram from 'assets/img/instagram.svg';
+import twitter from 'assets/img/twitterx.svg';
+import facebook from 'assets/img/facebook.svg';
+import linkedin from 'assets/img/linkedin.svg';
+import logoFullWhite from "assets/img/logofull.svg";
 
 const Footer = () => {
   const footerLinks = [

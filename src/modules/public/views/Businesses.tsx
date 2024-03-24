@@ -1,12 +1,14 @@
 /* eslint-disable no-template-curly-in-string */
 import Pagination from "core/components/Pagination";
-import { businesslogo, caretright } from "core/consts/images";
 import { borderline } from "core/consts/styling";
 import { renderStars } from "core/helpers/renderStars";
 import useBusinessStore from "core/services/stores/useBusinessStore";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import businesslogo from "assets/img/businesslogo.svg";
+import caretright from "assets/img/caretright.svg";
+import { addEllipsis } from "core/helpers/generalHelpers";
 
 const Businesses = () => {
   const categories = useBusinessStore((store) => store.categories);
@@ -131,21 +133,21 @@ const Businesses = () => {
                     }}
                   >
                     <div className="h-[140px] border border-[.5px] border-shade bg-shade"></div>
-                    <div className="w-full rounded-b-[5px] border-x border-x-[.5px] border-b border-b-[.5px] border-x-[#344054] border-b-[#344054] px-5 pb-8 text-center">
+                    <div className="h-[240px] w-full rounded-b-[5px] border-x border-x-[.5px] border-b border-b-[.5px] border-x-[#344054] border-b-[#344054] px-5 pb-8 text-center">
                       <img
                         src={businesslogo}
                         alt=""
                         className="mt-[-20%] inline-block rounded-full"
                       />
-                      <p className="mb-1 mt-5 text-white">
-                        {business?.businessName}
+                      <p className="mb-3 mt-5 h-[28px] text-[16px] leading-none text-white">
+                        {addEllipsis(business?.businessName)}
                       </p>
-                      <p className="mb-5 text-line">
-                        {
+                      <p className="mb-5 h-[28px] text-[16px] leading-none text-line">
+                        {addEllipsis(
                           categories?.find(
                             (cat) => cat?.id === business?.businessCategoryId,
-                          )?.name
-                        }
+                          )?.name!,
+                        )}
                       </p>
                       <div className="mb-1 flex w-full items-center justify-center gap-2">
                         <div className="flex items-center">
