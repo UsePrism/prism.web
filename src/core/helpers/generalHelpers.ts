@@ -102,14 +102,8 @@ export const uploadFile = async (file: File) => {
 
       var uploadToS3 = await uploadImageToS3(file, uploadLink, ext);
 
-      if (uploadToS3?.status) {
+      if (uploadToS3) {
         generatedId = assetId;
-      } else {
-        notification({
-          message:
-            "Unable to upload file at the moment, please try again later.",
-          type: "danger",
-        });
       }
     } else {
       notification({
@@ -137,13 +131,10 @@ export const uploadImageToS3 = async (
   };
 
   return axios(options)
-    .then((response) => response)
+    .then((response) => true)
     .catch((error) => {
       if (error?.message === "Network Error") {
-        return {
-          message: "Please check you have an intenet connection",
-          data: {},
-        };
+        return false;
       } else {
         if (error?.response?.status === 401) {
           notification({
@@ -152,7 +143,7 @@ export const uploadImageToS3 = async (
             message: "Please logout and sign in again",
           });
         }
-        return error?.response;
+        return false;
       }
     });
 };

@@ -24,7 +24,7 @@ declare global {
     rating: number;
     reviewTitle: string;
     reviewBody: string;
-    assetId: string;
+    assetIds: string[];
   }
 
   interface UpdateReview {

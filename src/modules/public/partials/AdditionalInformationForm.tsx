@@ -4,6 +4,7 @@ import { ScrollToTop } from "core/helpers/scrollToTop";
 import useBusinessStore from "core/services/stores/useBusinessStore";
 import { useState } from "react";
 import upload from "assets/img/upload.svg";
+import notification from "core/helpers/notification";
 
 export const AdditionalInformationForm = ({
   onBack = () => {},
@@ -20,22 +21,40 @@ export const AdditionalInformationForm = ({
   onFileUpload: any;
   setErrors: any;
 }) => {
-  const [fileUrl, setFileUrl] = useState("");
   const uploadImageAction = useBusinessStore((store) => store.uploadImage);
   const setLoadingAction = useBusinessStore((store) => store.setLoading);
+  const [uploadFiles, setUploadFiles] = useState<any>([]);
 
-  const onFileChange = async (e: any) => {
+  const onFileChange = (e: any) => {
     setLoadingAction(true);
-    if (e.target.files) {
-      var uploadedFile: any = e.target?.files[0];
-      setFileUrl(URL.createObjectURL(uploadedFile));
-      var res = await uploadImageAction(uploadedFile);
+    var uploadedFiles: any = e.target?.files;
 
-      onFileUpload(res);
+    var assetIds: string[] = [];
 
-      if (res?.length < 1) {
-        setFileUrl("");
-      }
+    if (uploadedFiles?.length > 0) {
+      Array.from(uploadedFiles)?.map(
+        async (uploadedFile: any, index: number) => {
+          var res = await uploadImageAction(uploadedFile);
+
+          if (res?.length > 0) {
+            assetIds?.push(res);
+          }
+
+          if (index == uploadedFiles?.length - 1) {
+            notification({
+              message: `${assetIds?.length} of ${Array.from(uploadedFiles)
+                ?.length} was uploaded successfully`,
+              type: "warning",
+            });
+
+            if (assetIds?.length > 0) {
+              onFileUpload(assetIds);
+            }
+          }
+        },
+      );
+
+      setUploadFiles(uploadedFiles);
     }
   };
 
@@ -46,17 +65,14 @@ export const AdditionalInformationForm = ({
         <label htmlFor="" className={`text-[14px] text-line`}>
           Upload your evidence
         </label>
-        <div className="mt-2">
+
+        <div className="mb-3 mt-2">
           <label
             className="flex w-full items-center justify-center rounded-[5px] border border-[.5px] border-dashed border-line bg-shade px-[50px] py-5 text-[14px] outline-none"
             htmlFor="additionalDocument"
           >
             <div className="flex flex-col items-center gap-2">
-              {fileUrl?.length > 1 ? (
-                <img src={fileUrl} className="h-[100px] w-[100px]" alt="" />
-              ) : (
-                <img src={upload} alt="" />
-              )}
+              <img src={upload} alt="" />
               <p>
                 <span className="font-[600] text-brand">Click to Upload</span>{" "}
                 or drag and drop
@@ -71,8 +87,22 @@ export const AdditionalInformationForm = ({
             name="additionalDocument"
             id="additionalDocument"
             className="hidden"
+            multiple
             onChange={onFileChange}
           />
+        </div>
+
+        <div className="flex flex-wrap gap-2">
+          {uploadFiles &&
+            uploadFiles?.length > 0 &&
+            Array.from(uploadFiles)?.map((file: any, index: number) => (
+              <span
+                className="block rounded-md bg-shade px-1 text-[12px]"
+                key={file?.name}
+              >
+                {file?.name}
+              </span>
+            ))}
         </div>
       </div>
 

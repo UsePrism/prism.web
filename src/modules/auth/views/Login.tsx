@@ -67,13 +67,10 @@ const Login = () => {
   };
 
   const googleLogin = async (response: any) => {
-    console.log(response);
-    await googleLoginAction(response?.access_token!);
+    await googleLoginAction(response?.credential!);
   };
 
   const handleGoogleLoginError: any = (error: any) => {
-    console.log(error);
-
     notification({
       type: "error",
       message: "An error occurred. Please try login using the form option.",

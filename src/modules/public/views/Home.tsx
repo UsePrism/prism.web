@@ -7,9 +7,9 @@ import useSystemStore from "core/services/stores/useSystemStore";
 import useBusinessStore from "core/services/stores/useBusinessStore";
 import SearchBox from "core/components/SearchBox";
 import { addMetaData } from "core/helpers/seoHelpers";
-import home1 from 'assets/img/guywithphone.svg';
-import home2 from 'assets/img/ladywithphone.svg';
-import home3 from 'assets/img/usercomments.svg';
+import home1 from 'assets/img/guywithphone.png';
+import home2 from 'assets/img/ladywithphone.png';
+import home3 from 'assets/img/comments.png';
 
 const Home = () => {
   const navigate = useNavigate();

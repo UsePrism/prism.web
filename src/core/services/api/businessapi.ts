@@ -17,6 +17,7 @@ export const generateUploadLink = (extension: string) => {
 };
 
 export const addReview = (review: NewReview) => {
+  console.log(review);
   return apicall({
     endpoint: "/reviews",
     method: "POST",
@@ -52,7 +53,7 @@ export const addReview = (review: NewReview) => {
           : null,
       channelPurchasedFrom: +review?.channelPurchasedFrom,
       rating: +review?.rating,
-      assetId: review?.assetId?.length > 0 ? [review?.assetId] : [],
+      assetIds: [...review?.assetIds],
     },
   });
 };

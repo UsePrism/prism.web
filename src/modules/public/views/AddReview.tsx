@@ -35,8 +35,8 @@ const AddReview = () => {
     rating: 0,
     reviewTitle: "",
     reviewBody: "",
-    assetId: "",
-  };
+    assetIds: []
+  }
 
   const [newReview, setNewReview] = useState<NewReview>({
     ...defaultReview,
@@ -113,10 +113,10 @@ const AddReview = () => {
     }
   };
 
-  const onFileUpload = (value: string) => {
+  const onFileUpload = (value: string[]) => {
     setNewReview((state) => ({
       ...state,
-      assetId: value,
+      assetIds: [...value],
     }));
   };
 
@@ -164,6 +164,9 @@ const AddReview = () => {
     e.preventDefault();
 
     if (validateAdditionalInfo(newReview)) {
+
+      console.log(newReview);
+
       var res = await addReviewAction(
         newReview,
         searchParams.get("businessId")?.length > 1 && selectedBusiness != null
