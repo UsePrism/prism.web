@@ -67,7 +67,13 @@ const Login = () => {
   };
 
   const googleLogin = async (response: any) => {
-    await googleLoginAction(response?.credential!);
+    var res = await googleLoginAction(response?.credential!);
+
+    if (res?.status) {
+      setEmail("");
+      setPassword("");
+      navigate("/businesses");
+    }
   };
 
   const handleGoogleLoginError: any = (error: any) => {
@@ -153,7 +159,7 @@ const Login = () => {
             </button>
           */}
 
-          <div className="w-full rounded-[5px] bg-white py-2 flex justify-center mb-[12px]">
+          <div className="mb-[12px] flex w-full justify-center rounded-[5px] bg-white py-2">
             <GoogleLogin
               onSuccess={googleLogin}
               onError={handleGoogleLoginError}

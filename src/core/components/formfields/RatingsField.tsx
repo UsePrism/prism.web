@@ -1,5 +1,5 @@
-import { renderStars } from "core/helpers/renderStars";
 import React from "react";
+import { renderStars } from "core/helpers/renderStars";
 
 interface Props {
   rating: number;
