@@ -121,28 +121,37 @@ export const uploadImageToS3 = async (
   s3Link: string,
   ext: string,
 ) => {
-  var blobFile: any = await fileToBlob(file);
+  const blobFile = await fileToBlob(file);
 
-  try {
-    const response = await fetch(s3Link, {
-      method: "PUT",
-      headers: {
-        "Content-Type": `${ext}`,
-        Accept: "*/*",
-        Host: "s3.eu-west-2.amazonaws.com",
-        "Accept-Encoding": "gzip, deflate, br",
-        Connection: "keep-alive",
-      },
-      body: blobFile,
+  const options: any = {
+    url: s3Link,
+    method: "PUT",
+    headers: {
+      Accept: "*/*",
+      "Content-Type": ext,
+    },
+    data: blobFile,
+  };
+
+  console.log(blobFile);
+  console.log(options);
+
+  return axios(options)
+    .then((response) => true)
+    .catch((error) => {
+      if (error?.message === "Network Error") {
+        return false;
+      } else {
+        if (error?.response?.status === 401) {
+          notification({
+            title: "",
+            type: "warning",
+            message: "Please logout and sign in again",
+          });
+        }
+        return false;
+      }
     });
-
-    if (!response.ok) {
-      return false;
-    }
-    return true;
-  } catch (error) {
-    return false;
-  }
 };
 
 export const isNumeric = (str: string) => {
@@ -213,9 +222,12 @@ export const addEllipsis = (word: string) => {
   return word.length > 30 ? word.substring(0, 30) + "..." : word;
 };
 
-function fileToBlob(file: File) {
+/*
+export const fileToBlob = async (file: File) => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
+
+    reader.readAsArrayBuffer(file);
 
     reader.onload = () => {
       const arrayBuffer: any = reader.result;
@@ -227,7 +239,12 @@ function fileToBlob(file: File) {
     reader.onerror = (error) => {
       reject(error);
     };
-
-    reader.readAsArrayBuffer(file);
   });
+}*/
+
+async function fileToBlob(file:File) {
+  const blob = file.slice(0, file.size, file.type);
+
+  return blob;
 }
+

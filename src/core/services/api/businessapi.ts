@@ -10,7 +10,7 @@ export const getCategories = () => {
 export const generateUploadLink = (extension: string) => {
   return apicall({
     endpoint: "/uploads/generate-upload-link",
-    pQuery: { contentType: `.${extension}` },
+    pQuery: { contentType: `${extension}` },
     method: "GET",
     auth: true,
   });
