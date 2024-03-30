@@ -125,10 +125,13 @@ export const uploadImageToS3 = async (
     url: s3Link,
     method: "PUT",
     headers: {
-      "Content-Type": `.${ext}`,
+      "Content-Type": `${ext}`,
+      Accept: "*/*",
     },
-    body: file,
+    body: await fileToBlob(file),
   };
+
+  console.log(options);
 
   return axios(options)
     .then((response) => true)
@@ -215,3 +218,22 @@ export const openNewBackgroundTab = (url: string) => {
 export const addEllipsis = (word: string) => {
   return word.length > 30 ? word.substring(0, 30) + "..." : word;
 };
+
+function fileToBlob(file: File) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const arrayBuffer: any = reader.result;
+
+      const blob = new Blob([arrayBuffer], { type: file.type });
+      resolve(blob);
+    };
+
+    reader.onerror = (error) => {
+      reject(error);
+    };
+
+    reader.readAsArrayBuffer(file);
+  });
+}
