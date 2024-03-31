@@ -105,11 +105,6 @@ export const uploadFile = async (file: File) => {
       if (uploadToS3) {
         generatedId = assetId;
       }
-    } else {
-      notification({
-        message: res?.message,
-        type: "danger",
-      });
     }
   }
 
@@ -123,36 +118,30 @@ export const uploadImageToS3 = async (
 ) => {
   const blobFile = await fileToBlob(file);
 
-  const options: any = {
+  return axios({
     url: s3Link,
     method: "PUT",
+    data: blobFile,
     headers: {
       Accept: "*/*",
       "Content-Type": ext,
     },
-    data: blobFile,
-  };
-
-  console.log(blobFile);
-  console.log(options);
-
-  return axios(options)
-    .then((response) => true)
+  })
+    .then((response) => {
+      console.log(response);
+      return true;
+    })
     .catch((error) => {
-      if (error?.message === "Network Error") {
-        return false;
-      } else {
-        if (error?.response?.status === 401) {
-          notification({
-            title: "",
-            type: "warning",
-            message: "Please logout and sign in again",
-          });
-        }
-        return false;
-      }
+      console.log(error);
+      return false;
     });
 };
+
+async function fileToBlob(file: File) {
+  const blob = file.slice(0, file.size, file.type);
+
+  return blob;
+}
 
 export const isNumeric = (str: string) => {
   return /^\d+$/.test(str);
@@ -218,33 +207,31 @@ export const openNewBackgroundTab = (url: string) => {
   a.dispatchEvent(evt);
 };
 
-export const addEllipsis = (word: string) => {
-  return word.length > 30 ? word.substring(0, 30) + "..." : word;
+export const addEllipsis = (word: string, length: number = 30) => {
+  return word.length > length ? word.substring(0, length) + "..." : word;
 };
 
-/*
-export const fileToBlob = async (file: File) => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
+export const isValidURL = (url: string) => {
+  try {
+    new URL(url);
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
 
-    reader.readAsArrayBuffer(file);
+export const uploadImages = async (files: any) => {
+  var assetIds: string[] = [];
 
-    reader.onload = () => {
-      const arrayBuffer: any = reader.result;
+  if (files?.length > 0) {
+    files?.map(async (uploadedFile: any, index: number) => {
+      var res = await uploadFile(uploadedFile);
 
-      const blob = new Blob([arrayBuffer], { type: file.type });
-      resolve(blob);
-    };
-
-    reader.onerror = (error) => {
-      reject(error);
-    };
-  });
-}*/
-
-async function fileToBlob(file:File) {
-  const blob = file.slice(0, file.size, file.type);
-
-  return blob;
-}
-
+      if (res?.length > 0) {
+        assetIds?.push(res);
+      }
+    });
+  }
+  console.log("generated assets", assetIds);
+  return assetIds;
+};

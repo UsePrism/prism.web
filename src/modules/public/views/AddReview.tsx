@@ -25,7 +25,7 @@ const AddReview = () => {
     businessSocialMediaProfile: "",
     businessFacebookProfileName: "",
     businessPhoneNumber: "",
-    businessWebsite: "",
+    businessWebsite: "https://",
     businessAddress: "",
     businessEmailAddress: "",
     businessBankName: "",
@@ -35,7 +35,8 @@ const AddReview = () => {
     rating: 0,
     reviewTitle: "",
     reviewBody: "",
-    assetIds: []
+    assetIds: [],
+    files: []
   }
 
   const [newReview, setNewReview] = useState<NewReview>({
@@ -95,6 +96,7 @@ const AddReview = () => {
         }));
         break;
     }
+
     if (name !== "channelPurchasedFrom") {
       setNewReview((state) => ({
         ...state,
@@ -111,13 +113,6 @@ const AddReview = () => {
         [name]: value,
       }));
     }
-  };
-
-  const onFileUpload = (value: string[]) => {
-    setNewReview((state) => ({
-      ...state,
-      assetIds: [...value],
-    }));
   };
 
   const onRateChange = (rating: number) => {
@@ -288,7 +283,7 @@ const AddReview = () => {
                 formData={newReview}
                 onBack={() => setSteps(1)}
                 onChange={onFormChange}
-                onFileUpload={onFileUpload}
+                onFileUpload={setNewReview}
                 errors={errors}
                 setErrors={setErrors}
               />

@@ -33,6 +33,8 @@ const BusinessReview = () => {
   const review = useBusinessStore((store) => store.selectedReview);
   const getReviewAction = useBusinessStore((store) => store.getReviewById);
 
+  console.log(review);
+
   const commentList = useBusinessStore((store) => store.commentList);
   const getCommentAction = useBusinessStore((store) => store.getComments);
 

@@ -25,6 +25,7 @@ declare global {
     reviewTitle: string;
     reviewBody: string;
     assetIds: string[];
+    files: any;
   }
 
   interface UpdateReview {

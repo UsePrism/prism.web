@@ -1,9 +1,11 @@
 import InputField from "core/components/formfields/InputField";
 import { BANKS } from "core/consts/systemconst";
 import { ScrollToTop } from "core/helpers/scrollToTop";
-import useBusinessStore from "core/services/stores/useBusinessStore";
-import { useState } from "react";
 import upload from "assets/img/upload.svg";
+import deleteIcon from "assets/img/trash.svg";
+import { addEllipsis } from "core/helpers/generalHelpers";
+import { useState } from "react";
+import useBusinessStore from "core/services/stores/useBusinessStore";
 import notification from "core/helpers/notification";
 
 export const AdditionalInformationForm = ({
@@ -21,9 +23,9 @@ export const AdditionalInformationForm = ({
   onFileUpload: any;
   setErrors: any;
 }) => {
+
   const uploadImageAction = useBusinessStore((store) => store.uploadImage);
   const setLoadingAction = useBusinessStore((store) => store.setLoading);
-  const [uploadFiles, setUploadFiles] = useState<any>([]);
 
   const onFileChange = (e: any) => {
     setLoadingAction(true);
@@ -43,19 +45,28 @@ export const AdditionalInformationForm = ({
           if (index == uploadedFiles?.length - 1) {
             notification({
               message: `${assetIds?.length} of ${Array.from(uploadedFiles)
-                ?.length} was uploaded successfully`,
+                ?.length} was uploaded`,
               type: "warning",
             });
 
             if (assetIds?.length > 0) {
-              onFileUpload(assetIds);
+              onFileUpload((state: any) => ({
+                ...state,
+                files: [...state?.files, ...uploadedFiles],
+                assetIds: [...state.assetIds, ...assetIds]
+              }));
             }
           }
         },
       );
-
-      setUploadFiles(uploadedFiles);
     }
+  };
+
+  const removeImage = (index: number) => {
+    onFileUpload((state: any) => ({
+      ...state,
+      files: [...state?.files.filter((file: any, i: number) => i !== index)],
+    }));
   };
 
   return (
@@ -93,15 +104,21 @@ export const AdditionalInformationForm = ({
         </div>
 
         <div className="flex flex-wrap gap-2">
-          {uploadFiles &&
-            uploadFiles?.length > 0 &&
-            Array.from(uploadFiles)?.map((file: any, index: number) => (
-              <span
-                className="block rounded-md bg-shade px-1 text-[12px]"
-                key={file?.name}
-              >
-                {file?.name}
-              </span>
+          {formData?.files &&
+            formData?.files?.length > 0 &&
+            Array.from(formData?.files)?.map((file: any, index: number) => (
+              <div className="flex gap-2 rounded-md bg-shade px-1 text-[12px]">
+                <span
+                  key={file?.name}
+                >
+                  {index} {addEllipsis(file?.name, 20)}
+                </span>
+                <img
+                  onClick={() => removeImage(index)}
+                  src={deleteIcon}
+                  alt="delete"
+                />
+              </div>
             ))}
         </div>
       </div>

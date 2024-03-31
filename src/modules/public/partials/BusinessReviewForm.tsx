@@ -2,7 +2,7 @@ import InputField from "core/components/formfields/InputField";
 import SelectField from "core/components/formfields/SelectField";
 import TextField from "core/components/formfields/TextField";
 import { SALES_CHANNELS } from "core/consts/systemconst";
-import { isNumeric } from "core/helpers/generalHelpers";
+import { isNumeric, isValidURL } from "core/helpers/generalHelpers";
 import notification from "core/helpers/notification";
 import { ScrollToTop } from "core/helpers/scrollToTop";
 import useBusinessStore from "core/services/stores/useBusinessStore";
@@ -83,7 +83,21 @@ export const BusinessReviewForm = ({
               ],
             }));
             isValid = false;
+          } else {
+
+            if (!isValidURL(formData?.businessWebsite)) {
+              setErrors((state: any) => ({
+                ...state,
+                BusinessWebsite: [
+                  {
+                    errorMessage: "Please include a valid URL. e.g https://nameofwebsite.com",
+                  },
+                ],
+              }));
+              isValid = false;
+            }
           }
+
           break;
         case "2":
         case "3":
@@ -177,7 +191,7 @@ export const BusinessReviewForm = ({
         ...state,
         ReviewBody: [
           {
-            errorMessage: "Please descripe your ordeal",
+            errorMessage: "Please describe your ordeal",
           },
         ],
       }));
@@ -312,7 +326,7 @@ export const BusinessReviewForm = ({
                   boxStyle="mb-[25px]"
                   label="Business Website"
                   name="businessWebsite"
-                  placeholder="Website of business"
+                  placeholder="Website of business. e.g https://website.com"
                   value={formData?.businessWebsite}
                   isRequired
                   onChange={(e: any) => onChange(e)}

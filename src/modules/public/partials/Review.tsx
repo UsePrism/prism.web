@@ -2,22 +2,23 @@ import Modal from "core/components/Modal";
 import InputField from "core/components/formfields/InputField";
 import TextField from "core/components/formfields/TextField";
 import { borderline, btn, reviewact } from "core/consts/styling";
-import { formatDate, openInNewTab } from "core/helpers/generalHelpers";
+import { formatDate } from "core/helpers/generalHelpers";
 import notification from "core/helpers/notification";
 import { renderStars } from "core/helpers/renderStars";
 import useBusinessStore from "core/services/stores/useBusinessStore";
 import useUserStore from "core/services/stores/useUserStore";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import deleteIcon from 'assets/img/trash.svg';
-import editIcon from 'assets/img/edit.svg';
-import comment from 'assets/img/comment.svg';
-import share from 'assets/img/share.svg';
-import pdfImg from 'assets/img/pdf.png';
-import starEmpty from 'assets/img/starempty.svg';
-import starFull from 'assets/img/starfull.svg';
-import thumbup from 'assets/img/thumbup.svg';
-import userImg from 'assets/img/user.svg';
+import deleteIcon from "assets/img/trash.svg";
+import editIcon from "assets/img/edit.svg";
+import comment from "assets/img/comment.svg";
+import share from "assets/img/share.svg";
+import pdfImg from "assets/img/pdf.png";
+import starEmpty from "assets/img/starempty.svg";
+import starFull from "assets/img/starfull.svg";
+import thumbup from "assets/img/thumbup.svg";
+import userImg from "assets/img/user.svg";
+import videoImg from "assets/img/video.png";
 
 interface Props {
   children?: any;
@@ -39,6 +40,7 @@ export const Review = ({
   const likeReviewAction = useBusinessStore((store) => store.likeReview);
   const updateReviewAction = useBusinessStore((store) => store.updateReview);
   const deleteReviewAction = useBusinessStore((store) => store.deleteReview);
+  const setLoadingAction = useBusinessStore((store) => store.setLoading);
 
   const [showUpdateModal, setShowUpdateModal] = useState(false);
 
@@ -225,49 +227,74 @@ export const Review = ({
         </h5>
         <p className="mb-[24px]">{review?.reviewBody}</p>
         {review?.assets?.length > 0 && (
-          <div className="mb-[24px] flex gap-5">
+          <div className="mb-[24px] flex gap-3">
             {review?.assets?.map((asset) => (
               <>
-                {["image/jpg", "image/jpeg", "image/png", "image/gif"].includes(
+                {["jpg", "jpeg", "png", "gif"].includes(asset?.contentType) && (
+                  <>
+                    {/*
+                    <img
+                      src={asset?.url}
+                      alt={asset?.fileName}
+                      onClick={() => {
+                        setSelectedFile({
+                          ...asset,
+                        });
+  
+                        setLoadingAction(true);
+  
+                        setPreview(true);
+                      }}
+                      className="h-[80px] w-[80px] cursor-pointer rounded-[10px] border border-[.5px] border-[#344054] bg-shade"
+                    />*/}
+
+                    <a
+                      href={asset?.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex h-[80px] w-[80px] cursor-pointer flex-row items-center justify-center rounded-[10px] border border-[.5px] border-[#344054] bg-shade"
+                    >
+                      <img
+                        src={asset?.url}
+                        alt=""
+                        className="h-[40px] w-[40px]"
+                      />
+                    </a>
+                  </>
+                )}
+
+                {["pdf"].includes(asset?.contentType) && (
+                  <a
+                    href={asset?.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex h-[80px] w-[80px] cursor-pointer flex-row items-center justify-center rounded-[10px] border border-[.5px] border-[#344054] bg-shade"
+                  >
+                    <img src={pdfImg} alt="" className="h-[40px] w-[40px]" />
+                  </a>
+                )}
+
+                {["mp4", "webm", "ogg", "x-flv"].includes(
                   asset?.contentType,
                 ) && (
-                  <img
-                    src={asset?.url}
-                    alt={asset?.fileName}
-                    onClick={() => {
-                      setSelectedFile({
-                        ...asset,
-                      });
+                  <>
+                    <div
+                      onClick={() => {
+                        setSelectedFile({
+                          ...asset,
+                        });
 
-                      setPreview(true);
-                    }}
-                    className="h-[140px] w-[140px] cursor-pointer rounded-[10px] border border-[.5px] border-[#344054] bg-shade"
-                  />
-                )}
-
-                {["application/pdf"].includes(asset?.contentType) && (
-                  <div
-                    onClick={() => {
-                      openInNewTab(asset?.url);
-                    }}
-                    className="flex h-[140px] w-[140px] cursor-pointer flex-row items-center justify-center rounded-[10px] border border-[.5px] border-[#344054] bg-shade"
-                  >
-                    <img src={pdfImg} alt="" className="h-[100px] w-[100px]" />
-                  </div>
-                )}
-
-                {[
-                  "video/mp4",
-                  "video/webm",
-                  "video/ogg",
-                  "video/x-flv",
-                ].includes(asset?.contentType) && (
-                  <video
-                    className="h-[140px] w-[140px] cursor-pointer rounded-[10px] border border-[.5px] border-[#344054] bg-shade"
-                    controls
-                  >
-                    <source src={asset?.url} type="video/mp4" />
-                  </video>
+                        setPreview(true);
+                      }}
+                      className="flex h-[80px] w-[80px] cursor-pointer flex-row items-center justify-center rounded-[10px] border border-[.5px] border-[#344054] bg-shade"
+                    >
+                      <img
+                        src={videoImg}
+                        alt="video"
+                        className="h-[40px] w-[40px]"
+                      />
+                    </div>
+                  </>
                 )}
               </>
             ))}
@@ -453,15 +480,17 @@ export const Review = ({
 
       {preview && (
         <Modal
-          header={selectedFile?.fileName}
+          bodyStyle="!h-[90%] !w-full"
+          header={""}
           onClose={() => {
             setPreview(false);
             setSelectedFile(null);
+            setLoadingAction(false);
           }}
         >
           {selectedFile != null && (
-            <>
-              {["image/jpg", "image/jpeg", "image/png", "image/gif"].includes(
+            <div>
+              {["image/jpg", "jpeg", "png", "gif"].includes(
                 selectedFile?.contentType,
               ) ? (
                 <div className="flex h-full w-full flex-row flex-col items-center">
@@ -471,18 +500,30 @@ export const Review = ({
                     height={"100%"}
                     alt={selectedFile?.fileName}
                     className="mt-[24px]"
+                    onLoad={() => setLoadingAction(false)}
                   />
                 </div>
               ) : (
-                <>
-                  <iframe
-                    src={selectedFile?.url}
-                    title={selectedFile?.fileName}
-                    className="h-full w-full"
-                  />
-                </>
+                <div className="mt-5 flex items-center justify-center">
+                  <video className="h-[500px] w-[100%] md:w-[700px]" controls>
+                    <source src={selectedFile?.url} type="video/mp4" />
+                  </video>
+                </div>
               )}
-            </>
+
+              <div className="mt-5 text-center">
+                <button
+                  onClick={() => {
+                    setPreview(false);
+                    setSelectedFile(null);
+                    setLoadingAction(false);
+                  }}
+                  className="w-full rounded-[8px] bg-brand py-[14px] text-brand-white md:w-1/3"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
           )}
         </Modal>
       )}
