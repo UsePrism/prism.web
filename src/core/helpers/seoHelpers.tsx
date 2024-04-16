@@ -13,13 +13,9 @@ export const addMetaData = ({ title = "", description = "" }: Props) => {
         <title>{title}</title>
         <meta name="description" content={description} />
         <meta name="robots" content="index, follow" />
-      </Helmet>
-      <Helmet>
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
         <meta property="og:image" content={logofull} />
-      </Helmet>
-      <Helmet>
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
         <meta name="twitter:image" content={logofull} />

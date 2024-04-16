@@ -115,6 +115,7 @@ const ResetPassword = () => {
               label="New Password"
               name="newPassword"
               type="password"
+              isPassword
               value={newPassword}
               onChange={(e: any) => {
                 setNewPassword(e?.target?.value);
@@ -132,6 +133,7 @@ const ResetPassword = () => {
               label="Confirm New Password"
               name="confirmNewPassword"
               type="password"
+              isPassword
               value={confirmNewPassword}
               onChange={(e: any) => {
                 setConfirmNewPassword(e?.target?.value);
