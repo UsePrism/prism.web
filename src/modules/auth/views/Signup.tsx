@@ -129,7 +129,7 @@ const Signup = () => {
     <div className="mx-auto mb-8 mt-[40px] w-11/12 md:w-4/5">
       <section className="flex items-center justify-center">
         <div className="w-full md:w-2/3 lg:w-1/3">
-          <h3 className="text-whote text-[24px] font-[600]">Create Account</h3>
+          <h3 className="text-white text-[24px] font-[600]">Create Account</h3>
           <p className="text-[16px]">
             Enter your details to create an account.
           </p>

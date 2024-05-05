@@ -8,7 +8,7 @@ const ResetPassword = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const userId: any = searchParams.get("userId");
-  const token: any = searchParams.get("amp;token");
+  const token: any = searchParams.get("token");
 
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
