@@ -1,8 +1,8 @@
 // Custom components
 import React, { useState } from "react";
 import { numbersOnly } from "core/helpers/generalHelpers";
-import eyeShow from 'assets/img/eyeshow.svg';
-import eyeClose from 'assets/img/eyeclose.svg';
+import eyeShow from "assets/img/eyeshow.svg";
+import eyeClose from "assets/img/eyeclose.svg";
 
 function InputField({
   id = "",
@@ -81,7 +81,7 @@ function InputField({
           aria-autocomplete="none"
           className={`${
             label && label?.length > 0 ? "!mt-2" : ""
-          } flex h-12 w-full items-center justify-center rounded-[5px] border border-[.5px] border-line bg-shade px-4 py-3 text-sm text-white outline-none ${
+          } flex h-12 w-full items-center justify-center rounded-[5px] border-[.5px] border-line bg-shade px-4 py-3 text-sm text-white outline-none dark:bg-shade ${
             disabled === true
               ? "!cursor-not-allowed"
               : state === "error"
