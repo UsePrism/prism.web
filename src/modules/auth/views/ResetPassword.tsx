@@ -21,24 +21,26 @@ const ResetPassword = () => {
   ) => {
     var isValid = true;
 
-    if (newPassword?.length < 1) {
+    if (newPassword?.length < 6) {
       setErrors((state: any) => ({
         ...state,
         NewPassword: [
           {
-            errorMessage: "New Password is required",
+            errorMessage:
+              "The length of 'New Password' must be at least 6 characters.",
           },
         ],
       }));
       isValid = false;
     }
 
-    if (confirmNewPassword?.length < 1) {
+    if (confirmNewPassword?.length < 6) {
       setErrors((state: any) => ({
         ...state,
         ConfirmNewPassword: [
           {
-            errorMessage: "Confirm New Password is required",
+            errorMessage:
+              "'Confirm Password' is required",
           },
         ],
       }));
@@ -50,7 +52,8 @@ const ResetPassword = () => {
         ...state,
         ConfirmNewPassword: [
           {
-            errorMessage: "Password must be the same",
+            errorMessage:
+              "'Confirm Password' must be the same as 'New Password'",
           },
         ],
       }));

@@ -48,18 +48,13 @@ const Signup = () => {
       isValid = false;
     }
 
-    if (
-      data?.password?.length < 8 ||
-      !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
-        data?.password,
-      )
-    ) {
+    if (data?.password?.length < 6) {
       setNewUserError((state: any) => ({
         ...state,
         Password: [
           {
             errorMessage:
-              "The length of 'Password' must be at least 8 characters. Which must include an uppercase alphabet, special character and numbers",
+              "The length of 'Password' must be at least 6 characters.",
           },
         ],
       }));
@@ -129,7 +124,7 @@ const Signup = () => {
     <div className="mx-auto mb-8 mt-[40px] w-11/12 md:w-4/5">
       <section className="flex items-center justify-center">
         <div className="w-full md:w-2/3 lg:w-1/3">
-          <h3 className="text-white text-[24px] font-[600]">Create Account</h3>
+          <h3 className="text-[24px] font-[600] text-white">Create Account</h3>
           <p className="text-[16px]">
             Enter your details to create an account.
           </p>
