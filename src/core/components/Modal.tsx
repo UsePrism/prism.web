@@ -19,7 +19,7 @@ export default function Modal({
   return (
     <>
       <div
-        className={`no-scrollbar overlay fixed left-0 top-0 z-40 h-screen w-screen overflow-auto bg-black bg-opacity-10 backdrop-blur-sm backdrop-filter ${boxStyle}`}
+        className={`no-scrollbar overlay fixed left-0 top-0 z-40 h-screen w-screen overflow-auto bg-black bg-opacity-5 backdrop-blur-lg backdrop-filter ${boxStyle}`}
         style={{
           minHeight: "calc(100vh - 72px)",
           zIndex: 800,
@@ -27,7 +27,7 @@ export default function Modal({
       >
         <div className="flex h-full w-full items-center justify-center gap-1">
           <div
-            className={`mx-auto h-auto w-11/12 rounded-[5px] bg-[#111111] !p-8 sm:w-2/3 md:w-[65%] lg:w-1/3 overflow-y-scroll ${bodyStyle}`}
+            className={`mx-auto h-auto w-11/12 overflow-y-scroll rounded-[5px] bg-[#111111] !p-8 sm:w-2/3 md:w-[65%] lg:w-1/3 ${bodyStyle}`}
           >
             <div className="border-b-1 flex items-start justify-between border-b border-b-black-support pb-5">
               <div>
@@ -41,9 +41,8 @@ export default function Modal({
               </button>
             </div>
 
-            <div>{children}</div>
+            <div className="mb-2">{children}</div>
           </div>
-
         </div>
       </div>
     </>

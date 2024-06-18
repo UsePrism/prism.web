@@ -7,10 +7,12 @@ const Sidenav = ({
   close,
   isLoggedIn = false,
   isOpen = false,
+  onSignOut = () => {},
 }: {
   close?: any;
   isLoggedIn?: boolean;
   isOpen: boolean;
+  onSignOut: any;
 }) => {
   return (
     <div
@@ -22,7 +24,7 @@ const Sidenav = ({
       }}
     >
       <nav className="relative mx-auto flex h-[80vh] w-11/12 items-center justify-between md:w-4/5">
-        <div className="flex h-full w-full flex-col items-center justify-center">
+        <div className="flex h-full w-full flex-col items-center justify-center gap-3">
           <NavLink
             to="/"
             onClick={() => close()}
@@ -33,17 +35,8 @@ const Sidenav = ({
             Home
           </NavLink>
 
-          {!isLoggedIn && (
+          {!isLoggedIn ? (
             <>
-              <NavLink
-                to="/auth/signup"
-                onClick={() => close()}
-                className={({ isActive }) =>
-                  isActive ? activeSidenavLink : sidenavLink
-                }
-              >
-                Register
-              </NavLink>
               <NavLink
                 to="/auth/login"
                 onClick={() => close()}
@@ -51,10 +44,23 @@ const Sidenav = ({
                   isActive ? activeSidenavLink : sidenavLink
                 }
               >
-                Login
+                Write a Review
+              </NavLink>
+            </>
+          ) : (
+            <>
+              <NavLink
+                to="/review"
+                onClick={() => close()}
+                className={({ isActive }) =>
+                  isActive ? activeSidenavLink : sidenavLink
+                }
+              >
+                Write a Review
               </NavLink>
             </>
           )}
+
           <NavLink
             to="/businesses"
             onClick={() => close()}
@@ -64,33 +70,14 @@ const Sidenav = ({
           >
             Businesses
           </NavLink>
-          <NavLink
-            to="/terms"
-            onClick={() => close()}
-            className={({ isActive }) =>
-              isActive ? activeSidenavLink : sidenavLink
-            }
-          >
-            Terms
-          </NavLink>
-          <NavLink
-            to="/privacy"
-            onClick={() => close()}
-            className={({ isActive }) =>
-              isActive ? activeSidenavLink : sidenavLink
-            }
-          >
-            Privacy Policy
-          </NavLink>
-          <NavLink
-            to="/cookies"
-            onClick={() => close()}
-            className={({ isActive }) =>
-              isActive ? activeSidenavLink : sidenavLink
-            }
-          >
-            Cookie Policy
-          </NavLink>
+
+          {isLoggedIn && (
+            <>
+              <button className={sidenavLink} onClick={() => onSignOut()}>
+                Logout
+              </button>
+            </>
+          )}
         </div>
         <div
           className="absolute right-[30px] top-[30px]"

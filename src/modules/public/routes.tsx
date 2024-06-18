@@ -4,6 +4,7 @@ import BusinessReview from "./views/BusinessReview";
 import Businesses from "./views/Businesses";
 import CookiePolicy from "./views/CookiePolicy";
 import Home from "./views/Home";
+import PageNotFound from "./views/PageNotFound";
 import PrivacyPolicy from "./views/PrivacyPolicy";
 import Search from "./views/Search";
 import TermsCondition from "./views/TermsCondition";
@@ -71,6 +72,13 @@ const routes = [
     path: "/terms",
     icon: "",
     component: <TermsCondition />,
+  },
+  {
+    name: "Page Not found",
+    layout: "",
+    path: "404",
+    icon: "",
+    component: <PageNotFound />,
   },
 ];
 export default routes;

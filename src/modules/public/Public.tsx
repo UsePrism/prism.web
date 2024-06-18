@@ -18,6 +18,7 @@ export default function Public() {
         <Routes>
           {getRoutes(routes)}
           <Route path="/" element={<Navigate to="/home" replace />} />
+          <Route path="*" element={<Navigate to="/404" replace />} />
         </Routes>
       </div>
       <Footer />

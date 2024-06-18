@@ -140,7 +140,7 @@ const App = () => {
       {showWaitListModal && (
         <Modal
           header="Join Waitlist"
-          instruction="kindly enter your correct details"
+          instruction="Be the first to be notified when we go live"
           onClose={() => toggleWaitListModal(false)}
         >
           <form onSubmit={joinWaitList} className="mt-[25px]">

@@ -34,7 +34,7 @@ const Footer = () => {
                 className="mx-auto mb-[32px] w-[100px]"
               />
               <p className="text-[14px] text-line">
-                Prism allow users to submit detailed reports, including the name
+                Prism allows users to submit detailed reports, including the name
                 of the business, its contact information, a description of the
                 fraudulent activity, and any supporting documentation. Prism
                 will also provide users with resources and support, such as

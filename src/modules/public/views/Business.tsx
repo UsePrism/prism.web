@@ -13,6 +13,7 @@ import { isObjectEmpty } from "core/helpers/generalHelpers";
 import caretright from "assets/img/caretright.svg";
 import locationimg from "assets/img/location.svg";
 import world from "assets/img/world.svg";
+import { addMetaData } from "core/helpers/seoHelpers";
 
 const Business = () => {
   const navigate = useNavigate();
@@ -66,6 +67,12 @@ const Business = () => {
 
   return (
     <>
+      {/* TODO: Update meta data */}
+      {addMetaData({
+        title: "",
+        description: "",
+      })}
+
       <div className="m-[0px] mx-auto mb-[34px] h-full w-11/12 overflow-hidden pt-[20px] md:w-4/5">
         <section className="mb-[28px]">
           <header className="flex flex-wrap items-center text-[14px]">

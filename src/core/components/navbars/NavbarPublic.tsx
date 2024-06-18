@@ -11,12 +11,12 @@ import Modal from "../Modal";
 import useIdleTimer from "core/helpers/useIdleTimer";
 import { googleLogout } from "@react-oauth/google";
 import notification from "core/helpers/notification";
-import caretdown from 'assets/img/caretdown.svg';
-import hamburger from 'assets/img/hamburger.svg';
-import logoFullWhite from 'assets/img/logofull.svg';
-import logoutImg from 'assets/img/logout.svg';
-import searchIcon from 'assets/img/search.svg';
-import settingImg from 'assets/img/profile.svg';
+import caretdown from "assets/img/caretdown.svg";
+import hamburger from "assets/img/hamburger.svg";
+import logoFullWhite from "assets/img/logofull.svg";
+import logoutImg from "assets/img/logout.svg";
+import searchIcon from "assets/img/search.svg";
+import settingImg from "assets/img/profile.svg";
 
 const NavbarPublic = ({ showLinks = true }: { showLinks?: boolean }) => {
   const navigate = useNavigate();
@@ -195,6 +195,7 @@ const NavbarPublic = ({ showLinks = true }: { showLinks?: boolean }) => {
         isLoggedIn={token != null && token?.length > 0}
         isOpen={showSidenav}
         close={() => setSidenav(false)}
+        onSignOut={() => logout(false)}
       />
 
       {showSearch && (

@@ -6,6 +6,7 @@ import { isNumeric, isObjectEmpty } from "core/helpers/generalHelpers";
 import useBusinessStore from "core/services/stores/useBusinessStore";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { addMetaData } from "core/helpers/seoHelpers";
 
 const AddReview = () => {
   const navigate = useNavigate();
@@ -36,8 +37,8 @@ const AddReview = () => {
     reviewTitle: "",
     reviewBody: "",
     assetIds: [],
-    files: []
-  }
+    files: [],
+  };
 
   const [newReview, setNewReview] = useState<NewReview>({
     ...defaultReview,
@@ -159,7 +160,6 @@ const AddReview = () => {
     e.preventDefault();
 
     if (validateAdditionalInfo(newReview)) {
-
       console.log(newReview);
 
       var res = await addReviewAction(
@@ -219,79 +219,86 @@ const AddReview = () => {
   }, [searchParams.get("businessId")]);
 
   return (
-    <div className="mx-auto mb-8 mt-[40px] w-11/12 md:w-4/5">
-      <section className="flex items-center justify-center">
-        <div className="w-full md:w-2/3 lg:w-1/3">
-          <p className="text-[14px] text-line">Step {steps} of 2</p>
-          {(() => {
-            switch (steps) {
-              case 1:
-                return (
-                  <>
-                    {searchParams.get("businessId")?.length > 1 &&
-                    selectedBusiness != null ? (
-                      <Link
-                        to={`/businesses/${selectedBusiness?.id}`}
-                        className="text-[24px] font-[600] text-white"
-                      >
-                        Review for{" "}
-                        <span className="underline capitalize">
-                          {selectedBusiness?.businessName}
-                        </span>
-                      </Link>
-                    ) : (
-                      <h3 className="text-[24px] font-[600] text-white">
-                        Business Review
-                      </h3>
-                    )}
-                    <p className="text-[16px] text-line">
-                      Your honest answers help us win.
-                    </p>
-                  </>
-                );
-              case 2:
-                return (
-                  <>
-                    <h3 className="text-[24px] font-[600] text-white">
-                      Additional Information
-                    </h3>
-                    <p className="text-[16px] text-line">
-                      Optional but crucial in helping others.
-                    </p>
-                  </>
-                );
-              default:
-                return <></>;
-            }
-          })()}
+    <>
+      {addMetaData({
+        title: "Add review for businesses",
+        description: "",
+      })}
 
-          <form onSubmit={addReview} className="my-[32px]">
-            {steps === 1 && (
-              <BusinessReviewForm
-                formData={newReview}
-                onChange={onFormChange}
-                onSubmit={() => setSteps(2)}
-                onRateChange={onRateChange}
-                isExisting={
-                  searchParams.get("businessId")?.length > 1 &&
-                  selectedBusiness != null
-                }
-              />
-            )}
-            {steps === 2 && (
-              <AdditionalInformationForm
-                formData={newReview}
-                onBack={() => setSteps(1)}
-                onChange={onFormChange}
-                onFileUpload={setNewReview}
-                errors={errors}
-                setErrors={setErrors}
-              />
-            )}
-          </form>
-        </div>
-      </section>
-    </div>
+      <div className="mx-auto mb-8 mt-[40px] w-11/12 md:w-4/5">
+        <section className="flex items-center justify-center">
+          <div className="w-full md:w-2/3 lg:w-1/3">
+            <p className="text-[14px] text-line">Step {steps} of 2</p>
+            {(() => {
+              switch (steps) {
+                case 1:
+                  return (
+                    <>
+                      {searchParams.get("businessId")?.length > 1 &&
+                      selectedBusiness != null ? (
+                        <Link
+                          to={`/businesses/${selectedBusiness?.id}`}
+                          className="text-[24px] font-[600] text-white"
+                        >
+                          Review for{" "}
+                          <span className="capitalize underline">
+                            {selectedBusiness?.businessName}
+                          </span>
+                        </Link>
+                      ) : (
+                        <h3 className="text-[24px] font-[600] text-white">
+                          Business Review
+                        </h3>
+                      )}
+                      <p className="text-[16px] text-line">
+                        Your honest answers help us win.
+                      </p>
+                    </>
+                  );
+                case 2:
+                  return (
+                    <>
+                      <h3 className="text-[24px] font-[600] text-white">
+                        Additional Information
+                      </h3>
+                      <p className="text-[16px] text-line">
+                        Optional but crucial in helping others.
+                      </p>
+                    </>
+                  );
+                default:
+                  return <></>;
+              }
+            })()}
+
+            <form onSubmit={addReview} className="my-[32px]">
+              {steps === 1 && (
+                <BusinessReviewForm
+                  formData={newReview}
+                  onChange={onFormChange}
+                  onSubmit={() => setSteps(2)}
+                  onRateChange={onRateChange}
+                  isExisting={
+                    searchParams.get("businessId")?.length > 1 &&
+                    selectedBusiness != null
+                  }
+                />
+              )}
+              {steps === 2 && (
+                <AdditionalInformationForm
+                  formData={newReview}
+                  onBack={() => setSteps(1)}
+                  onChange={onFormChange}
+                  onFileUpload={setNewReview}
+                  errors={errors}
+                  setErrors={setErrors}
+                />
+              )}
+            </form>
+          </div>
+        </section>
+      </div>
+    </>
   );
 };
 

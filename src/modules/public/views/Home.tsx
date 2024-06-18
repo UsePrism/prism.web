@@ -7,9 +7,9 @@ import useSystemStore from "core/services/stores/useSystemStore";
 import useBusinessStore from "core/services/stores/useBusinessStore";
 import SearchBox from "core/components/SearchBox";
 import { addMetaData } from "core/helpers/seoHelpers";
-import home1 from 'assets/img/guywithphone.png';
-import home2 from 'assets/img/ladywithphone.png';
-import home3 from 'assets/img/comments.png';
+import home1 from "assets/img/guywithphone.png";
+import home2 from "assets/img/ladywithphone.png";
+import home3 from "assets/img/comments.png";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -38,9 +38,9 @@ const Home = () => {
   return (
     <>
       {addMetaData({
-        title: "Prism - Report fraudlent business",
+        title: "Prism - Report fraudulent business",
         description:
-          "Tired of fraudstars, report them and save others from falling prey",
+          "Tired of fraudsters, report them and save others from falling prey",
       })}
 
       <div className="-pt-[90px] m-[0px]">
@@ -61,7 +61,7 @@ const Home = () => {
               </div>
 
               <SearchBox
-                id="home-seach"
+                id="home-search"
                 formStyle="flex flex w-full items-center gap-3 py-[48px] md:w-4/5"
                 inputStyle="w-9/12 md:w-9/12"
                 buttonStyle="flex w-3/12 items-center justify-center rounded-[5px] bg-brand px-4 py-3 disabled:cursor-not-allowed md:w-3/12"
@@ -71,7 +71,7 @@ const Home = () => {
         </section>
         <section className="mx-auto w-11/12 overflow-hidden py-[60px] md:w-4/5">
           <div className="mb-[28px] w-full text-center">
-            <h3 className="w-full text-[24px] text-[32px] font-[600] text-white">
+            <h3 className="w-full text-[32px] font-[600] text-white">
               Latest Reviews
             </h3>
           </div>
@@ -128,7 +128,7 @@ const Home = () => {
           {categories && categories?.length > 0 && (
             <section className="mx-auto w-11/12 overflow-hidden py-[60px] md:w-4/5">
               <div className="mb-[28px] w-full text-center">
-                <h3 className="w-full text-[24px] text-[32px] font-[600]">
+                <h3 className="w-full text-[32px] font-[600]">
                   Browse through Categories
                 </h3>
               </div>
@@ -137,7 +137,7 @@ const Home = () => {
                   <Link
                     to={`/businesses?categoryId=${category?.id}`}
                     key={category?.id}
-                    className="flex !w-[250px] flex-none snap-center snap-always items-center gap-5 rounded-[5px] bg-shade p-3 md:w-1/2 md:w-auto md:p-5 lg:!w-auto"
+                    className="flex !w-[250px] flex-none snap-center snap-always items-center gap-5 rounded-[5px] bg-shade p-3 md:w-auto md:p-5 lg:!w-auto"
                   >
                     <img
                       src={category?.iconUrl}
@@ -173,15 +173,24 @@ const Home = () => {
                 />
               </div>
               <div className="w-full md:w-1/2">
-                <h3 className="mb-[28px] text-center text-[24px] font-[600] text-white md:text-start">
+                <h3 className="mb-[28px] text-center text-[40px] font-[600] leading-none text-white md:text-start">
                   Your reviews help other <br /> people to shop safely <br />
                   and confidently.
                 </h3>
-                <p className="mb-[28px] text-center md:text-start">
+                <p className="mb-[28px] text-center text-white md:text-start">
                   Going through a negative, or positive, experience with a
                   business gives you the insights needed to help others make
                   informed decisions.
                 </p>
+
+                <div className="flex w-full justify-center md:justify-start">
+                  <Link
+                    to="/auth/login"
+                    className={`${btn} border-1 border border-brand bg-brand !py-3 !text-[18px] text-white`}
+                  >
+                    Review a Business
+                  </Link>
+                </div>
               </div>
             </div>
           </section>
@@ -197,23 +206,15 @@ const Home = () => {
                 />
               </div>
               <div className="w-full md:w-1/2">
-                <h3 className="mb-[28px] text-center text-[24px] font-[600] text-white md:text-start">
+                <h3 className="mb-[28px] text-center text-[40px] font-[600] leading-none text-white md:text-start">
                   Great? Poor? or a bit <br />{" "}
                   <span className="italic">meh</span>? Let us know
                 </h3>
-                <p className="mb-[28px] text-center md:text-start">
+                <p className="mb-[28px] text-center text-white md:text-start">
                   Your reviews help other people to shop safely and confidently,
                   without the fear of buying poor quality products and services,
                   or being defrauded.
                 </p>
-                <div className="flex w-full justify-center md:justify-start">
-                  <Link
-                    to="/auth/login"
-                    className={`${btn} border-1 border border-brand bg-brand !py-3 !text-[18px] text-white`}
-                  >
-                    Review a Business
-                  </Link>
-                </div>
               </div>
             </div>
           </section>
@@ -234,10 +235,10 @@ const Home = () => {
                     Coming soon
                   </span>
                 </div>
-                <h3 className="mb-[28px] mt-5 text-center text-[24px] font-[600] text-white md:text-start">
+                <h3 className="mb-[28px] mt-5 text-center text-[40px] font-[600] leading-none text-white md:text-start">
                   Beat the suspicion with <br /> feedback from customers
                 </h3>
-                <p className="mb-[28px] text-center md:text-start">
+                <p className="mb-[28px] text-center text-white md:text-start">
                   Collect feedback from your customers and showcase on your
                   website or social media to help new customers confidently shop
                   from you.

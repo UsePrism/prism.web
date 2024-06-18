@@ -3,11 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import InputField from "core/components/formfields/InputField";
 import useUserStore from "core/services/stores/useUserStore";
 import notification from "core/helpers/notification";
+import { GoogleLogin } from "@react-oauth/google";
 
 const Signup = () => {
   const navigate = useNavigate();
 
   const signupAction = useUserStore((store) => store.signup);
+  const googleLoginAction = useUserStore((store) => store.googleLogin);
 
   // TODO: Add hermet seo
   const [newUser, setNewUser] = useState<NewUser>({
@@ -120,6 +122,27 @@ const Signup = () => {
     }
   };
 
+  const googleLogin = async (response: any) => {
+    var res = await googleLoginAction(response?.credential!);
+
+    if (res?.status) {
+      setNewUser({
+        firstName: "",
+        lastName: "",
+        emailAddress: "",
+        password: "",
+      });
+      navigate("/businesses");
+    }
+  };
+
+  const handleGoogleLoginError: any = (error: any) => {
+    notification({
+      type: "error",
+      message: "An error occurred. Please try login using the form option.",
+    });
+  };
+
   return (
     <div className="mx-auto mb-8 mt-[40px] w-11/12 md:w-4/5">
       <section className="flex items-center justify-center">
@@ -205,6 +228,21 @@ const Signup = () => {
               Create Account
             </button>
           </form>
+
+          <div className="mb-[12px] flex w-full justify-center rounded-[5px] bg-white py-2">
+            <GoogleLogin
+              text="signup_with"
+              onSuccess={googleLogin}
+              onError={handleGoogleLoginError}
+              containerProps={{
+                style: {
+                  width: "95%",
+                },
+              }}
+              logo_alignment={"center"}
+              ux_mode={"popup"}
+            />
+          </div>
 
           <div>
             <p className="text-center">

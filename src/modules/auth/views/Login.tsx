@@ -3,8 +3,7 @@ import notification from "core/helpers/notification";
 import useUserStore from "core/services/stores/useUserStore";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
-import googleLogo from "assets/img/google.svg";
+import { GoogleLogin } from "@react-oauth/google";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -149,20 +148,17 @@ const Login = () => {
             </button>
           </form>
 
-          {/* 
-            <button
-              onClick={() => googleLogin()}
-              className="mb-5 flex w-full items-center justify-center gap-2 rounded-[8px] border border-brand bg-shade py-[14px] text-white"
-            >
-              <img src={googleLogo} alt="" className="h-[16px] w-[16px]" />
-              <span>Sign in With Google</span>
-            </button>
-          */}
-
           <div className="mb-[12px] flex w-full justify-center rounded-[5px] bg-white py-2">
             <GoogleLogin
               onSuccess={googleLogin}
               onError={handleGoogleLoginError}
+              containerProps={{
+                style: {
+                  width: "95%",
+                },
+              }}
+              logo_alignment={"center"}
+              ux_mode={"popup"}
             />
           </div>
 

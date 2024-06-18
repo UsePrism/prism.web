@@ -9,6 +9,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import businesslogo from "assets/img/businesslogo.svg";
 import caretright from "assets/img/caretright.svg";
 import { addEllipsis } from "core/helpers/generalHelpers";
+import { addMetaData } from "core/helpers/seoHelpers";
 
 const Businesses = () => {
   const categories = useBusinessStore((store) => store.categories);
@@ -56,127 +57,136 @@ const Businesses = () => {
   }, [searchParams.get("categoryId")]);
 
   return (
-    <div className="m-[0px] mx-auto mb-[34px] h-full w-11/12 overflow-hidden pt-[20px] md:w-4/5">
-      <section className="mb-[28px]">
-        <header className="flex flex-wrap items-center text-[14px]">
-          <Link to="/">Home</Link>
-          <img src={caretright} alt="" loading="lazy" />
-          <Link
-            to="/businesses"
-            className={`font-[500] ${
-              searchParams.get("categoryId")?.length > 1 ? "" : "text-white"
-            }`}
-          >
-            Businesses
-          </Link>
-          {searchParams.get("categoryId") != null &&
-            searchParams.get("categoryId") > 0 && (
-              <>
-                <img src={caretright} alt="" loading="lazy" />
-                <span className="text-white">
-                  {
-                    categories?.find(
-                      (x) => x.id == searchParams.get("categoryId"),
-                    )?.name
-                  }
-                </span>
-              </>
-            )}
-        </header>
-      </section>
-      <section className="mb-[28px] flex flex-col gap-5 lg:flex-row">
-        <div className="w-full lg:w-1/4">
-          <div className={`${borderline} w-full`}>
-            <h5 className="mb-[28px] font-[600] text-white">Categories</h5>
-            <div className="grid w-full grid-flow-col grid-rows-2 gap-5 overflow-x-auto lg:block">
-              {categories?.length > 0 &&
-                categories?.map((category: Category, index: number) => (
-                  <a
-                    key={index}
-                    href={`businesses?categoryId=${category?.id}`}
-                    className="flex !w-[250px] flex-none snap-center snap-always items-center gap-3 rounded-[5px] p-3 hover:bg-shade hover:text-white lg:mb-5 lg:w-auto"
-                  >
-                    <img
-                      src={category?.iconUrl}
-                      className="h-[28px] w-[28px]"
-                      alt=""
-                      loading="lazy"
-                    />
-                    <p className="text-wrap text-[14px] font-[500]">
-                      {category?.name}
-                    </p>
-                  </a>
-                ))}
+    <>
+      {/* TODO: Update meta data */}
+      {addMetaData({
+        title: "",
+        description: "",
+      })}
+
+      <div className="m-[0px] mx-auto mb-[34px] h-full w-11/12 overflow-hidden pt-[20px] md:w-4/5">
+        <section className="mb-[28px]">
+          <header className="flex flex-wrap items-center text-[14px]">
+            <Link to="/">Home</Link>
+            <img src={caretright} alt="" loading="lazy" />
+            <Link
+              to="/businesses"
+              className={`font-[500] ${
+                searchParams.get("categoryId")?.length > 1 ? "" : "text-white"
+              }`}
+            >
+              Businesses
+            </Link>
+            {searchParams.get("categoryId") != null &&
+              searchParams.get("categoryId") > 0 && (
+                <>
+                  <img src={caretright} alt="" loading="lazy" />
+                  <span className="text-white">
+                    {
+                      categories?.find(
+                        (x) => x.id == searchParams.get("categoryId"),
+                      )?.name
+                    }
+                  </span>
+                </>
+              )}
+          </header>
+        </section>
+        <section className="mb-[28px] flex flex-col gap-5 lg:flex-row">
+          <div className="w-full lg:w-1/4">
+            <div className={`${borderline} w-full`}>
+              <h5 className="mb-[28px] font-[600] text-white">Categories</h5>
+              <div className="grid w-full grid-flow-col grid-rows-2 gap-5 overflow-x-auto lg:block">
+                {categories?.length > 0 &&
+                  categories?.map((category: Category, index: number) => (
+                    <a
+                      key={index}
+                      href={`businesses?categoryId=${category?.id}`}
+                      className="flex !w-[250px] flex-none snap-center snap-always items-center gap-3 rounded-[5px] p-3 hover:bg-shade hover:text-white lg:mb-5 lg:w-auto"
+                    >
+                      <img
+                        src={category?.iconUrl}
+                        className="h-[28px] w-[28px]"
+                        alt=""
+                        loading="lazy"
+                      />
+                      <p className="text-wrap text-[14px] font-[500]">
+                        {category?.name}
+                      </p>
+                    </a>
+                  ))}
+              </div>
             </div>
           </div>
-        </div>
-        <div className="w-full lg:w-3/4">
-          <div className={`${borderline} w-full`}>
-            <h5 className="mb-[28px] font-[600] text-white">
-              {searchParams.get("categoryId") != null
-                ? categories?.find(
-                    (x) => x.id == searchParams.get("categoryId"),
-                  )?.name
-                : "All"}{" "}
-              ({businessList?.businesses?.length})
-            </h5>
-            {businessList?.businesses && businessList?.businesses.length > 0 ? (
-              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
-                {businessList?.businesses.map((business: Business) => (
-                  <div
-                    key={business?.id}
-                    className={`cursor-pointer overflow-hidden rounded-[5px] p-[0px]`}
-                    onClick={() => {
-                      navigate(
-                        `/businesses/${encodeURIComponent(business?.id)}`,
-                      );
-                    }}
-                  >
-                    <div className="h-[140px] border border-[.5px] border-shade bg-shade"></div>
-                    <div className="h-[240px] w-full rounded-b-[5px] border-x border-x-[.5px] border-b border-b-[.5px] border-x-[#344054] border-b-[#344054] px-5 pb-8 text-center">
-                      <img
-                        src={businesslogo}
-                        alt=""
-                        className="mt-[-20%] inline-block rounded-full"
-                      />
-                      <p className="mb-3 mt-5 h-[28px] text-[16px] leading-none text-white">
-                        {addEllipsis(business?.businessName)}
-                      </p>
-                      <p className="mb-5 h-[28px] text-[16px] leading-none text-line">
-                        {addEllipsis(
-                          categories?.find(
-                            (cat) => cat?.id === business?.businessCategoryId,
-                          )?.name!,
-                        )}
-                      </p>
-                      <div className="mb-1 flex w-full items-center justify-center gap-2">
-                        <div className="flex items-center">
-                          {renderStars(business?.averageRating)}
+          <div className="w-full lg:w-3/4">
+            <div className={`${borderline} w-full`}>
+              <h5 className="mb-[28px] font-[600] text-white">
+                {searchParams.get("categoryId") != null
+                  ? categories?.find(
+                      (x) => x.id == searchParams.get("categoryId"),
+                    )?.name
+                  : "All"}{" "}
+                ({businessList?.businesses?.length})
+              </h5>
+              {businessList?.businesses &&
+              businessList?.businesses.length > 0 ? (
+                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
+                  {businessList?.businesses.map((business: Business) => (
+                    <div
+                      key={business?.id}
+                      className={`cursor-pointer overflow-hidden rounded-[5px] p-[0px]`}
+                      onClick={() => {
+                        navigate(
+                          `/businesses/${encodeURIComponent(business?.id)}`,
+                        );
+                      }}
+                    >
+                      <div className="h-[140px] border border-[.5px] border-shade bg-shade"></div>
+                      <div className="h-[240px] w-full rounded-b-[5px] border-x border-x-[.5px] border-b border-b-[.5px] border-x-[#344054] border-b-[#344054] px-5 pb-8 text-center">
+                        <img
+                          src={businesslogo}
+                          alt=""
+                          className="mt-[-20%] inline-block rounded-full"
+                        />
+                        <p className="mb-3 mt-5 h-[28px] text-[16px] leading-none text-white">
+                          {addEllipsis(business?.businessName)}
+                        </p>
+                        <p className="mb-5 h-[28px] text-[16px] leading-none text-line">
+                          {addEllipsis(
+                            categories?.find(
+                              (cat) => cat?.id === business?.businessCategoryId,
+                            )?.name!,
+                          )}
+                        </p>
+                        <div className="mb-1 flex w-full items-center justify-center gap-2">
+                          <div className="flex items-center">
+                            {renderStars(business?.averageRating)}
+                          </div>
+                          <span>{business?.averageRating}</span>
                         </div>
-                        <span>{business?.averageRating}</span>
+                        <p className="text-[14px] text-black-support">
+                          {business?.totalReviews}{" "}
+                          {business?.totalReviews > 1 ? "Reviews" : "Review"}
+                        </p>
                       </div>
-                      <p className="text-[14px] text-black-support">
-                        {business?.totalReviews}{" "}
-                        {business?.totalReviews > 1 ? "Reviews" : "Review"}
-                      </p>
                     </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div>No business has been reviewed yet for this category</div>
-            )}
+                  ))}
+                </div>
+              ) : (
+                <div>No business has been reviewed yet for this category</div>
+              )}
 
-            {businessList?.businesses?.length > 0 && (
-              <Pagination
-                pagination={businessList?.pagination}
-                onFetch={fetchMore}
-              />
-            )}
+              {businessList?.businesses?.length > 0 && (
+                <Pagination
+                  pagination={businessList?.pagination}
+                  onFetch={fetchMore}
+                />
+              )}
+            </div>
           </div>
-        </div>
-      </section>
-    </div>
+        </section>
+      </div>
+    </>
   );
 };
 

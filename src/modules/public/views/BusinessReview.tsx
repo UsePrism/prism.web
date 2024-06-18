@@ -11,9 +11,10 @@ import { Comments } from "../partials/Comments";
 import useUserStore from "core/services/stores/useUserStore";
 import notification from "core/helpers/notification";
 import { isObjectEmpty } from "core/helpers/generalHelpers";
-import caretright from 'assets/img/caretright.svg';
-import locationimg from 'assets/img/location.svg';
-import world from 'assets/img/world.svg';
+import caretright from "assets/img/caretright.svg";
+import locationimg from "assets/img/location.svg";
+import world from "assets/img/world.svg";
+import { addMetaData } from "core/helpers/seoHelpers";
 
 const BusinessReview = () => {
   const categories = useBusinessStore((store) => store.categories);
@@ -82,6 +83,12 @@ const BusinessReview = () => {
 
   return (
     <>
+      {/* TODO: Update meta data */}
+      {addMetaData({
+        title: "",
+        description: "",
+      })}
+
       <div className="m-[0px] mx-auto mb-[34px] h-full w-11/12 overflow-hidden pt-[20px] md:w-4/5">
         <section className="mb-[28px]">
           <header className="flex flex-wrap items-center text-[14px]">
