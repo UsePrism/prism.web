@@ -148,15 +148,10 @@ const Login = () => {
             </button>
           </form>
 
-          <div className="mb-[12px] flex w-full justify-center rounded-[5px] bg-white py-2">
+          <div className="mx-auto mb-[12px] flex w-full justify-center rounded-[5px] bg-white py-2">
             <GoogleLogin
               onSuccess={googleLogin}
               onError={handleGoogleLoginError}
-              containerProps={{
-                style: {
-                  width: "95%",
-                },
-              }}
               logo_alignment={"center"}
               ux_mode={"popup"}
             />
